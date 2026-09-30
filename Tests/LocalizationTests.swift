@@ -48,6 +48,15 @@ final class LocalizationTests: XCTestCase {
         }
     }
 
+    func testDatesFollowTheAppLanguage() {
+        let date = Fixture.date(hour: 15)
+        let pt = date.formatted(.dateTime.month(.wide).locale(AppLanguage.pt.locale))
+        let en = date.formatted(.dateTime.month(.wide).locale(AppLanguage.en.locale))
+        XCTAssertNotEqual(pt, en)
+        XCTAssertEqual(AppLanguage.pt.locale.language.languageCode, .portuguese)
+        XCTAssertEqual(AppLanguage.pt.locale.region, .portugal, "European Portuguese, not Brazilian")
+    }
+
     func testCreditsAreIdenticalInBothLanguages() {
         XCTAssertEqual(Strings.t("about.developedBy", .pt), "Developed by David Arsénio Martins")
         XCTAssertEqual(Strings.t("about.developedBy", .en), "Developed by David Arsénio Martins")

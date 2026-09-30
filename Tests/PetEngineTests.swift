@@ -164,4 +164,13 @@ final class WishBubbleTests: XCTestCase {
         pet.lightsOn = false
         XCTAssertNil(RoomStage.wish(for: pet), "Asleep in the dark: leave it be")
     }
+
+    func testMostUrgentNeedIgnoresDiscipline() {
+        var pet = PetState(now: Date())
+        pet.needs.discipline = 0
+        pet.needs.hygiene = 30
+        XCTAssertEqual(pet.mostUrgentNeed, .hygiene)
+        pet.needs.hunger = 10
+        XCTAssertEqual(pet.mostUrgentNeed, .hunger)
+    }
 }
