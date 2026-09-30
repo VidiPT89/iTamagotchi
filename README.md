@@ -1,0 +1,113 @@
+# 🥚 iTamagotchi
+
+> The classic virtual pet, natively reimagined for iOS and iPadOS with SwiftUI and SpriteKit.
+
+[![Report Bug](https://img.shields.io/badge/Report-Bug-red)](https://github.com/VidiPT89/iTamagotchi/issues) [![Request Feature](https://img.shields.io/badge/Request-Feature-blue)](https://github.com/VidiPT89/iTamagotchi/issues)
+
+## ✨ Features
+
+- ✅ Full life cycle: egg, baby, child, teen, adult and senior, with a hatching animation and evolution cutscenes
+- ✅ Branching evolutions: the adult form depends on how well the pet was cared for (8 possible forms)
+- ✅ Six live needs: hunger, happiness, energy, hygiene, health and discipline
+- ✅ Real-time simulation that keeps running while the app is closed, with an offline catch-up summary
+- ✅ Care actions: meals and snacks, bath, cleaning, medicine, lights off for bedtime and discipline
+- ✅ Three mini-games to play with the pet: Left or Right, Catch the Stars and Rhythm Tap
+- ✅ Fully procedural, animated pet: idle breathing, blinking, bouncing, moods, reactions and sleep states
+- ✅ Dynamic day and night cycle, weather ambience, and hats, wallpapers and room decorations bought with coins
+- ✅ Local notifications when the pet is hungry, sick, sleepy or needs cleaning
+- ✅ Home Screen widget showing the pet and its needs at a glance
+- ✅ Fluid SpriteKit effects: particles, hearts, bubbles, confetti and evolution flashes
+- ✅ Procedurally synthesized sound effects and music, with custom Core Haptics patterns
+- ✅ Adaptive layout for iPhone and iPad, portrait and landscape
+- ✅ Animated splash screen with developer credits, then straight into the main screen
+- ✅ Runtime language switch: Português (PT-PT) and English, independent of the system locale
+- ✅ Dark mode, Light mode and System mode
+- ✅ Colour identity taken from [ividi.dev](https://ividi.dev/): burnt orange, amber and near-black
+- ✅ Life journal, family album of past pets, lifetime stats and achievements
+- ✅ Accessibility: VoiceOver labels, Dynamic Type and Reduce Motion support
+
+## 🛠️ Tech Stack
+
+| Category     | Technology                                  |
+| ------------ | ------------------------------------------- |
+| Language     | Swift 5.9                                   |
+| UI           | SwiftUI                                     |
+| Graphics     | SpriteKit                                   |
+| Architecture | MVVM + UI-free simulation core              |
+| Persistence  | SwiftData                                   |
+| Widgets      | WidgetKit                                   |
+| Audio        | AVAudioEngine (synthesized, no audio files) |
+| Haptics      | Core Haptics                                |
+| Project      | XcodeGen                                    |
+| Min. iOS     | 17.0                                        |
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- macOS with Xcode 15+
+- iOS 17+ Simulator or device (iPhone or iPad)
+
+### Installation
+
+```bash
+git clone https://github.com/VidiPT89/iTamagotchi.git
+cd iTamagotchi
+open iTamagotchi.xcodeproj
+```
+
+Build and run (`⌘R`) on the simulator or a connected device.
+
+> The Xcode project is generated with [XcodeGen](https://github.com/yonaskolb/XcodeGen) from `project.yml`. If you add or move Swift files, regenerate it with `xcodegen generate`.
+
+## 📖 Usage
+
+1. Tap the egg to start a new life and give your pet a name
+2. Keep an eye on the needs panel: hunger, happiness, energy, hygiene, health and discipline
+3. Feed, bathe, clean and play with your pet before any need runs out
+4. Turn the lights off when it falls asleep and give it medicine when it gets sick
+5. Good care leads to rarer evolutions, while neglect leads to grumpier ones
+
+Language, appearance, notifications, sound, music and haptics are all adjustable in Settings.
+
+## 🎮 Controls
+
+| Input                 | Action                              |
+| --------------------- | ----------------------------------- |
+| Tap the pet           | Pet it and see its reaction         |
+| Action bar buttons    | Feed, play, clean, bathe, heal, sleep |
+| Drag food to the pet  | Feed by hand                        |
+| Swipe on the room     | Switch between rooms                |
+| Long press the pet    | Open its status card                |
+
+## 🧪 Testing
+
+```bash
+xcodebuild -project iTamagotchi.xcodeproj -scheme iTamagotchi \
+  -destination 'platform=iOS Simulator,name=iPhone 17 Pro' test
+```
+
+## 📄 License
+
+Distributed under the MIT License. See [LICENSE](LICENSE) for details.
+
+## 👨‍💻 Author
+
+**David Arsénio Martins**
+
+- 🌐 Website: [ividi.dev](https://ividi.dev/)
+- 🐙 GitHub: [@VidiPT89](https://github.com/VidiPT89/)
+
+## 🤝 Contributing
+
+Contributions, issues and feature requests are welcome. Feel free to check the [issues page](https://github.com/VidiPT89/iTamagotchi/issues).
+
+---
+
+<p align="center">
+  Developed by <a href="https://ividi.dev">David Arsénio Martins</a>
+</p>
+
+<p align="center">
+  ⭐ If you like this project, give it a star!
+</p>
