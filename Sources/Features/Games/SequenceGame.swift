@@ -89,6 +89,8 @@ struct SequenceGame: View {
     }
 
     private func flash(_ i: Int) {
+        // Flashes are booked ahead; once the game is closed they stay quiet.
+        guard model.isPlayingGame else { return }
         lit = i
         model.audio.play(pads[i].sound)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { if lit == i { lit = nil } }

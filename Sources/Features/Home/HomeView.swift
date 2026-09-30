@@ -137,12 +137,16 @@ struct HomeView: View {
         .allowsHitTesting(false)
     }
 
+    /// The room is always painted light, so the buttons over it are too,
+    /// whatever the app's appearance.
     private var sideButtons: some View {
         VStack(spacing: 10) {
             IconButton(symbol: "bag.fill", label: model.t("home.shop")) { sheet = .shop }
             IconButton(symbol: "book.closed.fill", label: model.t("home.album")) { sheet = .album }
             IconButton(symbol: "trophy.fill", label: model.t("home.stats")) { sheet = .stats }
         }
+        .environment(\.palette, .light)
+        .environment(\.colorScheme, .light)
     }
 }
 

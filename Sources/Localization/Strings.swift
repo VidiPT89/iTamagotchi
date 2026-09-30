@@ -149,7 +149,7 @@ enum Strings {
         "action.medicine": ("Remédio", "Medicine"),
         "action.lightsOff": ("Apagar luz", "Lights off"),
         "action.lightsOn": ("Acender luz", "Lights on"),
-        "action.scold": ("Repreender", "Scold"),
+        "action.scold": ("Ralhar", "Scold"),
         "action.feedHint": ("Arrasta a comida até ao animal ou toca nela",
                             "Drag the food to your pet, or tap it"),
     ]

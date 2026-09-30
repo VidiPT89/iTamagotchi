@@ -14,7 +14,7 @@ extension Strings {
         "howto.care.body": ("Dá refeições e snacks (sem exagerar), limpa o cocó, dá banho, dá remédio quando estiver doente e apaga a luz quando adormecer.",
                             "Serve meals and snacks (in moderation), clean up poop, give baths, give medicine when it's sick and switch the lights off when it falls asleep."),
         "howto.discipline.title": ("Disciplina", "Discipline"),
-        "howto.discipline.body": ("Às vezes faz birra sem precisar de nada. Repreende nesse momento. Repreender sem razão deixa-o triste.",
+        "howto.discipline.body": ("Às vezes faz birra sem precisar de nada. Ralha nesse momento. Ralhar sem razão deixa-o triste.",
                                   "Sometimes it throws a tantrum without needing anything. Scold it right then. Scolding for no reason makes it sad."),
         "howto.evolution.title": ("Evolução", "Evolution"),
         "howto.evolution.body": ("A forma adulta depende de como foi criado: erros de cuidado, disciplina, felicidade e até o peso. Há oito formas, duas delas raras.",
