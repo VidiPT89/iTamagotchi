@@ -52,7 +52,7 @@ extension AppModel {
             var before = pet.needs
             before.hunger = 90
             awaySummary = AwaySummary(duration: 5 * 3600, before: before, after: pet.needs,
-                                      lines: [t("event.pooped", 2), t("event.slept")])
+                                      lines: [t("event.pooped.one"), t("event.slept")])
         default: break
         }
     }

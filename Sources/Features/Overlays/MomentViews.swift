@@ -235,10 +235,17 @@ struct AwaySummaryView: View {
                         }
                     }
                     .card()
-                    PrimaryButton(title: model.t("common.ok")) { dismiss() }
-                        .frame(maxWidth: .infinity)
                 }
                 .padding(20)
+            }
+            // Pinned, so the sheet's half-height detent never hides it.
+            .safeAreaInset(edge: .bottom) {
+                PrimaryButton(title: model.t("common.ok")) { dismiss() }
+                    .frame(maxWidth: .infinity)
+                    .padding(.horizontal, 20)
+                    .padding(.top, 10)
+                    .padding(.bottom, 12)
+                    .background(palette.background.ignoresSafeArea())
             }
         }
     }

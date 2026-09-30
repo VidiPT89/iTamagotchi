@@ -11,8 +11,10 @@ extension Strings {
         "event.ateTooMuch": ("%@ comeu snacks a mais.", "%@ ate too many snacks."),
         "event.farewell": ("%@ regressou ao seu planeta.", "%@ returned to its home planet."),
         "event.pooped": ("Fez cocó %d vezes", "Pooped %d times"),
+        "event.pooped.one": ("Fez cocó uma vez", "Pooped once"),
         "event.slept": ("Dormiu uma sesta", "Took a nap"),
         "event.tantrums": ("Fez %d birras", "Threw %d tantrums"),
+        "event.tantrums.one": ("Fez uma birra", "Threw a tantrum"),
     ]
 
     static let overlays: [String: Pair] = [

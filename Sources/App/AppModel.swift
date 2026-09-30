@@ -184,9 +184,9 @@ final class AppModel {
 
         var lines: [String] = []
         let poops = events.filter { $0 == .pooped }.count
-        if poops > 0 { lines.append(t("event.pooped", poops)) }
+        if poops > 0 { lines.append(poops == 1 ? t("event.pooped.one") : t("event.pooped", poops)) }
         let tantrums = events.filter { $0 == .tantrumStarted }.count
-        if tantrums > 0 { lines.append(t("event.tantrums", tantrums)) }
+        if tantrums > 0 { lines.append(tantrums == 1 ? t("event.tantrums.one") : t("event.tantrums", tantrums)) }
         if events.contains(.fellAsleep) { lines.append(t("event.slept")) }
         if events.contains(.gotSick) { lines.append(t("event.gotSick", pet.name)) }
         for case .evolved(let stage) in events {
