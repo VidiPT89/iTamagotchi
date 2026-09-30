@@ -47,6 +47,7 @@ struct SharedStore {
 
     static let appGroup = "group.dev.ividi.itamagotchi"
     private static let saveKey = "game.save.v1"
+    private static let unreadableKey = "game.save.unreadable"
     private static let preferencesKey = "preferences.v1"
 
     let defaults: UserDefaults
@@ -57,7 +58,12 @@ struct SharedStore {
 
     func loadSave() -> GameSave? {
         guard let data = defaults.data(forKey: Self.saveKey) else { return nil }
-        return try? JSONDecoder().decode(GameSave.self, from: data)
+        if let save = try? JSONDecoder().decode(GameSave.self, from: data) { return save }
+        // Kept aside before a fresh game overwrites it, so it can be rescued.
+        if defaults.data(forKey: Self.unreadableKey) == nil {
+            defaults.set(data, forKey: Self.unreadableKey)
+        }
+        return nil
     }
 
     func save(_ save: GameSave) {

@@ -100,6 +100,73 @@ final class EconomyAndPersistenceTests: XCTestCase {
     }
 }
 
+final class SaveCompatibilityTests: XCTestCase {
+
+    /// Drops keys from a JSON object at the given nesting path.
+    private func stripping(_ keys: [String], at path: [String] = [], from data: Data) throws -> Data {
+        var root = try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
+        func strip(_ object: [String: Any], _ path: ArraySlice<String>) -> [String: Any] {
+            var object = object
+            guard let head = path.first else {
+                keys.forEach { object.removeValue(forKey: $0) }
+                return object
+            }
+            if let child = object[head] as? [String: Any] { object[head] = strip(child, path.dropFirst()) }
+            return object
+        }
+        root = strip(root, path[...])
+        return try JSONSerialization.data(withJSONObject: root)
+    }
+
+    func testSaveFromAnOlderVersionStillLoads() throws {
+        var (engine, clock) = Fixture.hatchedEngine()
+        clock.advance(by: 5 * 3600)
+        engine.update()
+        var save = GameSave(now: clock.now)
+        save.pet = engine.state
+        save.hasOnboarded = true
+        save.household.coins = 222
+        save.stats.meals = 7
+
+        var data = try JSONEncoder().encode(save)
+        data = try stripping(["recentSnacks", "averagedTime"], at: ["pet"], from: data)
+        data = try stripping(["longestLife"], at: ["stats"], from: data)
+        data = try stripping(["achievements"], from: data)
+
+        let loaded = try JSONDecoder().decode(GameSave.self, from: data)
+        XCTAssertEqual(loaded.pet.name, "Pipo")
+        XCTAssertEqual(loaded.pet.id, save.pet.id)
+        XCTAssertEqual(loaded.pet.needs, save.pet.needs)
+        XCTAssertEqual(loaded.pet.recentSnacks, 0, "A missing field takes its default")
+        XCTAssertEqual(loaded.household.coins, 222)
+        XCTAssertEqual(loaded.stats.meals, 7)
+        XCTAssertTrue(loaded.hasOnboarded)
+    }
+
+    func testFullSaveRoundTripsUnchanged() throws {
+        var (engine, clock) = Fixture.hatchedEngine()
+        clock.advance(by: 30 * 3600)
+        engine.update()
+        var save = GameSave(now: clock.now)
+        save.pet = engine.state
+        save.pet.form = .luna
+        save.household.hat = "hat.cap"
+        let data = try JSONEncoder().encode(save)
+        XCTAssertEqual(try JSONDecoder().decode(GameSave.self, from: data), save)
+    }
+
+    func testUnreadableSaveIsKeptAside() {
+        let suite = "itamagotchi.tests.unreadable"
+        let defaults = UserDefaults(suiteName: suite)!
+        defaults.removePersistentDomain(forName: suite)
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let junk = Data("not a save".utf8)
+        defaults.set(junk, forKey: "game.save.v1")
+        XCTAssertNil(SharedStore(defaults: defaults).loadSave())
+        XCTAssertEqual(defaults.data(forKey: "game.save.unreadable"), junk)
+    }
+}
+
 final class CloudMergeTests: XCTestCase {
 
     private func save(hatchedAt date: Date, onboarded: Bool = true, stage: LifeStage = .child) -> GameSave {

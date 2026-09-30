@@ -37,6 +37,8 @@ targets:
         UILaunchScreen:
           UIColorName: LaunchBackground
         CFBundleDisplayName: iTamagotchi
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
           - UIInterfaceOrientationLandscapeLeft
@@ -77,6 +79,8 @@ targets:
       path: Config/Info-Widget.plist
       properties:
         CFBundleDisplayName: iTamagotchi
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         NSExtension:
           NSExtensionPointIdentifier: com.apple.widgetkit-extension
     settings:

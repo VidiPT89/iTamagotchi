@@ -182,3 +182,48 @@ struct GameSave: Codable, Equatable {
         return fresh
     }
 }
+
+// MARK: - Tolerant decoding
+
+extension Household {
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        self.init()
+        coins = c.value(.coins, or: coins)
+        owned = c.value(.owned, or: owned)
+        hat = try? c.decodeIfPresent(String.self, forKey: .hat)
+        wallpaper = c.value(.wallpaper, or: wallpaper)
+    }
+}
+
+extension LifetimeStats {
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        self.init()
+        petsRaised = c.value(.petsRaised, or: petsRaised)
+        meals = c.value(.meals, or: meals)
+        snacks = c.value(.snacks, or: snacks)
+        baths = c.value(.baths, or: baths)
+        cleanings = c.value(.cleanings, or: cleanings)
+        medicines = c.value(.medicines, or: medicines)
+        caresses = c.value(.caresses, or: caresses)
+        gamesPlayed = c.value(.gamesPlayed, or: gamesPlayed)
+        gamesWon = c.value(.gamesWon, or: gamesWon)
+        coinsEarned = c.value(.coinsEarned, or: coinsEarned)
+        longestLife = c.value(.longestLife, or: longestLife)
+    }
+}
+
+extension GameSave {
+    /// Only the pet is essential; without it the file is not a save.
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        let pet = try c.decode(PetState.self, forKey: .pet)
+        self.init(now: pet.lastUpdate)
+        self.pet = pet
+        household = c.value(.household, or: household)
+        stats = c.value(.stats, or: stats)
+        achievements = c.value(.achievements, or: achievements)
+        hasOnboarded = c.value(.hasOnboarded, or: hasOnboarded)
+    }
+}

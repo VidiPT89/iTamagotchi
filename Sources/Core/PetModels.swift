@@ -257,3 +257,75 @@ struct SplitMix64: RandomNumberGenerator, Codable, Equatable {
         return z ^ (z >> 31)
     }
 }
+
+// MARK: - Tolerant decoding
+
+/// Saves outlive app versions. Each type starts from its defaults and takes
+/// whatever the file has, so a field added or dropped in an update never
+/// wipes a pet.
+extension KeyedDecodingContainer {
+    func value<T: Decodable>(_ key: Key, or fallback: T) -> T {
+        (try? decodeIfPresent(T.self, forKey: key)) ?? fallback
+    }
+}
+
+extension Needs {
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        self.init()
+        hunger = c.value(.hunger, or: hunger)
+        happiness = c.value(.happiness, or: happiness)
+        energy = c.value(.energy, or: energy)
+        hygiene = c.value(.hygiene, or: hygiene)
+        health = c.value(.health, or: health)
+        discipline = c.value(.discipline, or: discipline)
+    }
+}
+
+extension Upbringing {
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        self.init()
+        careMistakes = c.value(.careMistakes, or: careMistakes)
+        lightMistakes = c.value(.lightMistakes, or: lightMistakes)
+        happinessAverage = c.value(.happinessAverage, or: happinessAverage)
+        disciplineAverage = c.value(.disciplineAverage, or: disciplineAverage)
+        weight = c.value(.weight, or: weight)
+    }
+}
+
+extension PetState {
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        let now = c.value(.lastUpdate, or: Date())
+        self.init(now: now)
+        id = c.value(.id, or: id)
+        name = c.value(.name, or: name)
+        stage = c.value(.stage, or: stage)
+        form = try? c.decodeIfPresent(AdultForm.self, forKey: .form)
+        needs = c.value(.needs, or: needs)
+        simClock = c.value(.simClock, or: simClock)
+        bornAt = c.value(.bornAt, or: bornAt)
+        age = c.value(.age, or: age)
+        stageAge = c.value(.stageAge, or: stageAge)
+        upbringing = c.value(.upbringing, or: upbringing)
+        poops = c.value(.poops, or: poops)
+        isSick = c.value(.isSick, or: isSick)
+        isAsleep = c.value(.isAsleep, or: isAsleep)
+        lightsOn = c.value(.lightsOn, or: lightsOn)
+        isTantrum = c.value(.isTantrum, or: isTantrum)
+        farewell = try? c.decodeIfPresent(FarewellReason.self, forKey: .farewell)
+        poopTimer = c.value(.poopTimer, or: poopTimer)
+        tantrumTimer = c.value(.tantrumTimer, or: tantrumTimer)
+        nextTantrumIn = c.value(.nextTantrumIn, or: nextTantrumIn)
+        tantrumAge = c.value(.tantrumAge, or: tantrumAge)
+        hungerEmptyFor = c.value(.hungerEmptyFor, or: hungerEmptyFor)
+        happinessEmptyFor = c.value(.happinessEmptyFor, or: happinessEmptyFor)
+        lightsOnWhileAsleepFor = c.value(.lightsOnWhileAsleepFor, or: lightsOnWhileAsleepFor)
+        lightMistakeCounted = c.value(.lightMistakeCounted, or: lightMistakeCounted)
+        healthEmptyFor = c.value(.healthEmptyFor, or: healthEmptyFor)
+        recentSnacks = c.value(.recentSnacks, or: recentSnacks)
+        averagedTime = c.value(.averagedTime, or: averagedTime)
+        rng = c.value(.rng, or: rng)
+    }
+}
