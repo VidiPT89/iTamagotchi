@@ -1,0 +1,839 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		01D70A76939ACFFD2D70E64F /* iTamagotchiWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E874F0697832B64D8DD4FE1 /* iTamagotchiWidget.swift */; };
+		0545E723E378463D908C7C58 /* Strings+Screens.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BEB6B2C4BA939966FDFB61 /* Strings+Screens.swift */; };
+		05D9ECCAA95D362FDF14CD9E /* iTamagotchiWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 4CA01E3747280E9C81A82B32 /* iTamagotchiWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		07270D4236306EB844499253 /* PetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4351AF7BB45DFD6924B716E /* PetView.swift */; };
+		1272BBF2735C363A4AAC3D3F /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8D31433BD83B9E7953BA4F /* AppModel.swift */; };
+		190D8732BA3CA41F2174B40C /* Household.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCDDF35919AA8F5057469F4D /* Household.swift */; };
+		1B187E79C1803C9E731C9B18 /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1929FC1A739B7208D88E36C4 /* Components.swift */; };
+		2A60E7C2AEB41D0232CBA841 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9225CD9953BACCE9E2AA710E /* HomeView.swift */; };
+		35419A6C089033D578559E8B /* Forecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422528B88332A464367808C8 /* Forecast.swift */; };
+		38E611F2E703FE5AFE80C81A /* MomentViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363A2D89164663F1939C0803 /* MomentViews.swift */; };
+		3E51BD5935379AC35CF9D8AF /* PetEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5080EBE93FB02904E4EA582E /* PetEngine.swift */; };
+		47782C661D5C0DD35B17C603 /* NotificationScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A2011194BB4970CC542607 /* NotificationScheduler.swift */; };
+		47A8DF134BD503B1B49EA600 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89765C797D67B38556E22F5C /* Haptics.swift */; };
+		4B41B874E05A1FC251CDBA7A /* LifeCycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0E0151F3510BC9E461A204 /* LifeCycleTests.swift */; };
+		4F7EF8BD9C1FBA526A8A07DE /* AudioEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE26544013EEBFDF306D2B5B /* AudioEngine.swift */; };
+		521C390CB85643F5712102A9 /* AlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA7365A50F1D2E93C8E3297 /* AlbumView.swift */; };
+		56E0EE136C8E2EDC553A8BFD /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858DE0FAE950CB896BD09509 /* SplashView.swift */; };
+		56F46C0C29ABBF05134572A7 /* PetRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D771F86FDE757936326920 /* PetRenderer.swift */; };
+		587227CCBB592FFD382136BC /* RoomBackdrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254958EFE4A1B8B4D7BA4488 /* RoomBackdrop.swift */; };
+		5A8B7410284125550928465D /* Household.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCDDF35919AA8F5057469F4D /* Household.swift */; };
+		5BBEC5531A329DB84F15FD33 /* SidePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E478EEDAD4E1D1BC2310FCC /* SidePanel.swift */; };
+		5EB9F69F7A48BEA52CD4678D /* TestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C314FA0A13F17F859662B5F /* TestSupport.swift */; };
+		637B5F7F7AAEA7955ABC4371 /* EffectsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748ECA7191D32844E856B1B9 /* EffectsScene.swift */; };
+		69D73EAA8F8AFD2EB05C4C66 /* Forecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422528B88332A464367808C8 /* Forecast.swift */; };
+		6AF071F1BC61A70EE73F41EA /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C4B5D580FB324D5EC87C8E /* Palette.swift */; };
+		6BB47D1B915DD521B818CB87 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5116665740C78D9DE0FA73B9 /* OnboardingView.swift */; };
+		6C2B09C0C83F85FFB75260C1 /* PetModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1265043010CCBB26F35261CB /* PetModels.swift */; };
+		717AD5C15F708F74F3828EB3 /* PetRenderer+Face.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E813D9C4FE8C306833004B0 /* PetRenderer+Face.swift */; };
+		751385CA0F0B5CAC0D1AA99E /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B879EB1F80CF66007DCA61 /* Strings.swift */; };
+		78266F61684A8616ADDBB806 /* iTamagotchiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AAA0D6A1C7C8A95941BC434 /* iTamagotchiApp.swift */; };
+		793C78283C68415F67151174 /* AppModel+Care.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150F1687919BDABAD5694C53 /* AppModel+Care.swift */; };
+		7FDB3164745B2EC3F09EB2E1 /* Memories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3773ECB17F6A7D89ABADE0 /* Memories.swift */; };
+		80800D28194B7ADAF2CCD079 /* RhythmGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D7E1284E61B0B52EFAE249 /* RhythmGame.swift */; };
+		8392485F2FA778C3AF09F4A3 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B879EB1F80CF66007DCA61 /* Strings.swift */; };
+		8E58879F8CE73DEFF145DB51 /* AppModel+QA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664A32D57B36C7CD1ACA724B /* AppModel+QA.swift */; };
+		915CA949F2863109C725D96A /* LocalizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC7EEC9A77B463781C3FFAC /* LocalizationTests.swift */; };
+		92E9B5FA78D7A505F5E600E7 /* Strings+Help.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADF602F8096225EA8A0A368 /* Strings+Help.swift */; };
+		93503E6D2B6FDA6EB32DEDBD /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2672D527DF43A1202F28C4B /* SettingsView.swift */; };
+		93CCE1E28964099AEC0C122C /* Strings+Screens.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BEB6B2C4BA939966FDFB61 /* Strings+Screens.swift */; };
+		93D869E414A3DE5A741F2766 /* PetRenderer+Face.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E813D9C4FE8C306833004B0 /* PetRenderer+Face.swift */; };
+		94429F5F61A1EC1863BA2A47 /* CatchStarsGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2AD2C0DD57FB064CD756E2 /* CatchStarsGame.swift */; };
+		979C0AD36AEDA6DEA92B400C /* PetModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1265043010CCBB26F35261CB /* PetModels.swift */; };
+		A18C97C5E4B47DC24C3DB546 /* PetEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5080EBE93FB02904E4EA582E /* PetEngine.swift */; };
+		A1E12B797E6EBD6FF299960D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 032C600B837049FD962CB8F6 /* Assets.xcassets */; };
+		A2343230F943A5618D553ED3 /* PetRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D771F86FDE757936326920 /* PetRenderer.swift */; };
+		A2EC2BF2215BB42E59EDD4F4 /* SharedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387A697778A403A23F4CBB9B /* SharedStore.swift */; };
+		A615859A31F8A2BE05C6D4DD /* ShopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DCD960D8C44371A7E2A279 /* ShopView.swift */; };
+		A92A0ABB47ECCE5ECAD15DFD /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C4B5D580FB324D5EC87C8E /* Palette.swift */; };
+		AE008918CFB7F0B0BA726190 /* PetEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67BB4C9CF7FB6949549E0B6 /* PetEngineTests.swift */; };
+		B0379BC07EFC7E6E4C76FFDC /* SharedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387A697778A403A23F4CBB9B /* SharedStore.swift */; };
+		BF14234B301FF30DFA301748 /* GamesHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF408F6AAC023041CF3F30B9 /* GamesHubView.swift */; };
+		D3F24951F3089E6D06AF2D8A /* EconomyAndPersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8E5583078D4C8D73B52C01 /* EconomyAndPersistenceTests.swift */; };
+		DD5ABA4C8420741B11EBFFDA /* RoomStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7417D01275C9C5818A180FCC /* RoomStage.swift */; };
+		E458B94456BE7BE0309B124B /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C9B8314130CCDB67B3ED8B /* StatsView.swift */; };
+		EC262642C09853FD31C6FEE8 /* Strings+Help.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADF602F8096225EA8A0A368 /* Strings+Help.swift */; };
+		F9F17C6C27A97046780AC66A /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F51024CB25DCDE749AD2A3 /* RootView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		62777D9FB3CDF497F0EBFC60 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A000719825CF7D5BA4CB4A2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 735DC1A0EC883D103284C0DD;
+			remoteInfo = iTamagotchi;
+		};
+		F41791FACBC1B1E9C5B5695F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A000719825CF7D5BA4CB4A2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 62CD2C579A414DEF6CB8A5DC;
+			remoteInfo = iTamagotchiWidget;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		AA70358290C2532088CA624C /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				05D9ECCAA95D362FDF14CD9E /* iTamagotchiWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		032C600B837049FD962CB8F6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		06C9B8314130CCDB67B3ED8B /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
+		08DCD960D8C44371A7E2A279 /* ShopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopView.swift; sourceTree = "<group>"; };
+		0E874F0697832B64D8DD4FE1 /* iTamagotchiWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iTamagotchiWidget.swift; sourceTree = "<group>"; };
+		1265043010CCBB26F35261CB /* PetModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetModels.swift; sourceTree = "<group>"; };
+		150F1687919BDABAD5694C53 /* AppModel+Care.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppModel+Care.swift"; sourceTree = "<group>"; };
+		17A2011194BB4970CC542607 /* NotificationScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationScheduler.swift; sourceTree = "<group>"; };
+		1929FC1A739B7208D88E36C4 /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
+		1E813D9C4FE8C306833004B0 /* PetRenderer+Face.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PetRenderer+Face.swift"; sourceTree = "<group>"; };
+		254958EFE4A1B8B4D7BA4488 /* RoomBackdrop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomBackdrop.swift; sourceTree = "<group>"; };
+		269C6BAB8B681BDBA913DDE5 /* iTamagotchi.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = iTamagotchi.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		363A2D89164663F1939C0803 /* MomentViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentViews.swift; sourceTree = "<group>"; };
+		387A697778A403A23F4CBB9B /* SharedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedStore.swift; sourceTree = "<group>"; };
+		422528B88332A464367808C8 /* Forecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Forecast.swift; sourceTree = "<group>"; };
+		43F51024CB25DCDE749AD2A3 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		4AAA0D6A1C7C8A95941BC434 /* iTamagotchiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iTamagotchiApp.swift; sourceTree = "<group>"; };
+		4CA01E3747280E9C81A82B32 /* iTamagotchiWidget.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = iTamagotchiWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		5080EBE93FB02904E4EA582E /* PetEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetEngine.swift; sourceTree = "<group>"; };
+		5116665740C78D9DE0FA73B9 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		5D0E0151F3510BC9E461A204 /* LifeCycleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeCycleTests.swift; sourceTree = "<group>"; };
+		664A32D57B36C7CD1ACA724B /* AppModel+QA.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppModel+QA.swift"; sourceTree = "<group>"; };
+		6E478EEDAD4E1D1BC2310FCC /* SidePanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidePanel.swift; sourceTree = "<group>"; };
+		6F3773ECB17F6A7D89ABADE0 /* Memories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memories.swift; sourceTree = "<group>"; };
+		7417D01275C9C5818A180FCC /* RoomStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomStage.swift; sourceTree = "<group>"; };
+		748ECA7191D32844E856B1B9 /* EffectsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EffectsScene.swift; sourceTree = "<group>"; };
+		80D771F86FDE757936326920 /* PetRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetRenderer.swift; sourceTree = "<group>"; };
+		858DE0FAE950CB896BD09509 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		89765C797D67B38556E22F5C /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
+		8C314FA0A13F17F859662B5F /* TestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSupport.swift; sourceTree = "<group>"; };
+		9225CD9953BACCE9E2AA710E /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		A0B879EB1F80CF66007DCA61 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		A2672D527DF43A1202F28C4B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		AC8D31433BD83B9E7953BA4F /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		ACA7365A50F1D2E93C8E3297 /* AlbumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumView.swift; sourceTree = "<group>"; };
+		AEC7EEC9A77B463781C3FFAC /* LocalizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationTests.swift; sourceTree = "<group>"; };
+		B4351AF7BB45DFD6924B716E /* PetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetView.swift; sourceTree = "<group>"; };
+		CCD2FE098BB8521602291D73 /* iTamagotchiTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = iTamagotchiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE8E5583078D4C8D73B52C01 /* EconomyAndPersistenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EconomyAndPersistenceTests.swift; sourceTree = "<group>"; };
+		D0D7E1284E61B0B52EFAE249 /* RhythmGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RhythmGame.swift; sourceTree = "<group>"; };
+		DADF602F8096225EA8A0A368 /* Strings+Help.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Strings+Help.swift"; sourceTree = "<group>"; };
+		DCDDF35919AA8F5057469F4D /* Household.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Household.swift; sourceTree = "<group>"; };
+		E9BEB6B2C4BA939966FDFB61 /* Strings+Screens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Strings+Screens.swift"; sourceTree = "<group>"; };
+		EF2AD2C0DD57FB064CD756E2 /* CatchStarsGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatchStarsGame.swift; sourceTree = "<group>"; };
+		F4C4B5D580FB324D5EC87C8E /* Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
+		F67BB4C9CF7FB6949549E0B6 /* PetEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetEngineTests.swift; sourceTree = "<group>"; };
+		FE26544013EEBFDF306D2B5B /* AudioEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioEngine.swift; sourceTree = "<group>"; };
+		FF408F6AAC023041CF3F30B9 /* GamesHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamesHubView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		0348E7C65F355FCCC9C79A1F /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				A2672D527DF43A1202F28C4B /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		0DBBB58A96A976FF811828F3 /* Album */ = {
+			isa = PBXGroup;
+			children = (
+				ACA7365A50F1D2E93C8E3297 /* AlbumView.swift */,
+			);
+			path = Album;
+			sourceTree = "<group>";
+		};
+		3465176BBA460E05C5A28397 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				FE26544013EEBFDF306D2B5B /* AudioEngine.swift */,
+				89765C797D67B38556E22F5C /* Haptics.swift */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		3A39D15122FE5DC963342CF5 /* Stats */ = {
+			isa = PBXGroup;
+			children = (
+				06C9B8314130CCDB67B3ED8B /* StatsView.swift */,
+			);
+			path = Stats;
+			sourceTree = "<group>";
+		};
+		3EC54FD23409224405AC5A6D /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+				858DE0FAE950CB896BD09509 /* SplashView.swift */,
+			);
+			path = Splash;
+			sourceTree = "<group>";
+		};
+		4840D9E00758972B8D2ACB83 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				5116665740C78D9DE0FA73B9 /* OnboardingView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		62209824DDB25A10DAA51CD7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				269C6BAB8B681BDBA913DDE5 /* iTamagotchi.app */,
+				CCD2FE098BB8521602291D73 /* iTamagotchiTests.xctest */,
+				4CA01E3747280E9C81A82B32 /* iTamagotchiWidget.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		631E4F00141FAEC9110F50A2 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				748ECA7191D32844E856B1B9 /* EffectsScene.swift */,
+				80D771F86FDE757936326920 /* PetRenderer.swift */,
+				1E813D9C4FE8C306833004B0 /* PetRenderer+Face.swift */,
+				B4351AF7BB45DFD6924B716E /* PetView.swift */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		64037E909CF9F4B2F22255BB /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				032C600B837049FD962CB8F6 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		6443EC84175BE3C8B741D59E /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				1929FC1A739B7208D88E36C4 /* Components.swift */,
+				F4C4B5D580FB324D5EC87C8E /* Palette.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
+		69E4422ADD941142DA5669AB /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				0DBBB58A96A976FF811828F3 /* Album */,
+				DDABDBEB47FAFB4EAFB4D212 /* Games */,
+				8B0F74867580C3FFB97CC683 /* Home */,
+				4840D9E00758972B8D2ACB83 /* Onboarding */,
+				C94753C6095E3C79B843A372 /* Overlays */,
+				0348E7C65F355FCCC9C79A1F /* Settings */,
+				E7447211F7D5C75B1BC4F657 /* Shop */,
+				3EC54FD23409224405AC5A6D /* Splash */,
+				3A39D15122FE5DC963342CF5 /* Stats */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		86B614FA9D2EA526B93E0295 = {
+			isa = PBXGroup;
+			children = (
+				64037E909CF9F4B2F22255BB /* Resources */,
+				A280734C63E007316316D6FC /* Sources */,
+				98BB9AD407FEE322339C60D2 /* Tests */,
+				A3E98CFEE4BCC2B27014BD98 /* Widget */,
+				62209824DDB25A10DAA51CD7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8B0F74867580C3FFB97CC683 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				9225CD9953BACCE9E2AA710E /* HomeView.swift */,
+				254958EFE4A1B8B4D7BA4488 /* RoomBackdrop.swift */,
+				7417D01275C9C5818A180FCC /* RoomStage.swift */,
+				6E478EEDAD4E1D1BC2310FCC /* SidePanel.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		9823D1E3E4F323B407D5FD13 /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				A0B879EB1F80CF66007DCA61 /* Strings.swift */,
+				DADF602F8096225EA8A0A368 /* Strings+Help.swift */,
+				E9BEB6B2C4BA939966FDFB61 /* Strings+Screens.swift */,
+			);
+			path = Localization;
+			sourceTree = "<group>";
+		};
+		98BB9AD407FEE322339C60D2 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				CE8E5583078D4C8D73B52C01 /* EconomyAndPersistenceTests.swift */,
+				5D0E0151F3510BC9E461A204 /* LifeCycleTests.swift */,
+				AEC7EEC9A77B463781C3FFAC /* LocalizationTests.swift */,
+				F67BB4C9CF7FB6949549E0B6 /* PetEngineTests.swift */,
+				8C314FA0A13F17F859662B5F /* TestSupport.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		A280734C63E007316316D6FC /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				EEFA596F5B4E769C071E5098 /* App */,
+				3465176BBA460E05C5A28397 /* Audio */,
+				F491F5CE1F2371CB5768248B /* Core */,
+				69E4422ADD941142DA5669AB /* Features */,
+				9823D1E3E4F323B407D5FD13 /* Localization */,
+				631E4F00141FAEC9110F50A2 /* Scenes */,
+				6443EC84175BE3C8B741D59E /* Theme */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		A3E98CFEE4BCC2B27014BD98 /* Widget */ = {
+			isa = PBXGroup;
+			children = (
+				0E874F0697832B64D8DD4FE1 /* iTamagotchiWidget.swift */,
+			);
+			path = Widget;
+			sourceTree = "<group>";
+		};
+		C94753C6095E3C79B843A372 /* Overlays */ = {
+			isa = PBXGroup;
+			children = (
+				363A2D89164663F1939C0803 /* MomentViews.swift */,
+			);
+			path = Overlays;
+			sourceTree = "<group>";
+		};
+		DDABDBEB47FAFB4EAFB4D212 /* Games */ = {
+			isa = PBXGroup;
+			children = (
+				EF2AD2C0DD57FB064CD756E2 /* CatchStarsGame.swift */,
+				FF408F6AAC023041CF3F30B9 /* GamesHubView.swift */,
+				D0D7E1284E61B0B52EFAE249 /* RhythmGame.swift */,
+			);
+			path = Games;
+			sourceTree = "<group>";
+		};
+		E7447211F7D5C75B1BC4F657 /* Shop */ = {
+			isa = PBXGroup;
+			children = (
+				08DCD960D8C44371A7E2A279 /* ShopView.swift */,
+			);
+			path = Shop;
+			sourceTree = "<group>";
+		};
+		EEFA596F5B4E769C071E5098 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				AC8D31433BD83B9E7953BA4F /* AppModel.swift */,
+				150F1687919BDABAD5694C53 /* AppModel+Care.swift */,
+				664A32D57B36C7CD1ACA724B /* AppModel+QA.swift */,
+				4AAA0D6A1C7C8A95941BC434 /* iTamagotchiApp.swift */,
+				6F3773ECB17F6A7D89ABADE0 /* Memories.swift */,
+				17A2011194BB4970CC542607 /* NotificationScheduler.swift */,
+				43F51024CB25DCDE749AD2A3 /* RootView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		F491F5CE1F2371CB5768248B /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				422528B88332A464367808C8 /* Forecast.swift */,
+				DCDDF35919AA8F5057469F4D /* Household.swift */,
+				5080EBE93FB02904E4EA582E /* PetEngine.swift */,
+				1265043010CCBB26F35261CB /* PetModels.swift */,
+				387A697778A403A23F4CBB9B /* SharedStore.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		100AFD750BEF4DE2715417F1 /* iTamagotchiTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3FCB616E429A850EA54B762E /* Build configuration list for PBXNativeTarget "iTamagotchiTests" */;
+			buildPhases = (
+				773B0913F7F030586207E347 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8F39F18EC3F9BA85AFDAD117 /* PBXTargetDependency */,
+			);
+			name = iTamagotchiTests;
+			packageProductDependencies = (
+			);
+			productName = iTamagotchiTests;
+			productReference = CCD2FE098BB8521602291D73 /* iTamagotchiTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		62CD2C579A414DEF6CB8A5DC /* iTamagotchiWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6CD0743B9AA69737CF45D3E1 /* Build configuration list for PBXNativeTarget "iTamagotchiWidget" */;
+			buildPhases = (
+				64D50EAC1BFA26D7FF6C3CCD /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iTamagotchiWidget;
+			packageProductDependencies = (
+			);
+			productName = iTamagotchiWidget;
+			productReference = 4CA01E3747280E9C81A82B32 /* iTamagotchiWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		735DC1A0EC883D103284C0DD /* iTamagotchi */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6DE2198E9492DE47AA777186 /* Build configuration list for PBXNativeTarget "iTamagotchi" */;
+			buildPhases = (
+				60FF35223D17B42E82746E56 /* Sources */,
+				7A623D5E4098673E6FF2CE36 /* Resources */,
+				AA70358290C2532088CA624C /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C368A93B476E4E63232E8B3A /* PBXTargetDependency */,
+			);
+			name = iTamagotchi;
+			packageProductDependencies = (
+			);
+			productName = iTamagotchi;
+			productReference = 269C6BAB8B681BDBA913DDE5 /* iTamagotchi.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0A000719825CF7D5BA4CB4A2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+				};
+			};
+			buildConfigurationList = 0FD8354AE72F55029F8683E0 /* Build configuration list for PBXProject "iTamagotchi" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 86B614FA9D2EA526B93E0295;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 62209824DDB25A10DAA51CD7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				735DC1A0EC883D103284C0DD /* iTamagotchi */,
+				62CD2C579A414DEF6CB8A5DC /* iTamagotchiWidget */,
+				100AFD750BEF4DE2715417F1 /* iTamagotchiTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7A623D5E4098673E6FF2CE36 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1E12B797E6EBD6FF299960D /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		60FF35223D17B42E82746E56 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				521C390CB85643F5712102A9 /* AlbumView.swift in Sources */,
+				793C78283C68415F67151174 /* AppModel+Care.swift in Sources */,
+				8E58879F8CE73DEFF145DB51 /* AppModel+QA.swift in Sources */,
+				1272BBF2735C363A4AAC3D3F /* AppModel.swift in Sources */,
+				4F7EF8BD9C1FBA526A8A07DE /* AudioEngine.swift in Sources */,
+				94429F5F61A1EC1863BA2A47 /* CatchStarsGame.swift in Sources */,
+				1B187E79C1803C9E731C9B18 /* Components.swift in Sources */,
+				637B5F7F7AAEA7955ABC4371 /* EffectsScene.swift in Sources */,
+				35419A6C089033D578559E8B /* Forecast.swift in Sources */,
+				BF14234B301FF30DFA301748 /* GamesHubView.swift in Sources */,
+				47A8DF134BD503B1B49EA600 /* Haptics.swift in Sources */,
+				2A60E7C2AEB41D0232CBA841 /* HomeView.swift in Sources */,
+				190D8732BA3CA41F2174B40C /* Household.swift in Sources */,
+				7FDB3164745B2EC3F09EB2E1 /* Memories.swift in Sources */,
+				38E611F2E703FE5AFE80C81A /* MomentViews.swift in Sources */,
+				47782C661D5C0DD35B17C603 /* NotificationScheduler.swift in Sources */,
+				6BB47D1B915DD521B818CB87 /* OnboardingView.swift in Sources */,
+				6AF071F1BC61A70EE73F41EA /* Palette.swift in Sources */,
+				A18C97C5E4B47DC24C3DB546 /* PetEngine.swift in Sources */,
+				979C0AD36AEDA6DEA92B400C /* PetModels.swift in Sources */,
+				717AD5C15F708F74F3828EB3 /* PetRenderer+Face.swift in Sources */,
+				56F46C0C29ABBF05134572A7 /* PetRenderer.swift in Sources */,
+				07270D4236306EB844499253 /* PetView.swift in Sources */,
+				80800D28194B7ADAF2CCD079 /* RhythmGame.swift in Sources */,
+				587227CCBB592FFD382136BC /* RoomBackdrop.swift in Sources */,
+				DD5ABA4C8420741B11EBFFDA /* RoomStage.swift in Sources */,
+				F9F17C6C27A97046780AC66A /* RootView.swift in Sources */,
+				93503E6D2B6FDA6EB32DEDBD /* SettingsView.swift in Sources */,
+				B0379BC07EFC7E6E4C76FFDC /* SharedStore.swift in Sources */,
+				A615859A31F8A2BE05C6D4DD /* ShopView.swift in Sources */,
+				5BBEC5531A329DB84F15FD33 /* SidePanel.swift in Sources */,
+				56E0EE136C8E2EDC553A8BFD /* SplashView.swift in Sources */,
+				E458B94456BE7BE0309B124B /* StatsView.swift in Sources */,
+				EC262642C09853FD31C6FEE8 /* Strings+Help.swift in Sources */,
+				0545E723E378463D908C7C58 /* Strings+Screens.swift in Sources */,
+				8392485F2FA778C3AF09F4A3 /* Strings.swift in Sources */,
+				78266F61684A8616ADDBB806 /* iTamagotchiApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		64D50EAC1BFA26D7FF6C3CCD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				69D73EAA8F8AFD2EB05C4C66 /* Forecast.swift in Sources */,
+				5A8B7410284125550928465D /* Household.swift in Sources */,
+				A92A0ABB47ECCE5ECAD15DFD /* Palette.swift in Sources */,
+				3E51BD5935379AC35CF9D8AF /* PetEngine.swift in Sources */,
+				6C2B09C0C83F85FFB75260C1 /* PetModels.swift in Sources */,
+				93D869E414A3DE5A741F2766 /* PetRenderer+Face.swift in Sources */,
+				A2343230F943A5618D553ED3 /* PetRenderer.swift in Sources */,
+				A2EC2BF2215BB42E59EDD4F4 /* SharedStore.swift in Sources */,
+				92E9B5FA78D7A505F5E600E7 /* Strings+Help.swift in Sources */,
+				93CCE1E28964099AEC0C122C /* Strings+Screens.swift in Sources */,
+				751385CA0F0B5CAC0D1AA99E /* Strings.swift in Sources */,
+				01D70A76939ACFFD2D70E64F /* iTamagotchiWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		773B0913F7F030586207E347 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3F24951F3089E6D06AF2D8A /* EconomyAndPersistenceTests.swift in Sources */,
+				4B41B874E05A1FC251CDBA7A /* LifeCycleTests.swift in Sources */,
+				915CA949F2863109C725D96A /* LocalizationTests.swift in Sources */,
+				AE008918CFB7F0B0BA726190 /* PetEngineTests.swift in Sources */,
+				5EB9F69F7A48BEA52CD4678D /* TestSupport.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8F39F18EC3F9BA85AFDAD117 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 735DC1A0EC883D103284C0DD /* iTamagotchi */;
+			targetProxy = 62777D9FB3CDF497F0EBFC60 /* PBXContainerItemProxy */;
+		};
+		C368A93B476E4E63232E8B3A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 62CD2C579A414DEF6CB8A5DC /* iTamagotchiWidget */;
+			targetProxy = F41791FACBC1B1E9C5B5695F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1F669C67ADBC51A8577223AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.ividi.itamagotchi.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iTamagotchi.app/iTamagotchi";
+			};
+			name = Debug;
+		};
+		2AC0287148D5A75F882DB863 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.ividi.itamagotchi.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iTamagotchi.app/iTamagotchi";
+			};
+			name = Release;
+		};
+		3033BFE159331334873BE257 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Config/iTamagotchi.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = "Config/Info-iOS.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.ividi.itamagotchi;
+				PRODUCT_NAME = iTamagotchi;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		7CE06388E41B5C6672ACF491 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Config/iTamagotchiWidget.entitlements;
+				INFOPLIST_FILE = "Config/Info-Widget.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.ividi.itamagotchi.widget;
+				PRODUCT_NAME = iTamagotchiWidget;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9BF33B3314ED25AA7EEB0237 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Config/iTamagotchiWidget.entitlements;
+				INFOPLIST_FILE = "Config/Info-Widget.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.ividi.itamagotchi.widget;
+				PRODUCT_NAME = iTamagotchiWidget;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		C677208405F0B934DAAD2023 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Config/iTamagotchi.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = "Config/Info-iOS.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.ividi.itamagotchi;
+				PRODUCT_NAME = iTamagotchi;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		DD3D8F9CACFECAB745236849 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		FD7E56FA8B7B32A0668ACB42 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0FD8354AE72F55029F8683E0 /* Build configuration list for PBXProject "iTamagotchi" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FD7E56FA8B7B32A0668ACB42 /* Debug */,
+				DD3D8F9CACFECAB745236849 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		3FCB616E429A850EA54B762E /* Build configuration list for PBXNativeTarget "iTamagotchiTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1F669C67ADBC51A8577223AB /* Debug */,
+				2AC0287148D5A75F882DB863 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		6CD0743B9AA69737CF45D3E1 /* Build configuration list for PBXNativeTarget "iTamagotchiWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7CE06388E41B5C6672ACF491 /* Debug */,
+				9BF33B3314ED25AA7EEB0237 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		6DE2198E9492DE47AA777186 /* Build configuration list for PBXNativeTarget "iTamagotchi" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C677208405F0B934DAAD2023 /* Debug */,
+				3033BFE159331334873BE257 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0A000719825CF7D5BA4CB4A2 /* Project object */;
+}
