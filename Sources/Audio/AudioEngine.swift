@@ -4,6 +4,7 @@ import AVFoundation
 enum Sound: CaseIterable {
     case tap, chomp, chirp, sad, bubble, sweep, medicine, lights, scold, refuse
     case coin, win, lose, crack, hatch, evolve, star, hit, miss, farewell, achievement, cuddle
+    case padC, padE, padG, padHigh
 }
 
 /// A tiny synthesiser. Every sound is generated into a PCM buffer at launch,
@@ -205,6 +206,10 @@ final class AudioEngine {
             case .farewell: return Recipe(notes: [784, 659, 523, 392], bend: 1, noteLength: 0.35, decay: 2.5, gain: 0.5, tail: 1)
             case .achievement: return Recipe(wave: .triangle, notes: [659, 784, 988, 1319], bend: 1, noteLength: 0.08, decay: 7, gain: 0.55, tail: 0.3)
             case .cuddle: return Recipe(notes: [660, 990], bend: 1.15, noteLength: 0.09, decay: 10, gain: 0.45)
+            case .padC: return Recipe(wave: .triangle, notes: [523.25], noteLength: 0.32, decay: 5, gain: 0.55)
+            case .padE: return Recipe(wave: .triangle, notes: [659.25], noteLength: 0.32, decay: 5, gain: 0.55)
+            case .padG: return Recipe(wave: .triangle, notes: [783.99], noteLength: 0.32, decay: 5, gain: 0.55)
+            case .padHigh: return Recipe(wave: .triangle, notes: [1046.5], noteLength: 0.32, decay: 5, gain: 0.5)
             }
         }
     }

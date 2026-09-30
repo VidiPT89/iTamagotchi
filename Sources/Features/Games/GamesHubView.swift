@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum MiniGame: String, CaseIterable, Identifiable {
-    case leftRight, catchStars, rhythm
+    case leftRight, catchStars, rhythm, sequence
     var id: String { rawValue }
 
     var symbol: String {
@@ -9,6 +9,7 @@ enum MiniGame: String, CaseIterable, Identifiable {
         case .leftRight: return "arrow.left.arrow.right"
         case .catchStars: return "star.fill"
         case .rhythm: return "music.note"
+        case .sequence: return "square.grid.2x2.fill"
         }
     }
 
@@ -17,6 +18,7 @@ enum MiniGame: String, CaseIterable, Identifiable {
         case .leftRight: return [Color(hex: 0xFCBB00), Color(hex: 0xF99C00)]
         case .catchStars: return [Color(hex: 0x7C6CFF), Color(hex: 0x3F2FC0)]
         case .rhythm: return [Color(hex: 0xFF6B8B), Color(hex: 0xD6365C)]
+        case .sequence: return [Color(hex: 0x5BE0A0), Color(hex: 0x1F9D5C)]
         }
     }
 }
@@ -109,6 +111,7 @@ struct GameContainer: View {
                     case .leftRight: LeftRightGame(finish: finish)
                     case .catchStars: CatchStarsGame(finish: finish)
                     case .rhythm: RhythmGame(finish: finish)
+                    case .sequence: SequenceGame(finish: finish)
                     }
                 }
                 .id(round)
