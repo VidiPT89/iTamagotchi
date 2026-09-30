@@ -113,6 +113,7 @@ extension Strings {
         "album.emptyJournal": ("O diário enche-se com os momentos marcantes da vida do teu animal.",
                                "The journal fills up with the big moments of your pet's life."),
         "album.reached": ("Chegou a %@", "Reached %@"),
+        "album.lifeOf": ("A vida de %@", "%@'s life"),
         "album.reason.oldAge": ("Velhice feliz", "Happy old age"),
         "album.reason.neglect": ("Sentiu-se sozinho", "Felt lonely"),
     ]

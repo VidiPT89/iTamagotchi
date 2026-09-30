@@ -71,7 +71,7 @@ struct PetWidget: Widget {
         }
         .configurationDisplayName(Strings.t("widget.name", language))
         .description(Strings.t("widget.description", language))
-        .supportedFamilies([.systemSmall, .systemMedium])
+        .supportedFamilies([.systemSmall, .systemMedium, .accessoryCircular, .accessoryRectangular, .accessoryInline])
     }
 }
 
@@ -85,11 +85,22 @@ struct PetWidgetView: View {
     var body: some View {
         Group {
             if let pet = entry.pet, pet.stage != .egg, pet.isAlive {
-                if family == .systemMedium { medium(pet) } else { small(pet) }
+                switch family {
+                case .systemMedium: medium(pet)
+                case .accessoryCircular: circular(pet)
+                case .accessoryRectangular: rectangular(pet)
+                case .accessoryInline: inline(pet)
+                default: small(pet)
+                }
+            } else if family == .accessoryCircular {
+                Image(systemName: "oval.portrait.fill").font(.title2)
+            } else if family == .accessoryRectangular || family == .accessoryInline {
+                Text(emptyText)
             } else {
                 empty
             }
         }
+        .environment(\.locale, entry.language.locale)
         .containerBackground(for: .widget) {
             ZStack {
                 palette.background
@@ -164,12 +175,54 @@ struct PetWidgetView: View {
         .frame(height: 6)
     }
 
+    // MARK: Lock Screen
+
+    /// The most urgent need as a ring around its symbol.
+    private func circular(_ pet: PetState) -> some View {
+        let kind = pet.mostUrgentNeed
+        return Gauge(value: pet.needs[kind], in: 0...100) {
+            Image(systemName: kind.symbol)
+        } currentValueLabel: {
+            Image(systemName: kind.symbol)
+        }
+        .gaugeStyle(.accessoryCircular)
+        .widgetAccentable()
+        .accessibilityLabel(Text(String(format: t("a11y.need"), t("need.\(kind.rawValue)"), Int(pet.needs[kind]))))
+    }
+
+    /// Name, mood and the need that wants attention first.
+    private func rectangular(_ pet: PetState) -> some View {
+        let kind = pet.mostUrgentNeed
+        return VStack(alignment: .leading, spacing: 2) {
+            HStack(spacing: 4) {
+                Text(pet.name).font(.headline).lineLimit(1)
+                if pet.needsAttention { Image(systemName: "exclamationmark.circle.fill") }
+            }
+            .widgetAccentable()
+            Text(t("mood.\(pet.mood.rawValue)")).font(.caption).lineLimit(1)
+            Gauge(value: pet.needs[kind], in: 0...100) {
+                Label(t("need.\(kind.rawValue)"), systemImage: kind.symbol)
+            }
+            .gaugeStyle(.accessoryLinearCapacity)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private func inline(_ pet: PetState) -> some View {
+        Label("\(pet.name) · \(t("mood.\(pet.mood.rawValue)"))",
+              systemImage: pet.needsAttention ? "exclamationmark.circle.fill" : "pawprint.fill")
+    }
+
+    private var emptyText: String {
+        t(entry.pet?.isAlive == false ? "widget.gone" : "widget.noPet")
+    }
+
     private var empty: some View {
         VStack(spacing: 6) {
             Canvas { ctx, size in
                 PetRenderer.drawEgg(&ctx, in: size, wobble: .degrees(-5), cracks: 1, glow: 0.5)
             }
-            Text(t(entry.pet?.isAlive == false ? "widget.gone" : "widget.noPet"))
+            Text(emptyText)
                 .font(.system(size: 12, weight: .semibold, design: .rounded))
                 .foregroundStyle(palette.textDim)
                 .multilineTextAlignment(.center)

@@ -27,6 +27,7 @@ struct ThemedModifier: ViewModifier {
         let palette = Palette.resolve(model.colorScheme ?? systemScheme)
         content
             .environment(\.palette, palette)
+            .environment(\.locale, model.language.locale)
             .preferredColorScheme(model.colorScheme)
             .tint(palette.primary)
             .modifier(ToastHost())

@@ -6,6 +6,8 @@ enum AppLanguage: String, Codable, CaseIterable, Identifiable {
     var label: String { self == .pt ? "PT" : "EN" }
     var flag: String { self == .pt ? "🇵🇹" : "🇬🇧" }
     var nativeName: String { self == .pt ? "Português" : "English" }
+    /// Dates and numbers follow the language picked in the app, not the system.
+    var locale: Locale { Locale(identifier: self == .pt ? "pt_PT" : "en_GB") }
 }
 
 enum AppTheme: String, Codable, CaseIterable, Identifiable {

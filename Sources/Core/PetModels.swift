@@ -210,6 +210,12 @@ struct PetState: Codable, Equatable {
     }
 
     var ageInDays: Int { Int(age / 86_400) }
+
+    /// The need closest to running out; discipline is a trait, not a need.
+    var mostUrgentNeed: NeedKind {
+        let kinds: [NeedKind] = [.hunger, .happiness, .energy, .hygiene, .health]
+        return kinds.min { needs[$0] < needs[$1] } ?? .hunger
+    }
 }
 
 // MARK: - Events

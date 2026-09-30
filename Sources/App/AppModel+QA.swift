@@ -1,8 +1,10 @@
 #if DEBUG
 import Foundation
+import SwiftData
 
 /// Debug-only launch arguments to open any screen in a known state, e.g.
 /// `-qaStage adult -qaForm astro -qaSheet shop -qaSkipSplash YES`.
+/// `-qaJournal YES` fills the journal with this life and a past one.
 extension AppModel {
 
     static var qaSkipSplash: Bool { UserDefaults.standard.bool(forKey: "qaSkipSplash") }
@@ -53,6 +55,30 @@ extension AppModel {
                                       lines: [t("event.pooped", 2), t("event.slept")])
         default: break
         }
+    }
+
+    func seedQAJournal(into context: ModelContext) {
+        guard UserDefaults.standard.bool(forKey: "qaJournal") else { return }
+        try? context.delete(model: JournalEntry.self)
+        try? context.delete(model: AlbumEntry.self)
+        var past = PetState(now: now.addingTimeInterval(-9 * 86_400))
+        past.name = "Mochi"
+        past.stage = .senior
+        past.form = .luna
+        past.farewell = .oldAge
+        past.age = 8 * 86_400
+        context.insert(AlbumEntry(pet: past, endedAt: now.addingTimeInterval(-86_400)))
+        let lines: [(UUID, String, String, Double, String)] = [
+            (past.id, "Mochi", "event.hatched", -9, "sparkles"),
+            (past.id, "Mochi", "event.farewell", -1, "moon.stars.fill"),
+            (pet.id, pet.name, "event.hatched", -0.5, "sparkles"),
+            (pet.id, pet.name, "event.gotSick", -0.2, "thermometer.medium"),
+        ]
+        for (id, name, key, days, symbol) in lines {
+            context.insert(JournalEntry(date: now.addingTimeInterval(days * 86_400), petID: id, key: key,
+                                        arguments: [name], symbol: symbol))
+        }
+        try? context.save()
     }
 }
 #endif

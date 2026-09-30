@@ -80,7 +80,11 @@ final class AppModel {
     }
 
     func attach(_ context: ModelContext) {
+        guard self.context == nil else { return }
         self.context = context
+        #if DEBUG
+        seedQAJournal(into: context)
+        #endif
     }
 
     // MARK: Translation

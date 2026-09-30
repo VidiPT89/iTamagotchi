@@ -18,15 +18,15 @@
 - ✅ Local notifications when the pet is hungry, sick, sleepy or needs cleaning
 - ✅ iCloud sync: the same pet on your iPhone and iPad
 - ✅ Rename your pet any time from its status card
-- ✅ Home Screen widget showing the pet and its needs at a glance
+- ✅ Home Screen widget showing the pet and its needs at a glance, plus Lock Screen widgets for the most urgent need
 - ✅ Fluid SpriteKit effects: particles, hearts, bubbles, confetti and evolution flashes
 - ✅ Procedurally synthesized sound effects and music, with custom Core Haptics patterns
 - ✅ Adaptive layout for iPhone and iPad, portrait and landscape
 - ✅ Animated splash screen with developer credits, then straight into the main screen
-- ✅ Runtime language switch: Português (PT-PT) and English, independent of the system locale
+- ✅ Runtime language switch: Português (PT-PT) and English, independent of the system locale (dates included)
 - ✅ Dark mode, Light mode and System mode
 - ✅ Colour identity taken from [ividi.dev](https://ividi.dev/): burnt orange, amber and near-black
-- ✅ Life journal, family album of past pets, lifetime stats and achievements
+- ✅ Life journal organised by pet, family album of past pets, lifetime stats and achievements
 - ✅ Accessibility: VoiceOver labels, Dynamic Type and Reduce Motion support
 
 ## 🛠️ Tech Stack
