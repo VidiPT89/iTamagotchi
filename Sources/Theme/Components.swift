@@ -3,8 +3,11 @@ import SwiftUI
 // MARK: - Typography
 
 extension Font {
+    /// SF Rounded that follows the reader's text size, capped so the
+    /// game layouts still fit at the largest accessibility sizes.
     static func rounded(_ size: CGFloat, _ weight: Font.Weight = .semibold) -> Font {
-        .system(size: size, weight: weight, design: .rounded)
+        let scaled = UIFontMetrics(forTextStyle: .body).scaledValue(for: size)
+        return .system(size: min(scaled, size * 1.4), weight: weight, design: .rounded)
     }
 }
 
