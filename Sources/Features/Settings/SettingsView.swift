@@ -233,7 +233,7 @@ struct HowToPlayView: View {
 
     private let topics: [(String, String)] = [
         ("life", "arrow.triangle.2.circlepath"), ("needs", "heart.circle.fill"), ("care", "hands.sparkles.fill"),
-        ("discipline", "hand.raised.fill"), ("evolution", "sparkles"), ("coins", "bag.fill"), ("gestures", "hand.tap.fill"),
+        ("discipline", "graduationcap.fill"), ("evolution", "sparkles"), ("coins", "bag.fill"), ("gestures", "hand.tap.fill"),
     ]
 
     var body: some View {

@@ -7,12 +7,43 @@ enum Sound: CaseIterable {
     case padC, padE, padG, padHigh
 }
 
-/// A tiny synthesiser. Every sound is generated into a PCM buffer at launch,
-/// so the app ships no audio files at all.
+/// A tiny synthesiser. Every sound is generated into a PCM buffer on first
+/// use, so the app ships no audio files at all.
+///
+/// Talking to the system audio service can stall, so none of it happens on
+/// the main thread or at launch: the UI and the game never wait for sound.
 @MainActor
 final class AudioEngine {
 
-    private let engine = AVAudioEngine()
+    var isSoundEnabled = true
+    var isMusicEnabled = true
+    private let core = AudioCore()
+
+    func start() {
+        let music = isMusicEnabled
+        core.run { $0.start(music: music) }
+    }
+
+    func stop() {
+        core.run { $0.stop() }
+    }
+
+    func setMusic(enabled: Bool) {
+        isMusicEnabled = enabled
+        core.run { $0.setMusic(enabled) }
+    }
+
+    func play(_ sound: Sound) {
+        guard isSoundEnabled else { return }
+        core.run { $0.play(sound) }
+    }
+}
+
+/// The audio graph itself. Every member is touched only on `queue`.
+private final class AudioCore: @unchecked Sendable {
+
+    private let queue = DispatchQueue(label: "dev.ividi.itamagotchi.audio", qos: .userInitiated)
+    private var engine: AVAudioEngine?
     private var voices: [AVAudioPlayerNode] = []
     private var nextVoice = 0
     private let musicPlayer = AVAudioPlayerNode()
@@ -21,12 +52,17 @@ final class AudioEngine {
     /// One format for the connections and the buffers; a mismatch crashes.
     private let format = AVAudioFormat(standardFormatWithSampleRate: 44_100, channels: 1)!
     private var isRunning = false
+    private var musicOn = true
     private var lastPlayed: [Sound: CFTimeInterval] = [:]
 
-    var isSoundEnabled = true
-    var isMusicEnabled = true
+    func run(_ work: @escaping @Sendable (AudioCore) -> Void) {
+        queue.async { work(self) }
+    }
 
-    init() {
+    /// Builds the graph and the sounds the first time they are needed.
+    private func prepare() -> AVAudioEngine {
+        if let engine { return engine }
+        let engine = AVAudioEngine()
         for _ in 0..<8 {
             let node = AVAudioPlayerNode()
             engine.attach(node)
@@ -36,32 +72,35 @@ final class AudioEngine {
         engine.attach(musicPlayer)
         engine.connect(musicPlayer, to: engine.mainMixerNode, format: format)
         musicPlayer.volume = 0.13
+        for sound in Sound.allCases { buffers[sound] = render(Recipe.for(sound)) }
+        musicBuffer = renderMusic()
+
         // Headphones, AirPlay or a phone call stop the engine behind our back;
         // start it again or the app goes quiet until the next launch.
         let center = NotificationCenter.default
-        center.addObserver(forName: .AVAudioEngineConfigurationChange, object: engine, queue: .main) { [weak self] _ in
-            MainActor.assumeIsolated { self?.restart() }
+        center.addObserver(forName: .AVAudioEngineConfigurationChange, object: engine, queue: nil) { [weak self] _ in
+            self?.run { $0.restart() }
         }
-        center.addObserver(forName: AVAudioSession.interruptionNotification, object: nil, queue: .main) { [weak self] note in
+        center.addObserver(forName: AVAudioSession.interruptionNotification, object: nil, queue: nil) { [weak self] note in
             let type = (note.userInfo?[AVAudioSessionInterruptionTypeKey] as? UInt)
                 .flatMap(AVAudioSession.InterruptionType.init(rawValue:))
             guard type == .ended else { return }
-            MainActor.assumeIsolated { self?.restart() }
+            self?.run { $0.restart() }
         }
+        self.engine = engine
+        return engine
     }
 
     private func restart() {
-        guard isRunning, !engine.isRunning else { return }
+        guard isRunning, let engine, !engine.isRunning else { return }
         isRunning = false
-        start()
+        start(music: musicOn)
     }
 
-    func start() {
+    func start(music: Bool) {
+        musicOn = music
         guard !isRunning else { return }
-        if buffers.isEmpty {
-            for sound in Sound.allCases { buffers[sound] = render(Recipe.for(sound)) }
-            musicBuffer = renderMusic()
-        }
+        let engine = prepare()
         // Ambient, so the pet never silences the player's own music.
         let session = AVAudioSession.sharedInstance()
         try? session.setCategory(.ambient, mode: .default, options: [.mixWithOthers])
@@ -70,22 +109,22 @@ final class AudioEngine {
             try engine.start()
             isRunning = true
             voices.forEach { $0.play() }
-            if isMusicEnabled { startMusic() }
+            if musicOn { startMusic() }
         } catch {
             isRunning = false
         }
     }
 
     func stop() {
-        guard isRunning else { return }
+        guard isRunning, let engine else { return }
         musicPlayer.stop()
         voices.forEach { $0.stop() }
         engine.pause()
         isRunning = false
     }
 
-    func setMusic(enabled: Bool) {
-        isMusicEnabled = enabled
+    func setMusic(_ enabled: Bool) {
+        musicOn = enabled
         guard isRunning else { return }
         if enabled { startMusic() } else { musicPlayer.stop() }
     }
@@ -97,7 +136,7 @@ final class AudioEngine {
     }
 
     func play(_ sound: Sound) {
-        guard isSoundEnabled, isRunning, let buffer = buffers[sound] else { return }
+        guard isRunning, let buffer = buffers[sound] else { return }
         let now = CACurrentMediaTime()
         if let last = lastPlayed[sound], now - last < 0.05 { return }
         lastPlayed[sound] = now

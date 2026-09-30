@@ -202,7 +202,7 @@ struct ActionBar: View {
             action(pet.lightsOn ? "lightbulb.fill" : "lightbulb.slash.fill",
                    pet.lightsOn ? "action.lightsOff" : "action.lightsOn",
                    badge: pet.isAsleep && pet.lightsOn) { model.perform(.toggleLights) }
-            action("hand.raised.fill", "action.scold", badge: pet.isTantrum) { model.perform(.scold) }
+            action("graduationcap.fill", "action.scold", badge: pet.isTantrum) { model.perform(.scold) }
         }
         .padding(8)
         .background(palette.surface, in: RoundedRectangle(cornerRadius: 26, style: .continuous))
