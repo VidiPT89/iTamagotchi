@@ -21,6 +21,7 @@
 		47782C661D5C0DD35B17C603 /* NotificationScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A2011194BB4970CC542607 /* NotificationScheduler.swift */; };
 		47A8DF134BD503B1B49EA600 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89765C797D67B38556E22F5C /* Haptics.swift */; };
 		4B41B874E05A1FC251CDBA7A /* LifeCycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0E0151F3510BC9E461A204 /* LifeCycleTests.swift */; };
+		4EB8FBAC6FA172ADF7CF4DF9 /* CloudSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6F05C9BA12A7A25D27D15A /* CloudSync.swift */; };
 		4F7EF8BD9C1FBA526A8A07DE /* AudioEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE26544013EEBFDF306D2B5B /* AudioEngine.swift */; };
 		521C390CB85643F5712102A9 /* AlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA7365A50F1D2E93C8E3297 /* AlbumView.swift */; };
 		56E0EE136C8E2EDC553A8BFD /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858DE0FAE950CB896BD09509 /* SplashView.swift */; };
@@ -60,6 +61,7 @@
 		BF14234B301FF30DFA301748 /* GamesHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF408F6AAC023041CF3F30B9 /* GamesHubView.swift */; };
 		D3F24951F3089E6D06AF2D8A /* EconomyAndPersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8E5583078D4C8D73B52C01 /* EconomyAndPersistenceTests.swift */; };
 		DD5ABA4C8420741B11EBFFDA /* RoomStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7417D01275C9C5818A180FCC /* RoomStage.swift */; };
+		E3EC03EF3C7FC101A49ED5FC /* SequenceGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92106A8C628DAD548D82C569 /* SequenceGame.swift */; };
 		E458B94456BE7BE0309B124B /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C9B8314130CCDB67B3ED8B /* StatsView.swift */; };
 		EC262642C09853FD31C6FEE8 /* Strings+Help.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADF602F8096225EA8A0A368 /* Strings+Help.swift */; };
 		F9F17C6C27A97046780AC66A /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F51024CB25DCDE749AD2A3 /* RootView.swift */; };
@@ -126,6 +128,8 @@
 		858DE0FAE950CB896BD09509 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		89765C797D67B38556E22F5C /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
 		8C314FA0A13F17F859662B5F /* TestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSupport.swift; sourceTree = "<group>"; };
+		8D6F05C9BA12A7A25D27D15A /* CloudSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudSync.swift; sourceTree = "<group>"; };
+		92106A8C628DAD548D82C569 /* SequenceGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceGame.swift; sourceTree = "<group>"; };
 		9225CD9953BACCE9E2AA710E /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		A0B879EB1F80CF66007DCA61 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		A2672D527DF43A1202F28C4B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -330,6 +334,7 @@
 				EF2AD2C0DD57FB064CD756E2 /* CatchStarsGame.swift */,
 				FF408F6AAC023041CF3F30B9 /* GamesHubView.swift */,
 				D0D7E1284E61B0B52EFAE249 /* RhythmGame.swift */,
+				92106A8C628DAD548D82C569 /* SequenceGame.swift */,
 			);
 			path = Games;
 			sourceTree = "<group>";
@@ -348,6 +353,7 @@
 				AC8D31433BD83B9E7953BA4F /* AppModel.swift */,
 				150F1687919BDABAD5694C53 /* AppModel+Care.swift */,
 				664A32D57B36C7CD1ACA724B /* AppModel+QA.swift */,
+				8D6F05C9BA12A7A25D27D15A /* CloudSync.swift */,
 				4AAA0D6A1C7C8A95941BC434 /* iTamagotchiApp.swift */,
 				6F3773ECB17F6A7D89ABADE0 /* Memories.swift */,
 				17A2011194BB4970CC542607 /* NotificationScheduler.swift */,
@@ -435,6 +441,18 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					100AFD750BEF4DE2715417F1 = {
+						DevelopmentTeam = S769436W24;
+						ProvisioningStyle = Automatic;
+					};
+					62CD2C579A414DEF6CB8A5DC = {
+						DevelopmentTeam = S769436W24;
+						ProvisioningStyle = Automatic;
+					};
+					735DC1A0EC883D103284C0DD = {
+						DevelopmentTeam = S769436W24;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 0FD8354AE72F55029F8683E0 /* Build configuration list for PBXProject "iTamagotchi" */;
@@ -480,6 +498,7 @@
 				1272BBF2735C363A4AAC3D3F /* AppModel.swift in Sources */,
 				4F7EF8BD9C1FBA526A8A07DE /* AudioEngine.swift in Sources */,
 				94429F5F61A1EC1863BA2A47 /* CatchStarsGame.swift in Sources */,
+				4EB8FBAC6FA172ADF7CF4DF9 /* CloudSync.swift in Sources */,
 				1B187E79C1803C9E731C9B18 /* Components.swift in Sources */,
 				637B5F7F7AAEA7955ABC4371 /* EffectsScene.swift in Sources */,
 				35419A6C089033D578559E8B /* Forecast.swift in Sources */,
@@ -501,6 +520,7 @@
 				587227CCBB592FFD382136BC /* RoomBackdrop.swift in Sources */,
 				DD5ABA4C8420741B11EBFFDA /* RoomStage.swift in Sources */,
 				F9F17C6C27A97046780AC66A /* RootView.swift in Sources */,
+				E3EC03EF3C7FC101A49ED5FC /* SequenceGame.swift in Sources */,
 				93503E6D2B6FDA6EB32DEDBD /* SettingsView.swift in Sources */,
 				B0379BC07EFC7E6E4C76FFDC /* SharedStore.swift in Sources */,
 				A615859A31F8A2BE05C6D4DD /* ShopView.swift in Sources */,
@@ -704,9 +724,11 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = S769436W24;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -762,9 +784,11 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = S769436W24;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
