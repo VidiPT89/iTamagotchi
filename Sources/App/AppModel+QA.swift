@@ -38,6 +38,12 @@ extension AppModel {
             save.household.hat = args.string(forKey: "qaHat")
             if args.string(forKey: "qaOverlay") == "farewell" { save.pet.farewell = .oldAge }
         }
+        if args.bool(forKey: "qaToast") {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+                guard let self else { return }
+                self.show(Toast(text: self.t("toast.bought"), symbol: "bag.fill"))
+            }
+        }
         switch args.string(forKey: "qaOverlay") {
         case "evolution": evolvedTo = stage
         case "away":

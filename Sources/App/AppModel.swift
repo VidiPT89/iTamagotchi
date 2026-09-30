@@ -40,6 +40,9 @@ final class AppModel {
     var toast: Toast?
     var awaySummary: AwaySummary?
     var evolvedTo: LifeStage?
+    /// How many themed layers are stacked (root, sheets, covers); the top
+    /// one hosts the toasts.
+    var presentationDepth = 0
     /// Where the pet stands inside the effects layer, for particles.
     var petAnchor = CGPoint(x: 200, y: 260)
 
@@ -146,7 +149,15 @@ final class AppModel {
         save.pet = engine.state
         handle(events, live: false)
         persist()
-        guard showSummary, before.stage != .egg, before.isAlive else { return }
+        // A growth spurt while away still gets its reveal.
+        if pet.isAlive, let grown = events.compactMap({ event -> LifeStage? in
+            if case .evolved(let stage) = event { return stage }
+            return nil
+        }).last {
+            evolvedTo = grown
+        }
+        // A farewell tells its own story; no summary on top of it.
+        guard showSummary, before.stage != .egg, before.isAlive, pet.isAlive else { return }
 
         var lines: [String] = []
         let poops = events.filter { $0 == .pooped }.count
@@ -178,6 +189,8 @@ final class AppModel {
                 WidgetCenter.shared.reloadAllTimelines()
             case .pooped:
                 audio.play(.bubble)
+            case .wokeUp:
+                audio.play(.chirp)
             case .gotSick:
                 audio.play(.sad)
                 haptics.play(.warning)

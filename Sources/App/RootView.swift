@@ -47,16 +47,6 @@ struct RootView: View {
                     .zIndex(2)
             }
         }
-        .overlay(alignment: .top) {
-            if let toast = model.toast, !showSplash {
-                ToastView(toast: toast)
-                    .padding(.top, 8)
-                    .padding(.horizontal, 20)
-                    .transition(.move(edge: .top).combined(with: .opacity))
-                    .zIndex(5)
-                    .allowsHitTesting(false)
-            }
-        }
         .sheet(item: showSplash ? .constant(nil) : $model.awaySummary) { summary in
             AwaySummaryView(summary: summary)
                 .themed()
