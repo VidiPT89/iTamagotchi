@@ -5,10 +5,6 @@ extension AppModel {
 
     // MARK: Life
 
-    func finishOnboarding(language: AppLanguage) {
-        preferences.language = language
-    }
-
     func hatch(named name: String) {
         var engine = makeEngine()
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)

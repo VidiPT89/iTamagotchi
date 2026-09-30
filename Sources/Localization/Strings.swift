@@ -32,10 +32,7 @@ enum Strings {
         "common.close": ("Fechar", "Close"),
         "common.cancel": ("Cancelar", "Cancel"),
         "common.continue": ("Continuar", "Continue"),
-        "common.back": ("Voltar", "Back"),
-        "common.start": ("Começar", "Start"),
         "common.playAgain": ("Jogar outra vez", "Play again"),
-        "common.coins": ("Moedas", "Coins"),
         "time.days": ("%dd %dh", "%dd %dh"),
         "time.hours": ("%dh %dm", "%dh %dm"),
         "time.minutes": ("%d min", "%d min"),
@@ -44,7 +41,6 @@ enum Strings {
     static let splash: [String: Pair] = [
         "splash.tagline": ("O teu animal de estimação virtual", "Your virtual pet"),
         "about.developedBy": ("Developed by David Arsénio Martins", "Developed by David Arsénio Martins"),
-        "about.title": ("Sobre", "About"),
         "about.body": ("O clássico animal de estimação virtual, reimaginado para iPhone e iPad. Cuida dele, vê-o crescer e descobre as oito formas adultas.",
                        "The classic virtual pet, reimagined for iPhone and iPad. Look after it, watch it grow and discover all eight adult forms."),
         "about.version": ("Versão %@", "Version %@"),
@@ -80,7 +76,6 @@ enum Strings {
         "status.stage": ("Fase", "Stage"),
         "status.form": ("Forma", "Form"),
         "status.mistakes": ("Erros de cuidado", "Care mistakes"),
-        "status.personality": ("Personalidade", "Personality"),
         "status.weightValue": ("%d g", "%d g"),
         "status.unknownForm": ("Ainda por descobrir", "Not revealed yet"),
     ]

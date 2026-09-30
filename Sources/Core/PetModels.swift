@@ -81,13 +81,6 @@ struct Needs: Codable, Equatable {
         }
     }
 
-    /// The need that most urgently wants attention. Discipline is left out:
-    /// it is earned, not something the pet asks for.
-    var mostUrgent: NeedKind {
-        [NeedKind.hunger, .happiness, .energy, .hygiene, .health]
-            .min { self[$0] < self[$1] } ?? .hunger
-    }
-
     var average: Double {
         (hunger + happiness + energy + hygiene + health) / 5
     }

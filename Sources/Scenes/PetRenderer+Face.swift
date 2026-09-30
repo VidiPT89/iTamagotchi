@@ -64,7 +64,6 @@ extension PetRenderer {
             let lid: CGFloat
             switch pose.face {
             case .sleepy, .sick: lid = 0.5
-            case .surprised: lid = -0.1
             default: lid = 0
             }
             let open = max(0.08, (1 - pose.blink) * (1 - lid))
@@ -146,14 +145,12 @@ extension PetRenderer {
             for i in 1...4 {
                 p.addLine(to: CGPoint(x: c.x - mw * 0.5 + mw * 0.25 * CGFloat(i), y: c.y + (i.isMultiple(of: 2) ? mw * 0.2 : 0)))
             }
-        case .hungry, .surprised:
+        case .hungry:
             let r = CGRect(x: c.x - mw * 0.28, y: c.y - mw * 0.05, width: mw * 0.56, height: mw * 0.62)
             ctx.fill(Path(ellipseIn: r), with: .color(ink))
-            if pose.face == .hungry {
-                let drool = CGRect(x: c.x + mw * 0.2, y: r.maxY - mw * 0.1, width: mw * 0.18,
-                                   height: mw * (0.35 + 0.15 * CGFloat(sin(pose.time * 3))))
-                ctx.fill(Path(roundedRect: drool, cornerRadius: mw * 0.09), with: .color(Color(hex: 0x9FDBFF)))
-            }
+            let drool = CGRect(x: c.x + mw * 0.2, y: r.maxY - mw * 0.1, width: mw * 0.18,
+                               height: mw * (0.35 + 0.15 * CGFloat(sin(pose.time * 3))))
+            ctx.fill(Path(roundedRect: drool, cornerRadius: mw * 0.09), with: .color(Color(hex: 0x9FDBFF)))
             return
         case .eating:
             let open = 0.12 + pose.chew * 0.55

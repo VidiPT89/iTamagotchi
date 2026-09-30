@@ -94,7 +94,7 @@ struct PetAppearance: Equatable {
 struct PetPose {
     enum Face: Equatable {
         case happy, content, sad, hungry, sleepy, sleeping, sick, angry, dirty
-        case eating, laughing, love, refusing, surprised
+        case eating, laughing, love, refusing
     }
 
     var face: Face = .content

@@ -2,7 +2,7 @@ import SpriteKit
 import SwiftUI
 
 enum EffectKind {
-    case hearts, bubbles, confetti, stars, smoke, sparkles, crumbs, evolution, notes
+    case hearts, bubbles, confetti, stars, sparkles, crumbs, evolution
 }
 
 /// A transparent SpriteKit layer over the room. It only plays short-lived
@@ -31,10 +31,8 @@ final class EffectsScene: SKScene {
         case .bubbles: burst(count: Int(14 * scale) + 1, texture: bubble(), colors: [0xBDE8FF, 0xFFFFFF, 0x9FD8FF], at: origin, rise: 170, spread: 110, size: 24)
         case .confetti: confetti(at: origin, count: Int(40 * scale) + 4)
         case .stars: burst(count: Int(9 * scale) + 1, texture: star(), colors: [0xFCBB00, 0xFFE27A, 0xF99C00], at: origin, rise: 120, spread: 120, size: 22)
-        case .smoke: burst(count: Int(8 * scale) + 1, texture: circle(), colors: [0xD8D2CA, 0xBFB8AE], at: origin, rise: 60, spread: 90, size: 30, alpha: 0.7)
         case .sparkles: burst(count: Int(10 * scale) + 1, texture: star(points: 4), colors: [0xFFFFFF, 0xFCBB00], at: origin, rise: 90, spread: 100, size: 16)
         case .crumbs: burst(count: Int(8 * scale) + 1, texture: circle(), colors: [0xE8B06A, 0xC98A3F], at: origin, rise: -30, spread: 60, size: 7)
-        case .notes: burst(count: Int(4 * scale) + 1, texture: star(points: 4), colors: [0xF99C00], at: origin, rise: 100, spread: 60, size: 14)
         case .evolution: evolution(at: origin)
         }
     }
@@ -42,7 +40,7 @@ final class EffectsScene: SKScene {
     // MARK: - Emitters
 
     private func burst(count: Int, texture: SKTexture, colors: [UInt32], at origin: CGPoint,
-                       rise: CGFloat, spread: CGFloat, size: CGFloat, alpha: CGFloat = 1) {
+                       rise: CGFloat, spread: CGFloat, size: CGFloat) {
         for i in 0..<count {
             let node = SKSpriteNode(texture: texture)
             let s = size * CGFloat.random(in: 0.6...1.2)
@@ -59,7 +57,7 @@ final class EffectsScene: SKScene {
                                  y: node.position.y + rise * .random(in: 0.6...1.2))
             let move = SKAction.move(to: target, duration: duration)
             move.timingMode = .easeOut
-            let appear = SKAction.group([.fadeAlpha(to: alpha, duration: 0.12), .scale(to: 1, duration: 0.25)])
+            let appear = SKAction.group([.fadeIn(withDuration: 0.12), .scale(to: 1, duration: 0.25)])
             let wobble = SKAction.rotate(byAngle: .random(in: -0.8...0.8), duration: duration)
             let vanish = SKAction.sequence([.wait(forDuration: duration * 0.6), .fadeOut(withDuration: duration * 0.4)])
             node.run(.sequence([.wait(forDuration: Double(i) * 0.03),
@@ -136,11 +134,10 @@ final class EffectsScene: SKScene {
     }
 
     private func heart() -> SKTexture {
-        texture("heart") { ctx, size in
+        texture("heart") { ctx, _ in
             ctx.addPath(PetRenderer.heartPath(center: CGPoint(x: 32, y: 34), size: 56).cgPath)
             ctx.setFillColor(UIColor.white.cgColor)
             ctx.fillPath()
-            _ = size
         }
     }
 

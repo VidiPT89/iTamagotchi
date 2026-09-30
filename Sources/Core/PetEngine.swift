@@ -12,12 +12,6 @@ struct SystemClock: Clock {
     var now: Date { Date() }
 }
 
-final class ManualClock: Clock {
-    var now: Date
-    init(_ now: Date = Date(timeIntervalSince1970: 1_750_000_000)) { self.now = now }
-    func advance(by seconds: TimeInterval) { now = now.addingTimeInterval(seconds) }
-}
-
 // MARK: - Actions
 
 enum CareAction: Equatable {

@@ -1,6 +1,13 @@
 import Foundation
 @testable import iTamagotchi
 
+/// A clock the tests move forward by hand.
+final class ManualClock: Clock {
+    var now: Date
+    init(_ now: Date) { self.now = now }
+    func advance(by seconds: TimeInterval) { now = now.addingTimeInterval(seconds) }
+}
+
 enum Fixture {
     /// Today at a given local hour, so day and night are predictable.
     static func date(hour: Int, minute: Int = 0) -> Date {
