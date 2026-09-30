@@ -17,7 +17,8 @@ struct RoomStage: View {
     @State private var walking = false
     @State private var direction: CGFloat = 1
     @State private var gaze: CGPoint?
-    @State private var touchStart: Date?
+    @State private var holdTask: Task<Void, Never>?
+    @State private var holdFired = false
     @State private var swipeEdge: Edge = .trailing
     @State private var dragFood: FoodKind?
     @State private var dragPoint: CGPoint = .zero
@@ -58,6 +59,15 @@ struct RoomStage: View {
                     .accessibilityAction { model.perform(.caress) }
                     .accessibilityAction(named: Text(model.t("status.title"))) { showStatus = true }
 
+                if let wish = Self.wish(for: pet), model.reaction.map({ $0.until < Date() }) ?? true {
+                    ThoughtBubble(symbol: wish)
+                        .position(x: min(petFrame.maxX - petSize * 0.12, size.width - 34),
+                                  y: petFrame.minY + petSize * (1 - PetAppearance.of(stage: pet.stage, form: pet.form).scale) * 0.55)
+                        .transition(.scale(scale: 0.3, anchor: .bottomLeading).combined(with: .opacity))
+                        .allowsHitTesting(false)
+                        .accessibilityHidden(true)
+                }
+
                 SpriteView(scene: model.effects, options: [.allowsTransparency])
                     .allowsHitTesting(false)
                     .accessibilityHidden(true)
@@ -72,6 +82,7 @@ struct RoomStage: View {
                 }
             }
             .coordinateSpace(name: "stage")
+            .animation(.spring(response: 0.45, dampingFraction: 0.7), value: Self.wish(for: pet))
             .contentShape(Rectangle())
             .gesture(stageGesture(size: size, petFrame: petFrame))
             .onAppear { updateAnchor(size: size, petSize: petSize, floorY: floorY) }
@@ -86,6 +97,20 @@ struct RoomStage: View {
         .overlay(RoundedRectangle(cornerRadius: 32, style: .continuous).stroke(palette.stroke, lineWidth: 1))
         .shadow(color: .black.opacity(palette.isDark ? 0.4 : 0.1), radius: 18, y: 8)
         .task(id: model.pet.mood) { await wander() }
+    }
+
+    /// What the pet is asking for, most pressing first, shown in its bubble.
+    static func wish(for pet: PetState) -> String? {
+        guard pet.isAlive, pet.stage != .egg else { return nil }
+        if pet.isAsleep { return pet.lightsOn ? "lightbulb.fill" : nil }
+        if pet.isSick { return "pills.fill" }
+        if pet.isTantrum { return "exclamationmark" }
+        if pet.needs.hunger < 25 { return "fork.knife" }
+        if pet.poops >= 2 { return "wind" }
+        if pet.needs.energy < 20 { return "moon.zzz.fill" }
+        if pet.needs.happiness < 25 { return "gamecontroller.fill" }
+        if pet.needs.hygiene < 25 { return "shower.fill" }
+        return nil
     }
 
     private func updateAnchor(size: CGSize, petSize: CGFloat, floorY: CGFloat) {
@@ -160,11 +185,28 @@ struct RoomStage: View {
     private func stageGesture(size: CGSize, petFrame: CGRect) -> some Gesture {
         DragGesture(minimumDistance: 0, coordinateSpace: .local)
             .onChanged { value in
-                if touchStart == nil { touchStart = Date() }
                 gaze = value.location
+                let moved = hypot(value.translation.width, value.translation.height)
+                if moved > 12 {
+                    holdTask?.cancel()
+                } else if holdTask == nil, !holdFired, petFrame.contains(value.startLocation) {
+                    // Press and hold opens the status card while the finger is still down.
+                    holdTask = Task { @MainActor in
+                        try? await Task.sleep(for: .seconds(0.5))
+                        guard !Task.isCancelled else { return }
+                        holdFired = true
+                        model.haptics.play(.soft)
+                        showStatus = true
+                    }
+                }
             }
             .onEnded { value in
-                defer { touchStart = nil; gaze = nil }
+                let held = holdFired
+                holdTask?.cancel()
+                holdTask = nil
+                holdFired = false
+                gaze = nil
+                guard !held else { return }
                 let dx = value.translation.width
                 let dy = value.translation.height
                 if abs(dx) > 60, abs(dx) > abs(dy) * 1.4 {
@@ -172,13 +214,7 @@ struct RoomStage: View {
                     return
                 }
                 guard hypot(dx, dy) < 12, petFrame.contains(value.startLocation) else { return }
-                let held = Date().timeIntervalSince(touchStart ?? Date())
-                if held > 0.5 {
-                    model.haptics.play(.soft)
-                    showStatus = true
-                } else {
-                    model.perform(.caress)
-                }
+                model.perform(.caress)
             }
     }
 
@@ -215,6 +251,33 @@ struct RoomStage: View {
             withAnimation(.easeInOut(duration: duration)) { petX = target }
             try? await Task.sleep(for: .seconds(duration))
             walking = false
+        }
+    }
+}
+
+/// A little thought cloud with the thing the pet wants inside.
+private struct ThoughtBubble: View {
+    let symbol: String
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var bob = false
+
+    var body: some View {
+        ZStack(alignment: .bottomLeading) {
+            Circle().fill(.white).frame(width: 9, height: 9).offset(x: -10, y: 14)
+            Circle().fill(.white).frame(width: 14, height: 14).offset(x: -2, y: 6)
+            Image(systemName: symbol)
+                .font(.system(size: 20, weight: .bold))
+                .foregroundStyle(Color(hex: 0xDD7400))
+                .symbolEffect(.pulse, isActive: !reduceMotion)
+                .frame(width: 48, height: 44)
+                .background(.white, in: Capsule())
+                .offset(x: 6, y: -6)
+        }
+        .shadow(color: .black.opacity(0.18), radius: 6, y: 3)
+        .offset(y: bob ? -4 : 2)
+        .onAppear {
+            guard !reduceMotion else { return }
+            withAnimation(.easeInOut(duration: 1.4).repeatForever(autoreverses: true)) { bob = true }
         }
     }
 }

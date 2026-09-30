@@ -147,3 +147,21 @@ final class PetEngineTests: XCTestCase {
         XCTAssertEqual(engine.state.needs.energy, 48, accuracy: 0.01)
     }
 }
+
+final class WishBubbleTests: XCTestCase {
+
+    func testBubbleShowsTheMostPressingWish() {
+        var pet = PetState(now: Date())
+        XCTAssertNil(RoomStage.wish(for: pet), "Eggs want nothing")
+        pet.stage = .child
+        XCTAssertNil(RoomStage.wish(for: pet), "A content pet has no bubble")
+        pet.needs.hunger = 10
+        XCTAssertEqual(RoomStage.wish(for: pet), "fork.knife")
+        pet.isSick = true
+        XCTAssertEqual(RoomStage.wish(for: pet), "pills.fill", "Sickness comes before hunger")
+        pet.isAsleep = true
+        XCTAssertEqual(RoomStage.wish(for: pet), "lightbulb.fill")
+        pet.lightsOn = false
+        XCTAssertNil(RoomStage.wish(for: pet), "Asleep in the dark: leave it be")
+    }
+}
