@@ -1,0 +1,52 @@
+#if DEBUG
+import Foundation
+
+/// Debug-only launch arguments to open any screen in a known state, e.g.
+/// `-qaStage adult -qaForm astro -qaSheet shop -qaSkipSplash YES`.
+extension AppModel {
+
+    static var qaSkipSplash: Bool { UserDefaults.standard.bool(forKey: "qaSkipSplash") }
+    static var qaSheet: String? { UserDefaults.standard.string(forKey: "qaSheet") }
+
+    func applyQAArguments() {
+        let args = UserDefaults.standard
+        if let lang = args.string(forKey: "qaLang").flatMap(AppLanguage.init(rawValue:)) { preferences.language = lang }
+        if let theme = args.string(forKey: "qaTheme").flatMap(AppTheme.init(rawValue:)) { preferences.theme = theme }
+        guard let stage = args.string(forKey: "qaStage").flatMap(LifeStage.init(rawValue:)) else { return }
+
+        mutate { save in
+            var pet = PetState(now: now)
+            pet.name = args.string(forKey: "qaName") ?? "Pipo"
+            pet.stage = stage
+            if stage >= .adult { pet.form = args.string(forKey: "qaForm").flatMap(AdultForm.init(rawValue:)) ?? .sunny }
+            pet.age = 2 * 86_400
+            if let mood = args.string(forKey: "qaMood") {
+                switch mood {
+                case "sick": pet.isSick = true; pet.needs.health = 30
+                case "hungry": pet.needs.hunger = 10
+                case "dirty": pet.poops = 2; pet.needs.hygiene = 15
+                case "angry": pet.isTantrum = true
+                case "asleep": pet.isAsleep = true
+                case "sad": pet.needs.happiness = 12
+                default: break
+                }
+            }
+            save.pet = pet
+            save.hasOnboarded = true
+            save.household.coins = 480
+            save.household.owned.formUnion(["decor.plant", "decor.lamp", "decor.painting", "decor.tree", "hat.crown"])
+            save.household.hat = args.string(forKey: "qaHat")
+            if args.string(forKey: "qaOverlay") == "farewell" { save.pet.farewell = .oldAge }
+        }
+        switch args.string(forKey: "qaOverlay") {
+        case "evolution": evolvedTo = stage
+        case "away":
+            var before = pet.needs
+            before.hunger = 90
+            awaySummary = AwaySummary(duration: 5 * 3600, before: before, after: pet.needs,
+                                      lines: [t("event.pooped", 2), t("event.slept")])
+        default: break
+        }
+    }
+}
+#endif
