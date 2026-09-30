@@ -11,11 +11,13 @@
 - ✅ Six live needs: hunger, happiness, energy, hygiene, health and discipline
 - ✅ Real-time simulation that keeps running while the app is closed, with an offline catch-up summary
 - ✅ Care actions: meals and snacks, bath, cleaning, medicine, lights off for bedtime and discipline
-- ✅ Three mini-games to play with the pet: Left or Right, Catch the Stars and Rhythm Tap
+- ✅ Four mini-games to play with the pet: Left or Right, Catch the Stars, Rhythm Tap and Sequence
 - ✅ Fully procedural, animated pet: idle breathing, blinking, bouncing, moods, reactions and sleep states
 - ✅ Thought bubble that shows what your pet wants right now
 - ✅ Dynamic day and night cycle, weather ambience, and hats, wallpapers and room decorations bought with coins
 - ✅ Local notifications when the pet is hungry, sick, sleepy or needs cleaning
+- ✅ iCloud sync: the same pet on your iPhone and iPad
+- ✅ Rename your pet any time from its status card
 - ✅ Home Screen widget showing the pet and its needs at a glance
 - ✅ Fluid SpriteKit effects: particles, hearts, bubbles, confetti and evolution flashes
 - ✅ Procedurally synthesized sound effects and music, with custom Core Haptics patterns
@@ -36,6 +38,7 @@
 | Graphics     | SpriteKit                                   |
 | Architecture | MVVM + UI-free simulation core              |
 | Persistence  | SwiftData                                   |
+| Sync         | iCloud key-value storage                    |
 | Widgets      | WidgetKit                                   |
 | Audio        | AVAudioEngine (synthesized, no audio files) |
 | Haptics      | Core Haptics                                |
