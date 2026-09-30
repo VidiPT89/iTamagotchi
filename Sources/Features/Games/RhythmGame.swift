@@ -17,6 +17,7 @@ struct RhythmGame: View {
     @State private var lastJudgement: Judgement?
     @State private var flash = 0
     @State private var done = false
+    @State private var reaction: Reaction?
 
     enum Judgement: Equatable {
         case perfect, good, miss
@@ -52,7 +53,7 @@ struct RhythmGame: View {
                 VStack {
                     Spacer()
                     PetView(stage: model.pet.stage, form: model.pet.form, mood: .happy, hat: model.household.hat,
-                            reaction: lastJudgement.map { Reaction(face: $0 == .miss ? .refusing : .laughing, until: Date().addingTimeInterval(0.4)) })
+                            reaction: reaction)
                         .frame(width: 150, height: 150)
                         .padding(.bottom, 24)
                 }
@@ -110,6 +111,7 @@ struct RhythmGame: View {
     private func record(_ judgement: Judgement, for index: Int) {
         judged[index] = judgement
         score += judgement.points
+        reaction = Reaction(face: judgement == .miss ? .refusing : .laughing, until: Date().addingTimeInterval(0.4))
         withAnimation(.spring(response: 0.25, dampingFraction: 0.6)) {
             lastJudgement = judgement
             flash += 1

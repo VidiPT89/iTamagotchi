@@ -16,6 +16,7 @@ struct OnboardingView: View {
     @State private var wobble = false
     @State private var hatched = false
     @State private var name = ""
+    @State private var joy: Reaction?
     @FocusState private var nameFocused: Bool
 
     init(askLanguage: Bool) {
@@ -84,7 +85,6 @@ struct OnboardingView: View {
             }
             Spacer()
             PrimaryButton(title: model.t("common.continue"), symbol: "arrow.right") {
-                model.finishOnboarding(language: model.language)
                 withAnimation(.spring(response: 0.5, dampingFraction: 0.85)) { step = .egg }
             }
         }
@@ -138,6 +138,7 @@ struct OnboardingView: View {
         model.audio.play(.hatch)
         model.haptics.play(.success)
         name = suggestions.randomElement() ?? ""
+        joy = Reaction(face: .laughing, until: Date().addingTimeInterval(2))
         withAnimation(.spring(response: 0.6, dampingFraction: 0.7)) {
             hatched = true
             step = .name
@@ -152,8 +153,7 @@ struct OnboardingView: View {
             ZStack {
                 Circle().fill(palette.primary.opacity(0.18)).frame(width: 230, height: 230).blur(radius: 30)
                 ConfettiRing(active: hatched && !reduceMotion)
-                PetView(stage: .baby, form: nil, mood: .happy,
-                        reaction: Reaction(face: .laughing, until: Date().addingTimeInterval(2)))
+                PetView(stage: .baby, form: nil, mood: .happy, reaction: joy)
                     .frame(width: 200, height: 200)
             }
             Text(model.t("onboarding.hatched"))

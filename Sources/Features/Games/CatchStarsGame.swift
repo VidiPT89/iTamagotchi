@@ -158,7 +158,8 @@ struct CatchStarsGame: View {
     @State private var score = 0
     @State private var time = 30
 
-    static let goal = 15
+    /// A pet left standing in the middle catches about a dozen on its own.
+    static let goal = 20
 
     var body: some View {
         GeometryReader { geo in
