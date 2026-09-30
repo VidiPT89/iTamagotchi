@@ -118,6 +118,8 @@ struct StatusCardView: View {
     @Environment(AppModel.self) private var model
     @Environment(\.palette) private var palette
     @Environment(\.dismiss) private var dismiss
+    @State private var renaming = false
+    @State private var newName = ""
 
     var body: some View {
         let pet = model.pet
@@ -131,7 +133,20 @@ struct StatusCardView: View {
                             .frame(width: 110, height: 110)
                             .background(palette.surfaceRaised, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
                         VStack(alignment: .leading, spacing: 4) {
-                            Text(pet.name).font(.rounded(26, .heavy)).foregroundStyle(palette.text)
+                            HStack(spacing: 8) {
+                                Text(pet.name).font(.rounded(26, .heavy)).foregroundStyle(palette.text)
+                                    .lineLimit(1).minimumScaleFactor(0.6)
+                                Button {
+                                    newName = pet.name
+                                    renaming = true
+                                } label: {
+                                    Image(systemName: "pencil.circle.fill")
+                                        .font(.system(size: 24))
+                                        .foregroundStyle(palette.primary)
+                                }
+                                .buttonStyle(.pressable)
+                                .accessibilityLabel(Text(model.t("status.rename")))
+                            }
                             Text(model.t("mood.\(pet.mood.rawValue)"))
                                 .font(.rounded(15, .semibold)).foregroundStyle(palette.primary)
                         }
@@ -142,6 +157,12 @@ struct StatusCardView: View {
                 }
                 .padding(.bottom, 20)
             }
+        }
+        .alert(model.t("status.rename"), isPresented: $renaming) {
+            TextField(model.t("onboarding.namePlaceholder"), text: $newName)
+                .textInputAutocapitalization(.words)
+            Button(model.t("common.cancel"), role: .cancel) {}
+            Button(model.t("common.save")) { model.rename(to: newName) }
         }
     }
 }

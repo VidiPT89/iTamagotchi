@@ -1,4 +1,5 @@
 import SwiftUI
+import WidgetKit
 
 /// The player's side of the game: caring, playing, shopping, starting over.
 extension AppModel {
@@ -15,12 +16,23 @@ extension AppModel {
             $0.stats.petsRaised += 1
         }
         events.filter(\.isMemorable).forEach(recordMemorable)
+        if preferences.iCloudSync { cloud.push(save) }
         audio.play(.hatch)
         haptics.play(.success)
         effects.play(.confetti, at: petAnchor)
         react(.laughing, for: 1.6)
         checkAchievements()
         if preferences.notificationsEnabled { notifications.requestAuthorization() }
+    }
+
+    /// Names are trimmed and kept short so they fit the header and widget.
+    func rename(to name: String) {
+        let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty, pet.stage != .egg else { return }
+        mutate { $0.pet.name = String(trimmed.prefix(14)) }
+        audio.play(.chirp)
+        react(.happy, for: 1)
+        WidgetCenter.shared.reloadAllTimelines()
     }
 
     func startNewEgg() {
