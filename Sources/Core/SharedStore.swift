@@ -21,6 +21,7 @@ struct Preferences: Codable, Equatable {
     var hapticsEnabled = true
     var notificationsEnabled = true
     var demoMode = false
+    var iCloudSync = true
 
     init() {}
 
@@ -34,6 +35,7 @@ struct Preferences: Codable, Equatable {
         hapticsEnabled = try c.decodeIfPresent(Bool.self, forKey: .hapticsEnabled) ?? true
         notificationsEnabled = try c.decodeIfPresent(Bool.self, forKey: .notificationsEnabled) ?? true
         demoMode = try c.decodeIfPresent(Bool.self, forKey: .demoMode) ?? false
+        iCloudSync = try c.decodeIfPresent(Bool.self, forKey: .iCloudSync) ?? true
     }
 
     var speed: Double { demoMode ? 60 : 1 }

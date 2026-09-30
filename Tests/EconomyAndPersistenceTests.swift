@@ -99,3 +99,45 @@ final class EconomyAndPersistenceTests: XCTestCase {
         XCTAssertNil(store.loadSave())
     }
 }
+
+final class CloudMergeTests: XCTestCase {
+
+    private func save(hatchedAt date: Date, onboarded: Bool = true, stage: LifeStage = .child) -> GameSave {
+        var save = GameSave(now: date)
+        save.pet.stage = stage
+        save.hasOnboarded = onboarded
+        return save
+    }
+
+    func testNewerSaveWins() {
+        let old = save(hatchedAt: Date(timeIntervalSince1970: 1_000))
+        let new = save(hatchedAt: Date(timeIntervalSince1970: 2_000))
+        XCTAssertTrue(old.shouldAdopt(new))
+        XCTAssertFalse(new.shouldAdopt(old))
+        XCTAssertFalse(new.shouldAdopt(new), "Nothing to do when identical")
+    }
+
+    func testFreshDeviceTakesTheCloudPet() {
+        let fresh = save(hatchedAt: Date(timeIntervalSince1970: 5_000), onboarded: false, stage: .egg)
+        let cloud = save(hatchedAt: Date(timeIntervalSince1970: 1_000))
+        XCTAssertTrue(fresh.shouldAdopt(cloud))
+    }
+
+    func testAnEggNeverReplacesALivingPet() {
+        let pet = save(hatchedAt: Date(timeIntervalSince1970: 1_000))
+        let egg = save(hatchedAt: Date(timeIntervalSince1970: 9_000), stage: .egg)
+        XCTAssertFalse(pet.shouldAdopt(egg))
+        XCTAssertTrue(egg.shouldAdopt(pet))
+    }
+
+    func testResetSaveIsNeverAdopted() {
+        let pet = save(hatchedAt: Date(timeIntervalSince1970: 1_000))
+        let reset = save(hatchedAt: Date(timeIntervalSince1970: 9_000), onboarded: false, stage: .egg)
+        XCTAssertFalse(pet.shouldAdopt(reset))
+    }
+
+    func testPreferencesDefaultToSync() throws {
+        let prefs = try JSONDecoder().decode(Preferences.self, from: Data("{}".utf8))
+        XCTAssertTrue(prefs.iCloudSync)
+    }
+}

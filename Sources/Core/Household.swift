@@ -159,6 +159,16 @@ struct GameSave: Codable, Equatable {
         pet = PetState(now: now, seed: UInt64(now.timeIntervalSince1970))
     }
 
+    /// Whether a save from another device should replace this one: the
+    /// most recently played pet wins, and a fresh egg never overwrites a pet.
+    func shouldAdopt(_ remote: GameSave) -> Bool {
+        guard remote != self, remote.hasOnboarded else { return false }
+        if !hasOnboarded { return true }
+        if pet.stage == .egg, remote.pet.stage != .egg { return true }
+        if remote.pet.stage == .egg, pet.stage != .egg, pet.isAlive { return false }
+        return remote.pet.lastUpdate > pet.lastUpdate
+    }
+
     /// Unlocks anything newly earned and returns it, for the toast.
     mutating func refreshAchievements(now: Date) -> [Achievement] {
         var fresh: [Achievement] = []

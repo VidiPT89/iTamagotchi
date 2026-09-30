@@ -59,6 +59,11 @@ struct SettingsView: View {
                                         .foregroundStyle(palette.textDim)
                                     Divider()
                                 }
+                                toggle("settings.icloud", isOn: $model.preferences.iCloudSync)
+                                Text(model.t("settings.icloudHint"))
+                                    .font(.rounded(12, .medium))
+                                    .foregroundStyle(palette.textDim)
+                                Divider()
                                 Button(role: .destructive) { confirmReset = true } label: {
                                     Label(model.t("settings.reset"), systemImage: "arrow.counterclockwise")
                                         .font(.rounded(16, .semibold))

@@ -50,6 +50,7 @@ final class AppModel {
     @ObservationIgnored let haptics = Haptics()
     @ObservationIgnored let effects = EffectsScene()
     @ObservationIgnored let notifications = NotificationScheduler()
+    @ObservationIgnored let cloud = CloudSync()
     @ObservationIgnored private let store: SharedStore
     @ObservationIgnored private let clock: Clock
     @ObservationIgnored private var context: ModelContext?
@@ -68,6 +69,7 @@ final class AppModel {
         self.save = store.loadSave() ?? GameSave(now: clock.now)
         applyFeedbackPreferences()
         notifications.localize = { [weak self] key in self?.t(key) ?? key }
+        cloud.onRemoteChange = { [weak self] remote in self?.adopt(remote) }
         #if DEBUG
         applyQAArguments()
         #endif
@@ -98,6 +100,10 @@ final class AppModel {
     func sceneBecameActive() {
         audio.start()
         haptics.start()
+        if preferences.iCloudSync {
+            cloud.start()
+            if let remote = cloud.pull() { adopt(remote) }
+        }
         let away = clock.now.timeIntervalSince(save.pet.lastUpdate)
         catchUp(showSummary: away > 10 * 60)
         startTimer()
@@ -108,6 +114,7 @@ final class AppModel {
         timer?.invalidate()
         timer = nil
         persist()
+        if preferences.iCloudSync { cloud.push(save) }
         audio.stop()
         haptics.stop()
         rescheduleNotifications()
@@ -253,6 +260,14 @@ final class AppModel {
 
     // MARK: Persistence
 
+    /// Takes over a newer save from another device.
+    func adopt(_ remote: GameSave) {
+        guard preferences.iCloudSync, save.shouldAdopt(remote) else { return }
+        save = remote
+        persist()
+        WidgetCenter.shared.reloadAllTimelines()
+    }
+
     func persist() {
         store.save(save)
     }
@@ -333,6 +348,8 @@ final class AppModel {
         store.reset()
         save = GameSave(now: clock.now)
         persist()
+        // Overwrite the cloud copy too, or the old pet would come straight back.
+        if preferences.iCloudSync { cloud.push(save) }
         notifications.cancelAll()
         WidgetCenter.shared.reloadAllTimelines()
     }
