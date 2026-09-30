@@ -116,14 +116,11 @@ struct SettingsView: View {
         } message: {
             Text(model.t("settings.resetMessage"))
         }
-        .onAppear(perform: refreshNotificationStatus)
-        .onChange(of: model.preferences.notificationsEnabled) { _, _ in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: refreshNotificationStatus)
+        .task(id: model.preferences.notificationsEnabled) {
+            // A beat to let the permission prompt settle before asking again.
+            try? await Task.sleep(for: .seconds(1))
+            notificationsDenied = await model.notifications.authorizationDenied()
         }
-    }
-
-    private func refreshNotificationStatus() {
-        model.notifications.authorizationDenied { notificationsDenied = $0 }
     }
 
     private func section<Content: View>(_ key: String, symbol: String, @ViewBuilder content: () -> Content) -> some View {

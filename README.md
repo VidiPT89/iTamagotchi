@@ -33,7 +33,7 @@
 
 | Category     | Technology                                  |
 | ------------ | ------------------------------------------- |
-| Language     | Swift 5.9                                   |
+| Language     | Swift 6                                     |
 | UI           | SwiftUI                                     |
 | Graphics     | SpriteKit                                   |
 | Architecture | MVVM + UI-free simulation core              |
@@ -49,7 +49,7 @@
 
 ### Prerequisites
 
-- macOS with Xcode 15+
+- macOS with Xcode 16+
 - iOS 17+ Simulator or device (iPhone or iPad)
 
 ### Installation

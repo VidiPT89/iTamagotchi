@@ -43,13 +43,17 @@ struct PetProvider: TimelineProvider {
             return [PetEntry(date: Date(), pet: nil, hat: nil, language: prefs.language)]
         }
         let step: TimeInterval = prefs.demoMode ? 60 : 30 * 60
+        let start = Date()
+        var pet = save.pet
         var result: [PetEntry] = []
+        // Each entry picks up where the previous one stopped, so a long
+        // absence is caught up once rather than once per entry.
         for i in 0..<count {
-            let date = Date().addingTimeInterval(Double(i) * step)
-            let clock = FixedClock(now: date)
-            var engine = PetEngine(state: save.pet, speed: prefs.speed, clock: clock)
+            let date = start.addingTimeInterval(Double(i) * step)
+            var engine = PetEngine(state: pet, speed: prefs.speed, clock: FixedClock(now: date))
             _ = engine.update()
-            result.append(PetEntry(date: date, pet: engine.state, hat: save.household.hat, language: prefs.language))
+            pet = engine.state
+            result.append(PetEntry(date: date, pet: pet, hat: save.household.hat, language: prefs.language))
         }
         return result
     }
@@ -98,10 +102,8 @@ struct PetWidgetView: View {
 
     private func petCanvas(_ pet: PetState) -> some View {
         Canvas { ctx, size in
-            var pose = PetPose.still(for: pet.mood)
-            pose.time = 0
             PetRenderer.draw(&ctx, in: size, look: PetAppearance.of(stage: pet.stage, form: pet.form),
-                             pose: pose, hat: entry.hat)
+                             pose: .still(for: pet.mood), hat: entry.hat)
         }
     }
 

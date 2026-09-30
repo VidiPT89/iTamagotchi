@@ -2,6 +2,7 @@ import CoreHaptics
 import UIKit
 
 /// Core Haptics patterns with a simple impact fallback on devices without it.
+@MainActor
 final class Haptics {
 
     enum Pattern { case tap, soft, success, warning, heartbeat, crack, evolve }

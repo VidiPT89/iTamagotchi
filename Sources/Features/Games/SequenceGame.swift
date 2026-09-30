@@ -114,7 +114,6 @@ struct SequenceGame: View {
         bestLength = sequence.count
         if bestLength >= Self.maxLength {
             over = true
-            model.audio.play(.win)
             finish(bestLength * 10, true)
             return
         }

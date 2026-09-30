@@ -100,7 +100,7 @@ struct RoomStage: View {
     }
 
     /// What the pet is asking for, most pressing first, shown in its bubble.
-    static func wish(for pet: PetState) -> String? {
+    nonisolated static func wish(for pet: PetState) -> String? {
         guard pet.isAlive, pet.stage != .egg else { return nil }
         if pet.isAsleep { return pet.lightsOn ? "lightbulb.fill" : nil }
         if pet.isSick { return "pills.fill" }

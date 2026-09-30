@@ -26,6 +26,7 @@ struct AwaySummary: Identifiable {
 
 /// The single source of truth for the running app: the saved game, the
 /// preferences, the transient UI moments and the audio-visual feedback.
+@MainActor
 @Observable
 final class AppModel {
 
@@ -56,6 +57,9 @@ final class AppModel {
     @ObservationIgnored private var context: ModelContext?
     @ObservationIgnored private var timer: Timer?
     @ObservationIgnored private var ticksSinceSave = 0
+    /// True while a mini-game is on screen, so a round that finishes after
+    /// the player closed it pays nothing and costs nothing.
+    @ObservationIgnored var isPlayingGame = false
 
     var pet: PetState { save.pet }
     var household: Household { save.household }
@@ -123,22 +127,30 @@ final class AppModel {
 
     private func startTimer() {
         guard timer == nil else { return }
-        let timer = Timer(timeInterval: 1, repeats: true) { [weak self] _ in self?.tick() }
+        let timer = Timer(timeInterval: 1, repeats: true) { [weak self] _ in
+            MainActor.assumeIsolated { self?.tick() }
+        }
         RunLoop.main.add(timer, forMode: .common)
         self.timer = timer
     }
 
     // MARK: Simulation
 
-    private func engine() -> PetEngine {
-        PetEngine(state: save.pet, speed: preferences.speed, clock: clock)
+    func makeEngine(speed: Double? = nil) -> PetEngine {
+        PetEngine(state: save.pet, speed: speed ?? preferences.speed, clock: clock)
     }
 
-    func tick() {
-        var engine = engine()
+    /// Brings the pet up to now and plays whatever happened on the way, so
+    /// an action never swallows an evolution or a farewell.
+    func settle(speed: Double? = nil) {
+        var engine = makeEngine(speed: speed)
         let events = engine.update()
         save.pet = engine.state
         handle(events, live: true)
+    }
+
+    func tick() {
+        settle()
         ticksSinceSave += 1
         if ticksSinceSave >= 10 {
             ticksSinceSave = 0
@@ -151,7 +163,7 @@ final class AppModel {
     /// the "while you were away" card.
     private func catchUp(showSummary: Bool) {
         let before = save.pet
-        var engine = engine()
+        var engine = makeEngine()
         let events = engine.update()
         save.pet = engine.state
         handle(events, live: false)
@@ -217,7 +229,7 @@ final class AppModel {
 
     // MARK: Memories
 
-    private func record(_ event: PetEvent) {
+    func record(_ event: PetEvent) {
         let name = pet.name
         let entry: (String, [String], String)?
         switch event {
@@ -265,6 +277,8 @@ final class AppModel {
         guard preferences.iCloudSync, save.shouldAdopt(remote) else { return }
         save = remote
         persist()
+        // A pet that ended on the other device still earns its album page here.
+        if !pet.isAlive { archivePet() }
         WidgetCenter.shared.reloadAllTimelines()
     }
 
@@ -278,10 +292,13 @@ final class AppModel {
         if old.musicEnabled != preferences.musicEnabled { audio.setMusic(enabled: preferences.musicEnabled) }
         if old.demoMode != preferences.demoMode {
             // Settle the time so far at the old speed before switching.
-            var engine = PetEngine(state: save.pet, speed: old.speed, clock: clock)
-            _ = engine.update()
-            save.pet = engine.state
+            settle(speed: old.speed)
             persist()
+        }
+        if !old.iCloudSync, preferences.iCloudSync {
+            cloud.start()
+            if let remote = cloud.pull() { adopt(remote) }
+            cloud.push(save)
         }
         if old.notificationsEnabled != preferences.notificationsEnabled, preferences.notificationsEnabled {
             notifications.requestAuthorization()
@@ -334,10 +351,6 @@ final class AppModel {
     }
 
     var now: Date { clock.now }
-
-    func makeEngine() -> PetEngine { engine() }
-
-    func recordMemorable(_ event: PetEvent) { record(event) }
 
     func resetEverything() {
         if let context {

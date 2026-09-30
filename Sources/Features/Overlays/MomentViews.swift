@@ -25,7 +25,6 @@ struct EvolutionView: View {
                 ZStack {
                     if phase < 2 {
                         PetView(stage: previousStage, form: nil, mood: .content)
-                            .colorMultiply(.white)
                             .brightness(1)
                             .scaleEffect(pulse ? 1.08 : 0.9)
                             .transition(.opacity)

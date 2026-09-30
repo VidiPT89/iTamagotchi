@@ -121,6 +121,8 @@ struct GameContainer: View {
                 }
             }
         }
+        .onAppear { model.isPlayingGame = true }
+        .onDisappear { model.isPlayingGame = false }
     }
 
     private func finish(score: Int, won: Bool) {

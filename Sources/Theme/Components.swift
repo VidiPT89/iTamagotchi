@@ -73,7 +73,6 @@ struct PrimaryButton: View {
 struct IconButton: View {
     let symbol: String
     let label: String
-    var badge = false
     let action: () -> Void
     @Environment(\.palette) private var palette
 
@@ -85,12 +84,6 @@ struct IconButton: View {
                 .frame(width: 42, height: 42)
                 .background(.ultraThinMaterial, in: Circle())
                 .overlay(Circle().stroke(palette.stroke))
-                .overlay(alignment: .topTrailing) {
-                    if badge {
-                        Circle().fill(palette.danger).frame(width: 10, height: 10)
-                            .overlay(Circle().stroke(palette.background, lineWidth: 2))
-                    }
-                }
         }
         .buttonStyle(.pressable)
         .accessibilityLabel(Text(label))

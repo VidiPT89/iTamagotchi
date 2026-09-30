@@ -15,7 +15,7 @@ extension AppModel {
             $0.hasOnboarded = true
             $0.stats.petsRaised += 1
         }
-        events.filter(\.isMemorable).forEach(recordMemorable)
+        events.filter(\.isMemorable).forEach(record)
         if preferences.iCloudSync { cloud.push(save) }
         audio.play(.hatch)
         haptics.play(.success)
@@ -38,13 +38,14 @@ extension AppModel {
     func startNewEgg() {
         mutate { $0.pet = PetState(now: now, seed: UInt64(now.timeIntervalSince1970)) }
         evolvedTo = nil
+        if preferences.iCloudSync { cloud.push(save) }
     }
 
     // MARK: Care
 
     func perform(_ action: CareAction) {
+        settle()
         var engine = makeEngine()
-        _ = engine.update()
         let wasSick = engine.state.isSick
         let outcome = engine.perform(action)
         let overfed = action == .snack && engine.isOverfed
@@ -70,12 +71,12 @@ extension AppModel {
 
         if overfed {
             show(Toast(text: t("toast.overfed"), symbol: "exclamationmark.triangle.fill", isWarning: true))
-            recordMemorable(.ateTooMuch)
+            record(.ateTooMuch)
             react(.sick, for: 1.4)
         }
         if action == .medicine, wasSick {
             show(Toast(text: t("toast.cured"), symbol: "cross.case.fill"))
-            recordMemorable(.recovered)
+            record(.recovered)
         }
         if action == .scold {
             show(Toast(text: t("toast.disciplined"), symbol: "star.fill"))
@@ -151,8 +152,9 @@ extension AppModel {
     /// Applies a finished mini-game and returns the coins it paid.
     @discardableResult
     func finishGame(score: Int, won: Bool) -> Int {
+        guard isPlayingGame else { return 0 }
+        settle()
         var engine = makeEngine()
-        _ = engine.update()
         let outcome = engine.perform(.played(won: won))
         let coins = outcome.succeeded ? Household.reward(forScore: score, won: won) : 0
         mutate { save in

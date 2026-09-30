@@ -3,6 +3,7 @@ import Foundation
 /// Mirrors the saved game in iCloud key-value storage, so the same pet lives
 /// on every iPhone and iPad signed in to the same Apple Account. The album
 /// and journal stay on each device.
+@MainActor
 final class CloudSync {
 
     private let store = NSUbiquitousKeyValueStore.default
@@ -17,8 +18,10 @@ final class CloudSync {
         observer = NotificationCenter.default.addObserver(
             forName: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
             object: store, queue: .main) { [weak self] _ in
-                guard let self, let remote = self.pull() else { return }
-                self.onRemoteChange?(remote)
+                MainActor.assumeIsolated {
+                    guard let self, let remote = self.pull() else { return }
+                    self.onRemoteChange?(remote)
+                }
             }
         store.synchronize()
     }

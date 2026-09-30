@@ -130,6 +130,13 @@ final class CloudMergeTests: XCTestCase {
         XCTAssertTrue(egg.shouldAdopt(pet))
     }
 
+    func testAFarewellNeverReplacesANewEgg() {
+        var gone = save(hatchedAt: Date(timeIntervalSince1970: 9_000))
+        gone.pet.farewell = .oldAge
+        let egg = save(hatchedAt: Date(timeIntervalSince1970: 1_000), stage: .egg)
+        XCTAssertFalse(egg.shouldAdopt(gone), "The player already moved on to a new egg")
+    }
+
     func testResetSaveIsNeverAdopted() {
         let pet = save(hatchedAt: Date(timeIntervalSince1970: 1_000))
         let reset = save(hatchedAt: Date(timeIntervalSince1970: 9_000), onboarded: false, stage: .egg)

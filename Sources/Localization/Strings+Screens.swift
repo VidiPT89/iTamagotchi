@@ -77,7 +77,6 @@ extension Strings {
         "shop.wallpapers": ("Paredes", "Walls"),
         "shop.owned": ("Teu", "Owned"),
         "shop.wear": ("Usar", "Wear"),
-        "shop.wearing": ("A usar", "Wearing"),
         "shop.remove": ("Tirar", "Take off"),
         "shop.apply": ("Aplicar", "Apply"),
         "shop.applied": ("Aplicado", "Applied"),

@@ -1,8 +1,9 @@
-import UserNotifications
+@preconcurrency import UserNotifications
 
 /// Books local notifications for the moments the forecast predicts. Text
 /// comes through `localize`, so it follows the language chosen in the app
 /// rather than the system one.
+@MainActor
 final class NotificationScheduler {
 
     var localize: (String) -> String = { $0 }
@@ -13,10 +14,8 @@ final class NotificationScheduler {
         center.requestAuthorization(options: [.alert, .sound, .badge]) { _, _ in }
     }
 
-    func authorizationDenied(_ completion: @escaping (Bool) -> Void) {
-        center.getNotificationSettings { settings in
-            DispatchQueue.main.async { completion(settings.authorizationStatus == .denied) }
-        }
+    func authorizationDenied() async -> Bool {
+        await center.notificationSettings().authorizationStatus == .denied
     }
 
     func schedule(_ items: [Forecast.Item], petName: String) {

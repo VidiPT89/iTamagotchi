@@ -160,11 +160,12 @@ struct GameSave: Codable, Equatable {
     }
 
     /// Whether a save from another device should replace this one: the
-    /// most recently played pet wins, and a fresh egg never overwrites a pet.
+    /// most recently played pet wins, a fresh egg never overwrites a pet,
+    /// and a pet already said goodbye to never comes back over a new egg.
     func shouldAdopt(_ remote: GameSave) -> Bool {
         guard remote != self, remote.hasOnboarded else { return false }
         if !hasOnboarded { return true }
-        if pet.stage == .egg, remote.pet.stage != .egg { return true }
+        if pet.stage == .egg, remote.pet.stage != .egg { return remote.pet.isAlive }
         if remote.pet.stage == .egg, pet.stage != .egg, pet.isAlive { return false }
         return remote.pet.lastUpdate > pet.lastUpdate
     }

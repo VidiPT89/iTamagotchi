@@ -9,6 +9,7 @@ enum Sound: CaseIterable {
 
 /// A tiny synthesiser. Every sound is generated into a PCM buffer at launch,
 /// so the app ships no audio files at all.
+@MainActor
 final class AudioEngine {
 
     private let engine = AVAudioEngine()
@@ -35,6 +36,24 @@ final class AudioEngine {
         engine.attach(musicPlayer)
         engine.connect(musicPlayer, to: engine.mainMixerNode, format: format)
         musicPlayer.volume = 0.13
+        // Headphones, AirPlay or a phone call stop the engine behind our back;
+        // start it again or the app goes quiet until the next launch.
+        let center = NotificationCenter.default
+        center.addObserver(forName: .AVAudioEngineConfigurationChange, object: engine, queue: .main) { [weak self] _ in
+            MainActor.assumeIsolated { self?.restart() }
+        }
+        center.addObserver(forName: AVAudioSession.interruptionNotification, object: nil, queue: .main) { [weak self] note in
+            let type = (note.userInfo?[AVAudioSessionInterruptionTypeKey] as? UInt)
+                .flatMap(AVAudioSession.InterruptionType.init(rawValue:))
+            guard type == .ended else { return }
+            MainActor.assumeIsolated { self?.restart() }
+        }
+    }
+
+    private func restart() {
+        guard isRunning, !engine.isRunning else { return }
+        isRunning = false
+        start()
     }
 
     func start() {

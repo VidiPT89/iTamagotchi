@@ -21,7 +21,7 @@ struct SplashView: View {
 
     private let particles: [(angle: Double, distance: CGFloat, size: CGFloat)] = (0..<22).map(Self.particle)
 
-    private static func particle(_ i: Int) -> (angle: Double, distance: CGFloat, size: CGFloat) {
+    private nonisolated static func particle(_ i: Int) -> (angle: Double, distance: CGFloat, size: CGFloat) {
         let angle = Double(i) / 22 * 2 * .pi + Double(i % 3) * 0.2
         let distance = CGFloat(90 + (i * 37) % 90)
         let size = CGFloat(6 + (i * 5) % 9)
@@ -178,8 +178,11 @@ struct SplashView: View {
         after(4.2) { finish() }
     }
 
-    private func after(_ delay: TimeInterval, _ work: @escaping () -> Void) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: work)
+    private func after(_ delay: TimeInterval, _ work: @escaping @MainActor () -> Void) {
+        Task { @MainActor in
+            try? await Task.sleep(for: .seconds(delay))
+            work()
+        }
     }
 
     /// Guarded, because the timer and a tap can both arrive.
