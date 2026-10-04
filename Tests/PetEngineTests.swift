@@ -3,6 +3,17 @@ import XCTest
 
 final class PetEngineTests: XCTestCase {
 
+    func testClockMovingBackDoesNotCountTheSameTimeTwice() {
+        var (engine, clock) = Fixture.hatchedEngine()
+        let original = engine.state
+        clock.advance(by: -3600)
+        XCTAssertTrue(engine.update().isEmpty)
+        XCTAssertEqual(engine.state, original)
+        clock.advance(by: 3660)
+        engine.update()
+        XCTAssertEqual(engine.state.age, 60)
+    }
+
     func testHatchingStartsBabyLife() {
         let (engine, _) = Fixture.hatchedEngine()
         XCTAssertEqual(engine.state.stage, .baby)

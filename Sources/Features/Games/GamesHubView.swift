@@ -92,7 +92,7 @@ struct GameContainer: View {
     @Environment(\.palette) private var palette
     @Environment(\.dismiss) private var dismiss
     @State private var result: (score: Int, won: Bool, coins: Int)?
-    @State private var round = 0
+    @State private var round = UUID()
 
     var body: some View {
         ZStack {
@@ -101,17 +101,21 @@ struct GameContainer: View {
                 GameResultView(score: result.score, won: result.won, coins: result.coins,
                                canReplay: model.canPlay,
                                onReplay: {
-                                   withAnimation(.spring) { self.result = nil; round += 1 }
+                                   withAnimation(.spring) { self.result = nil; round = UUID(); model.activeGameID = round }
                                },
                                onClose: { dismiss() })
                     .transition(.scale(scale: 0.9).combined(with: .opacity))
             } else {
+                let roundID = round
+                let finishRound: (Int, Bool) -> Void = { score, won in
+                    finish(id: roundID, score: score, won: won)
+                }
                 Group {
                     switch game {
-                    case .leftRight: LeftRightGame(finish: finish)
-                    case .catchStars: CatchStarsGame(finish: finish)
-                    case .rhythm: RhythmGame(finish: finish)
-                    case .sequence: SequenceGame(finish: finish)
+                    case .leftRight: LeftRightGame(finish: finishRound)
+                    case .catchStars: CatchStarsGame(finish: finishRound)
+                    case .rhythm: RhythmGame(finish: finishRound)
+                    case .sequence: SequenceGame(finish: finishRound)
                     }
                 }
                 .id(round)
@@ -121,12 +125,15 @@ struct GameContainer: View {
                 }
             }
         }
-        .onAppear { model.isPlayingGame = true }
-        .onDisappear { model.isPlayingGame = false }
+        .onAppear { model.activeGameID = round }
+        .onDisappear {
+            if model.activeGameID == round { model.activeGameID = nil }
+        }
     }
 
-    private func finish(score: Int, won: Bool) {
-        let coins = model.finishGame(score: score, won: won)
+    private func finish(id: UUID, score: Int, won: Bool) {
+        guard id == round, model.activeGameID == id, result == nil else { return }
+        let coins = model.finishGame(id: id, score: score, won: won)
         withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) { result = (score, won, coins) }
     }
 }
@@ -190,6 +197,7 @@ struct LeftRightGame: View {
     @State private var looking: CGFloat?
     @State private var verdict: Bool?
     @State private var busy = false
+    @State private var visible = false
 
     var body: some View {
         VStack(spacing: 22) {
@@ -234,6 +242,8 @@ struct LeftRightGame: View {
             .padding(.bottom, 30)
         }
         .padding(.horizontal, 24)
+        .onAppear { visible = true }
+        .onDisappear { visible = false }
     }
 
     private func choice(_ side: CGFloat, _ symbol: String, _ key: String) -> some View {
@@ -258,12 +268,14 @@ struct LeftRightGame: View {
         looking = actual
         let hit = actual == side
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+            guard visible else { return }
             withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) { verdict = hit }
             if hit { correct += 1 }
             model.audio.play(hit ? .star : .miss)
             model.haptics.play(hit ? .success : .warning)
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) {
+            guard visible else { return }
             withAnimation(.easeInOut(duration: 0.25)) {
                 verdict = nil
                 looking = nil

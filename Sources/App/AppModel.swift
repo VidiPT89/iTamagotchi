@@ -57,9 +57,8 @@ final class AppModel {
     @ObservationIgnored private var context: ModelContext?
     @ObservationIgnored private var timer: Timer?
     @ObservationIgnored private var ticksSinceSave = 0
-    /// True while a mini-game is on screen, so a round that finishes after
-    /// the player closed it pays nothing and costs nothing.
-    @ObservationIgnored var isPlayingGame = false
+    /// Identifies the only round allowed to award a result.
+    @ObservationIgnored var activeGameID: UUID?
 
     var pet: PetState { save.pet }
     var household: Household { save.household }
@@ -119,6 +118,7 @@ final class AppModel {
     }
 
     func sceneWentToBackground() {
+        settle()
         timer?.invalidate()
         timer = nil
         persist()
@@ -199,12 +199,14 @@ final class AppModel {
     private func handle(_ events: [PetEvent], live: Bool) {
         for event in events {
             if event.isMemorable { record(event) }
+            if case .farewell = event { evolvedTo = nil }
             guard live else {
                 if case .farewell = event { archivePet() }
                 continue
             }
             switch event {
             case .evolved(let stage):
+                guard pet.isAlive else { continue }
                 evolvedTo = stage
                 effects.play(.evolution, at: petAnchor)
                 audio.play(.evolve)
@@ -263,13 +265,13 @@ final class AppModel {
     }
 
     private func archivePet() {
+        save.stats.longestLife = max(save.stats.longestLife, pet.age)
         guard let context else { return }
         let id = pet.id
         let existing = (try? context.fetch(FetchDescriptor<AlbumEntry>(predicate: #Predicate { $0.petID == id }))) ?? []
         guard existing.isEmpty else { return }
         context.insert(AlbumEntry(pet: pet, endedAt: pet.simClock))
         try? context.save()
-        save.stats.longestLife = max(save.stats.longestLife, pet.age)
         persist()
         WidgetCenter.shared.reloadAllTimelines()
     }
@@ -279,6 +281,7 @@ final class AppModel {
     /// Takes over a newer save from another device.
     func adopt(_ remote: GameSave) {
         guard preferences.iCloudSync, save.shouldAdopt(remote) else { return }
+        if remote.pet.id != pet.id { clearMoments() }
         save = remote
         persist()
         // A pet that ended on the other device still earns its album page here.
@@ -304,8 +307,13 @@ final class AppModel {
             if let remote = cloud.pull() { adopt(remote) }
             cloud.push(save)
         }
-        if old.notificationsEnabled != preferences.notificationsEnabled, preferences.notificationsEnabled {
-            notifications.requestAuthorization()
+        if old.notificationsEnabled != preferences.notificationsEnabled {
+            if preferences.notificationsEnabled {
+                notifications.requestAuthorization()
+            } else {
+                notifications.cancelAll()
+                notifications.clearDelivered()
+            }
         }
         if old.language != preferences.language || old.demoMode != preferences.demoMode {
             WidgetCenter.shared.reloadAllTimelines()
@@ -356,7 +364,16 @@ final class AppModel {
 
     var now: Date { clock.now }
 
+    func clearMoments() {
+        reaction = nil
+        toast = nil
+        awaySummary = nil
+        evolvedTo = nil
+        activeGameID = nil
+    }
+
     func resetEverything() {
+        clearMoments()
         if let context {
             try? context.delete(model: JournalEntry.self)
             try? context.delete(model: AlbumEntry.self)

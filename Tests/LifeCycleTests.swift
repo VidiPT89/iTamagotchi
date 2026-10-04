@@ -115,4 +115,38 @@ final class LifeCycleTests: XCTestCase {
         let state = PetState(now: Date())
         XCTAssertTrue(Forecast.upcoming(for: state, speed: 1, from: Date()).isEmpty)
     }
+    func testNeglectAtGrowthBoundaryDoesNotEvolveAfterFarewell() {
+        var (engine, _) = Fixture.hatchedEngine()
+        engine.state.stage = .teen
+        engine.state.stageAge = LifeStage.teen.duration - 60
+        engine.state.needs.hunger = 0
+        engine.state.needs.health = 0
+        engine.state.healthEmptyFor = 6 * 3600 - 60
+        let events = engine.simulate(seconds: 60)
+        XCTAssertEqual(events.filter { if case .farewell = $0 { return true }; return false }.count, 1)
+        XCTAssertFalse(events.contains(.evolved(.adult)))
+        XCTAssertEqual(engine.state.stage, .teen)
+    }
+
+    func testOfflineFarewellKeepsActualEndTime() {
+        var (engine, clock) = Fixture.hatchedEngine()
+        engine.state.stage = .senior
+        engine.state.stageAge = LifeStage.senior.duration - 60
+        let end = engine.state.simClock.addingTimeInterval(60)
+        clock.advance(by: 3600)
+        engine.update()
+        XCTAssertEqual(engine.state.simClock, end)
+        clock.advance(by: 3600)
+        engine.update()
+        XCTAssertEqual(engine.state.simClock, end)
+    }
+
+    func testGrowthPreservesPartialStep() {
+        var (engine, _) = Fixture.hatchedEngine()
+        engine.state.stageAge = LifeStage.baby.duration - 30
+        _ = engine.simulate(seconds: 60)
+        XCTAssertEqual(engine.state.stage, .child)
+        XCTAssertEqual(engine.state.stageAge, 30)
+    }
+
 }

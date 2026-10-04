@@ -59,10 +59,11 @@ struct PetEngine {
     @discardableResult
     mutating func update() -> [PetEvent] {
         let now = clock.now
-        let realElapsed = max(0, now.timeIntervalSince(state.lastUpdate))
+        guard now >= state.lastUpdate else { return [] }
+        let realElapsed = now.timeIntervalSince(state.lastUpdate)
         state.lastUpdate = now
         guard state.stage != .egg, state.isAlive else {
-            state.simClock = speed == 1 ? now : state.simClock
+            if state.stage == .egg, speed == 1 { state.simClock = now }
             return []
         }
 
@@ -74,7 +75,7 @@ struct PetEngine {
             remaining -= dt
         }
         // At normal speed the simulated clock is simply the real one.
-        if speed == 1 { state.simClock = now }
+        if speed == 1, state.isAlive { state.simClock = now }
         return events
     }
 
@@ -100,9 +101,10 @@ struct PetEngine {
         decayNeeds(hours: hours)
         events += updateSleep(dt: dt)
         events += updatePoop(dt: dt)
-        events += updateHealth(dt: dt, hours: hours)
+        events += updateHealth(hours: hours)
         events += updateTantrum(dt: dt)
         events += checkNeglect(dt: dt)
+        guard state.isAlive else { return events }
         sampleUpbringing(dt: dt)
         events += checkGrowth()
         return events
@@ -170,7 +172,7 @@ struct PetEngine {
         return [.pooped]
     }
 
-    private mutating func updateHealth(dt: TimeInterval, hours: Double) -> [PetEvent] {
+    private mutating func updateHealth(hours: Double) -> [PetEvent] {
         var delta = 0.0
         if state.needs.hunger < 15 { delta -= 5 }
         if state.needs.hygiene < 20 { delta -= 3 }
@@ -250,8 +252,8 @@ struct PetEngine {
     private mutating func checkGrowth() -> [PetEvent] {
         guard state.stageAge >= state.stage.duration else { return [] }
         guard let next = state.stage.next else { return [say(goodbye: .oldAge)] }
+        state.stageAge -= state.stage.duration
         state.stage = next
-        state.stageAge = 0
         if next == .adult { state.form = state.upbringing.adultForm() }
         return [.evolved(next)]
     }

@@ -6,6 +6,7 @@ struct RhythmGame: View {
     let finish: (Int, Bool) -> Void
     @Environment(AppModel.self) private var model
     @Environment(\.palette) private var palette
+    @Environment(\.scenePhase) private var scenePhase
 
     private static let approach: TimeInterval = 1.2
     private static let pattern: [Double] = [0, 0.7, 1.4, 2.1, 2.45, 2.8, 3.5, 4.2, 4.55, 4.9, 5.6, 6.3, 6.65, 7.0, 7.7, 8.4]
@@ -18,6 +19,7 @@ struct RhythmGame: View {
     @State private var flash = 0
     @State private var done = false
     @State private var reaction: Reaction?
+    @State private var pausedAt: Date?
 
     enum Judgement: Equatable {
         case perfect, good, miss
@@ -27,7 +29,7 @@ struct RhythmGame: View {
 
     var body: some View {
         TimelineView(.animation) { timeline in
-            let elapsed = timeline.date.timeIntervalSince(start)
+            let elapsed = (pausedAt ?? timeline.date).timeIntervalSince(start)
             ZStack {
                 VStack(spacing: 10) {
                     Text(model.t("game.score", score))
@@ -58,7 +60,17 @@ struct RhythmGame: View {
                         .padding(.bottom, 24)
                 }
             }
-            .onChange(of: Int(elapsed * 20)) { _, _ in expireMissed(elapsed: elapsed) }
+            .onChange(of: Int(elapsed * 20)) { _, _ in
+                if scenePhase == .active { expireMissed(elapsed: elapsed) }
+            }
+        }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active, let pausedAt {
+                start = start.addingTimeInterval(Date().timeIntervalSince(pausedAt))
+                self.pausedAt = nil
+            } else if phase != .active, pausedAt == nil {
+                pausedAt = Date()
+            }
         }
         .contentShape(Rectangle())
         .onTapGesture { tap() }
@@ -90,7 +102,7 @@ struct RhythmGame: View {
 
     private func tap() {
         let elapsed = Date().timeIntervalSince(start)
-        guard elapsed > -0.3, !done else { return }
+        guard scenePhase == .active, elapsed > -0.3, !done else { return }
         let candidates = Self.pattern.indices.filter { judged[$0] == nil }
         guard let index = candidates.min(by: { abs(Self.pattern[$0] - elapsed) < abs(Self.pattern[$1] - elapsed) }) else { return }
         let offset = abs(Self.pattern[index] - elapsed)

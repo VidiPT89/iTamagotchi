@@ -49,13 +49,14 @@ final class AppModelTests: XCTestCase {
     }
 
     func testAClosedGamePaysNothing() {
+        let id = UUID()
         let coins = model.household.coins
-        XCTAssertEqual(model.finishGame(score: 40, won: true), 0)
+        XCTAssertEqual(model.finishGame(id: id, score: 40, won: true), 0)
         XCTAssertEqual(model.household.coins, coins)
         XCTAssertEqual(model.stats.gamesPlayed, 0)
 
-        model.isPlayingGame = true
-        let paid = model.finishGame(score: 40, won: true)
+        model.activeGameID = id
+        let paid = model.finishGame(id: id, score: 40, won: true)
         XCTAssertEqual(paid, Household.reward(forScore: 40, won: true))
         XCTAssertEqual(model.household.coins, coins + paid)
         XCTAssertEqual(model.stats.gamesWon, 1)
@@ -92,4 +93,86 @@ final class AppModelTests: XCTestCase {
         XCTAssertTrue(model.pet.isAlive)
         XCTAssertNil(model.evolvedTo)
     }
+    func testRepeatedHatchDoesNotCreateAnotherLife() {
+        let pet = model.pet
+        model.hatch(named: "Another")
+        XCTAssertEqual(model.pet, pet)
+        XCTAssertEqual(model.stats.petsRaised, 1)
+    }
+
+    func testLivingPetCannotBeReplacedByAnEgg() {
+        let pet = model.pet
+        model.startNewEgg()
+        XCTAssertEqual(model.pet, pet)
+    }
+
+    func testFinishedRoundPaysOnlyOnce() {
+        let id = UUID()
+        model.activeGameID = id
+        XCTAssertGreaterThan(model.finishGame(id: id, score: 40, won: true), 0)
+        let saved = model.save
+        XCTAssertEqual(model.finishGame(id: id, score: 40, won: true), 0)
+        XCTAssertEqual(model.save, saved)
+    }
+
+    func testOldRoundCannotFinishANewerGame() {
+        let old = UUID()
+        let current = UUID()
+        model.activeGameID = current
+        XCTAssertEqual(model.finishGame(id: old, score: 40, won: true), 0)
+        XCTAssertEqual(model.activeGameID, current)
+        XCTAssertEqual(model.stats.gamesPlayed, 0)
+        XCTAssertGreaterThan(model.finishGame(id: current, score: 40, won: true), 0)
+    }
+
+    func testRefusedGameDoesNotAwardStatsOrCoins() {
+        let id = UUID()
+        model.activeGameID = id
+        model.mutate { $0.pet.needs.energy = 0 }
+        let coins = model.household.coins
+        XCTAssertEqual(model.finishGame(id: id, score: 40, won: true), 0)
+        XCTAssertEqual(model.household.coins, coins)
+        XCTAssertEqual(model.stats.gamesPlayed, 0)
+        XCTAssertEqual(model.stats.gamesWon, 0)
+    }
+
+    func testCannotEquipUnownedOrWrongCategoryItems() {
+        model.wear("hat.crown")
+        model.wear("wall.warm")
+        model.applyWallpaper("wall.stars")
+        XCTAssertNil(model.household.hat)
+        XCTAssertEqual(model.household.wallpaper, "wall.warm")
+    }
+
+    func testResetClearsOldMomentsAndPendingGame() {
+        let id = UUID()
+        model.activeGameID = id
+        model.evolvedTo = .adult
+        model.reaction = Reaction(face: .happy, until: Date.distantFuture)
+        model.awaySummary = AwaySummary(duration: 600, before: Needs(), after: Needs(), lines: [])
+        model.resetEverything()
+        XCTAssertNil(model.evolvedTo)
+        XCTAssertNil(model.reaction)
+        XCTAssertNil(model.awaySummary)
+        XCTAssertNil(model.toast)
+        XCTAssertNil(model.activeGameID)
+        XCTAssertEqual(model.finishGame(id: id, score: 100, won: true), 0)
+        XCTAssertEqual(model.pet.stage, .egg)
+        XCTAssertEqual(model.stats.petsRaised, 0)
+    }
+
+    func testFarewellClearsEvolutionAndRecordsLongestLifeWithoutJournal() {
+        model.evolvedTo = .child
+        model.mutate {
+            $0.pet.stage = .senior
+            $0.pet.age = 500_000
+            $0.pet.stageAge = LifeStage.senior.duration - 30
+        }
+        clock.advance(by: 60)
+        model.tick()
+        XCTAssertFalse(model.pet.isAlive)
+        XCTAssertNil(model.evolvedTo)
+        XCTAssertEqual(model.stats.longestLife, model.pet.age)
+    }
+
 }

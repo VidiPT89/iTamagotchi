@@ -37,7 +37,7 @@
 | UI           | SwiftUI                                     |
 | Graphics     | SpriteKit                                   |
 | Architecture | MVVM + UI-free simulation core              |
-| Persistence  | SwiftData                                   |
+| Persistence  | Codable save in App Group; SwiftData journal and album |
 | Sync         | iCloud key-value storage                    |
 | Widgets      | WidgetKit                                   |
 | Audio        | AVAudioEngine (synthesized, no audio files) |
@@ -90,6 +90,10 @@ Language, appearance, notifications, sound, music and haptics are all adjustable
 xcodebuild -project iTamagotchi.xcodeproj -scheme iTamagotchi \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro' test
 ```
+
+The suite covers simulation, life cycle, economy, save compatibility, cloud merge rules, localisation and app actions, including stale mini-game callbacks and offline farewells.
+
+The current pet, inventory and lifetime stats sync through iCloud. The journal and family album remain local to each device. Concurrent play on two devices uses save replacement rather than merging individual actions. Physical-device checks are still needed for iCloud delivery, notifications, audio interruptions and haptics.
 
 ## 📄 License
 

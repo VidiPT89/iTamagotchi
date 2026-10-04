@@ -7,6 +7,7 @@ extension AppModel {
     // MARK: Life
 
     func hatch(named name: String) {
+        guard pet.stage == .egg else { return }
         var engine = makeEngine()
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
         let events = engine.hatch(named: trimmed.isEmpty ? t("onboarding.namePlaceholder") : String(trimmed.prefix(14)))
@@ -36,8 +37,10 @@ extension AppModel {
     }
 
     func startNewEgg() {
+        guard !pet.isAlive else { return }
+        clearMoments()
         mutate { $0.pet = PetState(now: now, seed: UInt64(now.timeIntervalSince1970)) }
-        evolvedTo = nil
+        WidgetCenter.shared.reloadAllTimelines()
         if preferences.iCloudSync { cloud.push(save) }
     }
 
@@ -151,12 +154,14 @@ extension AppModel {
 
     /// Applies a finished mini-game and returns the coins it paid.
     @discardableResult
-    func finishGame(score: Int, won: Bool) -> Int {
-        guard isPlayingGame else { return 0 }
+    func finishGame(id: UUID, score: Int, won: Bool) -> Int {
+        guard activeGameID == id else { return 0 }
+        activeGameID = nil
         settle()
         var engine = makeEngine()
         let outcome = engine.perform(.played(won: won))
-        let coins = outcome.succeeded ? Household.reward(forScore: score, won: won) : 0
+        guard outcome.succeeded else { return 0 }
+        let coins = Household.reward(forScore: score, won: won)
         mutate { save in
             save.pet = engine.state
             save.household.coins += coins
@@ -191,6 +196,9 @@ extension AppModel {
     }
 
     func wear(_ hat: String?) {
+        if let hat {
+            guard household.owned.contains(hat), ShopItem.item(hat)?.category == .hats else { return }
+        }
         mutate { $0.household.hat = hat }
         audio.play(.tap)
         haptics.play(.tap)
@@ -199,6 +207,7 @@ extension AppModel {
     }
 
     func applyWallpaper(_ id: String) {
+        guard household.owned.contains(id), ShopItem.item(id)?.category == .wallpapers else { return }
         mutate { $0.household.wallpaper = id }
         audio.play(.tap)
         haptics.play(.tap)

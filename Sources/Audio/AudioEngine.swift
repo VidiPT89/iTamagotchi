@@ -99,7 +99,7 @@ private final class AudioCore: @unchecked Sendable {
 
     func start(music: Bool) {
         musicOn = music
-        guard !isRunning else { return }
+        guard !isRunning || engine?.isRunning != true else { return }
         let engine = prepare()
         // Ambient, so the pet never silences the player's own music.
         let session = AVAudioSession.sharedInstance()
@@ -125,7 +125,7 @@ private final class AudioCore: @unchecked Sendable {
 
     func setMusic(_ enabled: Bool) {
         musicOn = enabled
-        guard isRunning else { return }
+        guard isRunning, engine?.isRunning == true else { return }
         if enabled { startMusic() } else { musicPlayer.stop() }
     }
 
@@ -136,7 +136,7 @@ private final class AudioCore: @unchecked Sendable {
     }
 
     func play(_ sound: Sound) {
-        guard isRunning, let buffer = buffers[sound] else { return }
+        guard isRunning, engine?.isRunning == true, let buffer = buffers[sound] else { return }
         let now = CACurrentMediaTime()
         if let last = lastPlayed[sound], now - last < 0.05 { return }
         lastPlayed[sound] = now

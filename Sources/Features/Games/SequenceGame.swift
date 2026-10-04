@@ -23,6 +23,7 @@ struct SequenceGame: View {
     @State private var bestLength = 0
     @State private var reaction: Reaction?
     @State private var over = false
+    @State private var visible = false
 
     var body: some View {
         VStack(spacing: 18) {
@@ -47,7 +48,8 @@ struct SequenceGame: View {
             .padding(.horizontal, 24)
             Spacer()
         }
-        .onAppear { nextRound() }
+        .onAppear { visible = true; nextRound() }
+        .onDisappear { visible = false }
     }
 
     private func pad(_ i: Int) -> some View {
@@ -72,6 +74,7 @@ struct SequenceGame: View {
     // MARK: Flow
 
     private func nextRound() {
+        guard visible else { return }
         if sequence.isEmpty {
             sequence = (0..<Self.startLength).map { _ in Int.random(in: 0..<pads.count) }
         } else {
@@ -90,7 +93,7 @@ struct SequenceGame: View {
 
     private func flash(_ i: Int) {
         // Flashes are booked ahead; once the game is closed they stay quiet.
-        guard model.isPlayingGame else { return }
+        guard visible else { return }
         lit = i
         model.audio.play(pads[i].sound)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { if lit == i { lit = nil } }

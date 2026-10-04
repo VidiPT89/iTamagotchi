@@ -44,7 +44,17 @@ final class CatchStarsScene: SKScene {
     }
 
     override func willMove(from view: SKView) {
+        stop()
+    }
+
+    func stop() {
+        running = false
+        removeAllActions()
         motion.stopAccelerometerUpdates()
+        onScore = nil
+        onTime = nil
+        onFinish = nil
+        onCatch = nil
     }
 
     override func update(_ currentTime: TimeInterval) {
@@ -148,12 +158,15 @@ final class CatchStarsScene: SKScene {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         targetX = nil
     }
+
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        targetX = nil
+    }
 }
 
 struct CatchStarsGame: View {
     let finish: (Int, Bool) -> Void
     @Environment(AppModel.self) private var model
-    @Environment(\.palette) private var palette
     @State private var scene: CatchStarsScene?
     @State private var score = 0
     @State private var time = 30
@@ -184,6 +197,7 @@ struct CatchStarsGame: View {
                 .allowsHitTesting(false)
             }
             .onAppear { makeScene(size: geo.size) }
+            .onDisappear { scene?.stop(); scene = nil }
         }
     }
 

@@ -26,11 +26,11 @@ struct ThemedModifier: ViewModifier {
     func body(content: Content) -> some View {
         let palette = Palette.resolve(model.colorScheme ?? systemScheme)
         content
+            .modifier(ToastHost())
             .environment(\.palette, palette)
             .environment(\.locale, model.language.locale)
             .preferredColorScheme(model.colorScheme)
             .tint(palette.primary)
-            .modifier(ToastHost())
     }
 }
 

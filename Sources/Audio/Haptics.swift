@@ -18,8 +18,9 @@ final class Haptics {
         guard supportsHaptics, engine == nil else { return }
         engine = try? CHHapticEngine()
         // iOS stops the engine whenever the app loses the foreground.
-        engine?.resetHandler = { [weak self] in try? self?.engine?.start() }
-        engine?.stoppedHandler = { _ in }
+        engine?.resetHandler = { [weak self] in
+            Task { @MainActor [weak self] in try? self?.engine?.start() }
+        }
         try? engine?.start()
     }
 
