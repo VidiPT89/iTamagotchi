@@ -81,7 +81,7 @@ struct IconButton: View {
             Image(systemName: symbol)
                 .font(.system(size: 17, weight: .bold))
                 .foregroundStyle(palette.text)
-                .frame(width: 42, height: 42)
+                .frame(width: 44, height: 44)
                 .background(.ultraThinMaterial, in: Circle())
                 .overlay(Circle().stroke(palette.stroke))
         }
@@ -166,6 +166,7 @@ struct NeedRing: View {
         .frame(width: size, height: size)
         .onAppear { updatePulse() }
         .onChange(of: value < 25) { _, _ in updatePulse() }
+        .onChange(of: reduceMotion) { _, _ in updatePulse() }
         .accessibilityElement()
         .accessibilityLabel(Text(label))
     }

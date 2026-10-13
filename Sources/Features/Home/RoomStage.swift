@@ -84,7 +84,7 @@ struct RoomStage: View {
             .coordinateSpace(name: "stage")
             .animation(.spring(response: 0.45, dampingFraction: 0.7), value: Self.wish(for: pet))
             .contentShape(Rectangle())
-            .gesture(stageGesture(size: size, petFrame: petFrame))
+            .gesture(stageGesture(petFrame: petFrame))
             .onAppear { updateAnchor(size: size, petSize: petSize, floorY: floorY) }
             .onChange(of: petX) { _, _ in updateAnchor(size: size, petSize: petSize, floorY: floorY) }
             .onChange(of: size) { _, _ in
@@ -97,6 +97,13 @@ struct RoomStage: View {
         .overlay(RoundedRectangle(cornerRadius: 32, style: .continuous).stroke(palette.stroke, lineWidth: 1))
         .shadow(color: .black.opacity(palette.isDark ? 0.4 : 0.1), radius: 18, y: 8)
         .task(id: model.pet.mood) { await wander() }
+        .onDisappear {
+            holdTask?.cancel()
+            holdTask = nil
+            holdFired = false
+            gaze = nil
+        }
+        .onChange(of: reduceMotion) { _, value in model.effects.reduceMotion = value }
     }
 
     /// What the pet is asking for, most pressing first, shown in its bubble.
@@ -182,7 +189,7 @@ struct RoomStage: View {
 
     // MARK: Gestures
 
-    private func stageGesture(size: CGSize, petFrame: CGRect) -> some Gesture {
+    private func stageGesture(petFrame: CGRect) -> some Gesture {
         DragGesture(minimumDistance: 0, coordinateSpace: .local)
             .onChanged { value in
                 gaze = value.location

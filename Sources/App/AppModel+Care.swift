@@ -89,19 +89,21 @@ extension AppModel {
 
     private func feedback(for action: CareAction) {
         let floor = CGPoint(x: petAnchor.x, y: petAnchor.y + 40)
+        let petID = pet.id
         switch action {
         case .meal, .snack:
             react(.eating, for: 1.8)
             effects.play(.crumbs, at: petAnchor)
             for i in 0..<3 {
                 DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 0.45) { [weak self] in
-                    self?.audio.play(.chomp)
-                    self?.haptics.play(.soft)
+                    guard let self, self.pet.id == petID, self.pet.isAlive else { return }
+                    self.audio.play(.chomp)
+                    self.haptics.play(.soft)
                 }
             }
             if action == .snack {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) { [weak self] in
-                    guard let self else { return }
+                    guard let self, self.pet.id == petID, self.pet.isAlive else { return }
                     self.effects.play(.hearts, at: self.petAnchor)
                 }
             }

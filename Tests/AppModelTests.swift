@@ -175,4 +175,62 @@ final class AppModelTests: XCTestCase {
         XCTAssertEqual(model.stats.longestLife, model.pet.age)
     }
 
+    func testJournalKeepsNamesLiteralWhileTranslatingStages() {
+        model.preferences.language = .en
+        let entry = JournalEntry(date: clock.now, petID: model.pet.id,
+                                 key: "event.evolved", arguments: ["stage.baby", "stage.child"],
+                                 symbol: "sparkles")
+        XCTAssertEqual(model.journalText(entry), model.t("event.evolved", "stage.baby", model.t("stage.child")))
+    }
+
+    func testResetCannotBeUndoneByAnOldCloudSave() {
+        let old = model.save
+        clock.advance(by: 60)
+        model.resetEverything()
+        XCTAssertFalse(model.save.shouldAdopt(old))
+        XCTAssertTrue(old.shouldAdopt(model.save))
+        XCTAssertEqual(SharedStore(defaults: defaults).loadSave()?.resetAt, clock.now)
+        model.hatch(named: "New")
+        XCTAssertFalse(model.save.shouldAdopt(old))
+    }
+
+    func testCloudReplacementInvalidatesRoundEvenForTheSamePet() {
+        let store = SharedStore(defaults: defaults)
+        var preferences = store.loadPreferences()
+        preferences.iCloudSync = true
+        store.save(preferences)
+        // Initialisation does not connect to iCloud; feed the remote save directly.
+        let synced = AppModel(store: store, clock: clock)
+        let round = UUID()
+        synced.activeGameID = round
+        synced.evolvedTo = .child
+        var remote = synced.save
+        remote.pet.lastUpdate = clock.now.addingTimeInterval(60)
+        synced.adopt(remote)
+        XCTAssertEqual(synced.pet.id, remote.pet.id)
+        XCTAssertNil(synced.activeGameID)
+        XCTAssertNil(synced.evolvedTo)
+        XCTAssertEqual(synced.finishGame(id: round, score: 50, won: true), 0)
+    }
+
+    func testRenameBetweenTicksHasANewerCloudRevision() {
+        let old = model.save
+        clock.advance(by: 0.5)
+        model.rename(to: "Lumi")
+        XCTAssertEqual(model.pet.lastUpdate, old.pet.lastUpdate)
+        XCTAssertTrue(old.shouldAdopt(model.save))
+        XCTAssertFalse(model.save.shouldAdopt(old))
+    }
+
+    func testFarewellInvalidatesPendingGame() {
+        model.activeGameID = UUID()
+        model.mutate {
+            $0.pet.stage = .senior
+            $0.pet.stageAge = LifeStage.senior.duration - 30
+        }
+        clock.advance(by: 60)
+        model.tick()
+        XCTAssertNil(model.activeGameID)
+    }
+
 }

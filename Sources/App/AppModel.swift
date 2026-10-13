@@ -58,7 +58,7 @@ final class AppModel {
     @ObservationIgnored private var timer: Timer?
     @ObservationIgnored private var ticksSinceSave = 0
     /// Identifies the only round allowed to award a result.
-    @ObservationIgnored var activeGameID: UUID?
+    var activeGameID: UUID?
 
     var pet: PetState { save.pet }
     var household: Household { save.household }
@@ -114,6 +114,7 @@ final class AppModel {
         let away = clock.now.timeIntervalSince(save.pet.lastUpdate)
         catchUp(showSummary: away > 10 * 60)
         startTimer()
+        notifications.cancelAll()
         notifications.clearDelivered()
     }
 
@@ -199,7 +200,7 @@ final class AppModel {
     private func handle(_ events: [PetEvent], live: Bool) {
         for event in events {
             if event.isMemorable { record(event) }
-            if case .farewell = event { evolvedTo = nil }
+            if case .farewell = event { clearMoments() }
             guard live else {
                 if case .farewell = event { archivePet() }
                 continue
@@ -260,7 +261,12 @@ final class AppModel {
 
     /// Journal arguments that are themselves keys get translated on display.
     func journalText(_ entry: JournalEntry) -> String {
-        let args = entry.arguments.map { Strings.all[$0] == nil ? $0 : t($0) }
+        let args = entry.arguments.enumerated().map { index, argument in
+            // The first argument is always a literal pet name, even if it
+            // happens to match a translation key such as "stage.baby".
+            index == 1 && (entry.key == "event.evolved" || entry.key == "event.becameForm")
+                ? t(argument) : argument
+        }
         return String(format: t(entry.key), arguments: args)
     }
 
@@ -281,7 +287,7 @@ final class AppModel {
     /// Takes over a newer save from another device.
     func adopt(_ remote: GameSave) {
         guard preferences.iCloudSync, save.shouldAdopt(remote) else { return }
-        if remote.pet.id != pet.id { clearMoments() }
+        clearMoments()
         save = remote
         persist()
         // A pet that ended on the other device still earns its album page here.
@@ -359,6 +365,7 @@ final class AppModel {
 
     func mutate(_ change: (inout GameSave) -> Void) {
         change(&save)
+        save.modifiedAt = clock.now
         persist()
     }
 
@@ -379,8 +386,8 @@ final class AppModel {
             try? context.delete(model: AlbumEntry.self)
             try? context.save()
         }
-        store.reset()
         save = GameSave(now: clock.now)
+        save.resetAt = clock.now
         persist()
         // Overwrite the cloud copy too, or the old pet would come straight back.
         if preferences.iCloudSync { cloud.push(save) }

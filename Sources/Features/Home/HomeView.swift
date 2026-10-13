@@ -43,6 +43,10 @@ struct HomeView: View {
             .padding(.horizontal, 16)
             .padding(.bottom, 8)
         }
+        .onChange(of: model.pet.id) { _, _ in closePresentations() }
+        .onChange(of: model.pet.isAlive) { _, alive in
+            if !alive { closePresentations() }
+        }
         .sheet(item: $sheet) { which in
             Group {
                 switch which {
@@ -69,6 +73,12 @@ struct HomeView: View {
                 .presentationDetents([.medium])
                 .presentationDragIndicator(.visible)
         }
+    }
+
+    private func closePresentations() {
+        sheet = nil
+        showStatus = false
+        feeding = false
     }
 
     private var stage: some View {

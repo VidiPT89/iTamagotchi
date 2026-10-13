@@ -25,8 +25,10 @@ enum Forecast {
         var active = Set(Alert.allCases.filter { isActive($0, pet) })
 
         while elapsed < horizon, engine.state.isAlive {
-            _ = engine.simulate(seconds: step)
-            elapsed += step
+            let interval = min(step, horizon - elapsed)
+            _ = engine.simulate(seconds: interval)
+            elapsed += interval
+            guard engine.state.isAlive else { break }
             for alert in Alert.allCases where found[alert] == nil {
                 let on = isActive(alert, engine.state)
                 // Only a need that goes from fine to not-fine is worth a ping.

@@ -6,6 +6,7 @@ struct SequenceGame: View {
     let finish: (Int, Bool) -> Void
     @Environment(AppModel.self) private var model
     @Environment(\.palette) private var palette
+    @Environment(\.scenePhase) private var scenePhase
 
     static let startLength = 3
     static let winningLength = 6
@@ -24,6 +25,7 @@ struct SequenceGame: View {
     @State private var reaction: Reaction?
     @State private var over = false
     @State private var visible = false
+    @State private var flashID = UUID()
 
     var body: some View {
         VStack(spacing: 18) {
@@ -49,7 +51,22 @@ struct SequenceGame: View {
             Spacer()
         }
         .onAppear { visible = true; nextRound() }
-        .onDisappear { visible = false }
+        .onDisappear { visible = false; lit = nil }
+        .task(id: "\(scenePhase)-\(sequence.count)") {
+            guard scenePhase == .active, watching, !over, !sequence.isEmpty else { return }
+            // Cancellation on interruption keeps the pads locked. On return,
+            // replay the whole pattern instead of skipping unseen steps.
+            do {
+                lit = nil
+                try await Task.sleep(for: .seconds(0.8))
+                for pad in sequence {
+                    try Task.checkCancellation()
+                    flash(pad)
+                    try await Task.sleep(for: .seconds(0.6))
+                }
+                watching = false
+            } catch { lit = nil }
+        }
     }
 
     private func pad(_ i: Int) -> some View {
@@ -82,25 +99,20 @@ struct SequenceGame: View {
         }
         input = 0
         watching = true
-        for (step, pad) in sequence.enumerated() {
-            let start = 0.8 + Double(step) * 0.6
-            DispatchQueue.main.asyncAfter(deadline: .now() + start) { flash(pad) }
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8 + Double(sequence.count) * 0.6) {
-            watching = false
-        }
     }
 
     private func flash(_ i: Int) {
         // Flashes are booked ahead; once the game is closed they stay quiet.
-        guard visible else { return }
+        guard visible, scenePhase == .active else { return }
+        let id = UUID()
+        flashID = id
         lit = i
         model.audio.play(pads[i].sound)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { if lit == i { lit = nil } }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { if flashID == id { lit = nil } }
     }
 
     private func tap(_ i: Int) {
-        guard !watching, !over else { return }
+        guard visible, scenePhase == .active, !watching, !over, sequence.indices.contains(input) else { return }
         flash(i)
         model.haptics.play(.tap)
         guard sequence[input] == i else {
@@ -110,6 +122,7 @@ struct SequenceGame: View {
             reaction = Reaction(face: .refusing, until: Date().addingTimeInterval(1))
             let reached = bestLength
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.1) {
+                guard visible else { return }
                 finish(reached * 10, reached >= Self.winningLength)
             }
             return
@@ -125,6 +138,6 @@ struct SequenceGame: View {
         reaction = Reaction(face: .laughing, until: Date().addingTimeInterval(0.8))
         model.audio.play(.star)
         watching = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { nextRound() }
+        nextRound()
     }
 }

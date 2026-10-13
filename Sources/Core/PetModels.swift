@@ -279,12 +279,12 @@ extension Needs {
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         self.init()
-        hunger = c.value(.hunger, or: hunger)
-        happiness = c.value(.happiness, or: happiness)
-        energy = c.value(.energy, or: energy)
-        hygiene = c.value(.hygiene, or: hygiene)
-        health = c.value(.health, or: health)
-        discipline = c.value(.discipline, or: discipline)
+        self[.hunger] = c.value(.hunger, or: hunger)
+        self[.happiness] = c.value(.happiness, or: happiness)
+        self[.energy] = c.value(.energy, or: energy)
+        self[.hygiene] = c.value(.hygiene, or: hygiene)
+        self[.health] = c.value(.health, or: health)
+        self[.discipline] = c.value(.discipline, or: discipline)
     }
 }
 

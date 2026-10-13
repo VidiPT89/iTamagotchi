@@ -19,6 +19,7 @@ final class CatchStarsScene: SKScene {
     private var lastUpdate: TimeInterval = 0
     private var spawnTimer: TimeInterval = 0
     private var running = false
+    private var suspended = false
     private let motion = CMMotionManager()
 
     init(size: CGSize, petImage: UIImage?) {
@@ -47,6 +48,18 @@ final class CatchStarsScene: SKScene {
         stop()
     }
 
+    func setSuspended(_ value: Bool) {
+        suspended = value
+        isPaused = value
+        lastUpdate = 0
+        targetX = nil
+        if value {
+            motion.stopAccelerometerUpdates()
+        } else if pet.parent != nil, remaining > 0, motion.isAccelerometerAvailable {
+            motion.startAccelerometerUpdates()
+        }
+    }
+
     func stop() {
         running = false
         removeAllActions()
@@ -60,7 +73,7 @@ final class CatchStarsScene: SKScene {
     override func update(_ currentTime: TimeInterval) {
         let dt = lastUpdate == 0 ? 0 : min(0.05, currentTime - lastUpdate)
         lastUpdate = currentTime
-        guard running else { return }
+        guard running, !suspended else { return }
 
         let before = Int(ceil(remaining))
         remaining -= dt
@@ -167,6 +180,7 @@ final class CatchStarsScene: SKScene {
 struct CatchStarsGame: View {
     let finish: (Int, Bool) -> Void
     @Environment(AppModel.self) private var model
+    @Environment(\.scenePhase) private var scenePhase
     @State private var scene: CatchStarsScene?
     @State private var score = 0
     @State private var time = 30
@@ -198,6 +212,7 @@ struct CatchStarsGame: View {
             }
             .onAppear { makeScene(size: geo.size) }
             .onDisappear { scene?.stop(); scene = nil }
+            .onChange(of: scenePhase) { _, phase in scene?.setSuspended(phase != .active) }
         }
     }
 

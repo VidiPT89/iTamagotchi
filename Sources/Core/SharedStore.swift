@@ -85,7 +85,4 @@ struct SharedStore {
         defaults.set(data, forKey: Self.preferencesKey)
     }
 
-    func reset() {
-        defaults.removeObject(forKey: Self.saveKey)
-    }
 }

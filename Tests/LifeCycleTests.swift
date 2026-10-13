@@ -149,4 +149,19 @@ final class LifeCycleTests: XCTestCase {
         XCTAssertEqual(engine.state.stageAge, 30)
     }
 
+    func testForecastDoesNotScheduleNeedsAfterFarewell() {
+        var (engine, clock) = Fixture.hatchedEngine()
+        engine.state.stage = .senior
+        engine.state.stageAge = LifeStage.senior.duration - 30
+        engine.state.needs.hunger = 20.01
+        XCTAssertTrue(Forecast.upcoming(for: engine.state, speed: 1, from: clock.now).isEmpty)
+    }
+
+    func testForecastRespectsAShortHorizon() {
+        var (engine, clock) = Fixture.hatchedEngine()
+        engine.state.needs.hunger = 20.1
+        let items = Forecast.upcoming(for: engine.state, speed: 1, from: clock.now, horizon: 10)
+        XCTAssertTrue(items.isEmpty)
+    }
+
 }

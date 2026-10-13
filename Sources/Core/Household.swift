@@ -154,6 +154,10 @@ struct GameSave: Codable, Equatable {
     var stats = LifetimeStats()
     var achievements: [String: Date] = [:]
     var hasOnboarded = false
+    /// Explicit reset wins over any save from before that reset.
+    var resetAt: Date?
+    /// Player changes can happen between simulation ticks.
+    var modifiedAt: Date?
 
     init(now: Date) {
         pet = PetState(now: now, seed: UInt64(now.timeIntervalSince1970))
@@ -163,11 +167,16 @@ struct GameSave: Codable, Equatable {
     /// most recently played pet wins, a fresh egg never overwrites a pet,
     /// and a pet already said goodbye to never comes back over a new egg.
     func shouldAdopt(_ remote: GameSave) -> Bool {
-        guard remote != self, remote.hasOnboarded else { return false }
+        guard remote != self else { return false }
+        let localReset = resetAt ?? .distantPast
+        let remoteReset = remote.resetAt ?? .distantPast
+        if localReset != remoteReset { return remoteReset > localReset }
+        guard remote.hasOnboarded else { return false }
         if !hasOnboarded { return true }
         if pet.stage == .egg, remote.pet.stage != .egg { return remote.pet.isAlive }
         if remote.pet.stage == .egg, pet.stage != .egg, pet.isAlive { return false }
-        return remote.pet.lastUpdate > pet.lastUpdate
+        return max(remote.pet.lastUpdate, remote.modifiedAt ?? .distantPast)
+            > max(pet.lastUpdate, modifiedAt ?? .distantPast)
     }
 
     /// Unlocks anything newly earned and returns it, for the toast.
@@ -225,5 +234,7 @@ extension GameSave {
         stats = c.value(.stats, or: stats)
         achievements = c.value(.achievements, or: achievements)
         hasOnboarded = c.value(.hasOnboarded, or: hasOnboarded)
+        resetAt = try c.decodeIfPresent(Date.self, forKey: .resetAt)
+        modifiedAt = try c.decodeIfPresent(Date.self, forKey: .modifiedAt)
     }
 }

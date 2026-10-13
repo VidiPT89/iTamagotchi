@@ -126,6 +126,13 @@ struct GameContainer: View {
             }
         }
         .onAppear { model.activeGameID = round }
+        .onChange(of: model.activeGameID) { _, id in
+            if id != round, result == nil { dismiss() }
+        }
+        .onChange(of: model.pet.id) { _, _ in dismiss() }
+        .onChange(of: model.pet.isAlive) { _, alive in
+            if !alive { dismiss() }
+        }
         .onDisappear {
             if model.activeGameID == round { model.activeGameID = nil }
         }
@@ -134,6 +141,7 @@ struct GameContainer: View {
     private func finish(id: UUID, score: Int, won: Bool) {
         guard id == round, model.activeGameID == id, result == nil else { return }
         let coins = model.finishGame(id: id, score: score, won: won)
+        guard model.pet.isAlive else { dismiss(); return }
         withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) { result = (score, won, coins) }
     }
 }

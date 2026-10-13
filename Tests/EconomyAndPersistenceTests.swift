@@ -95,8 +95,6 @@ final class EconomyAndPersistenceTests: XCTestCase {
         save.hasOnboarded = true
         store.save(save)
         XCTAssertEqual(store.loadSave(), save)
-        store.reset()
-        XCTAssertNil(store.loadSave())
     }
 }
 
@@ -155,6 +153,15 @@ final class SaveCompatibilityTests: XCTestCase {
         XCTAssertEqual(try JSONDecoder().decode(GameSave.self, from: data), save)
     }
 
+    func testDecodedNeedsStayInsideTheirSupportedRange() throws {
+        let data = Data(#"{"hunger":-20,"health":150,"happiness":45}"#.utf8)
+        let needs = try JSONDecoder().decode(Needs.self, from: data)
+        XCTAssertEqual(needs.hunger, 0)
+        XCTAssertEqual(needs.health, 100)
+        XCTAssertEqual(needs.happiness, 45)
+        XCTAssertEqual(needs.energy, Needs().energy)
+    }
+
     func testUnreadableSaveIsKeptAside() {
         let suite = "itamagotchi.tests.unreadable"
         let defaults = UserDefaults(suiteName: suite)!
@@ -204,10 +211,34 @@ final class CloudMergeTests: XCTestCase {
         XCTAssertFalse(egg.shouldAdopt(gone), "The player already moved on to a new egg")
     }
 
-    func testResetSaveIsNeverAdopted() {
+    func testUninitialisedSaveIsNeverAdopted() {
         let pet = save(hatchedAt: Date(timeIntervalSince1970: 1_000))
         let reset = save(hatchedAt: Date(timeIntervalSince1970: 9_000), onboarded: false, stage: .egg)
         XCTAssertFalse(pet.shouldAdopt(reset))
+    }
+
+
+    func testExplicitResetPropagatesAndRejectsPreResetProgress() throws {
+        var old = save(hatchedAt: Date(timeIntervalSince1970: 1_000))
+        var reset = GameSave(now: Date(timeIntervalSince1970: 2_000))
+        reset.resetAt = Date(timeIntervalSince1970: 2_000)
+        // The offline device kept playing after the reset on the other device.
+        old.pet.lastUpdate = Date(timeIntervalSince1970: 3_000)
+        XCTAssertTrue(old.shouldAdopt(reset))
+        XCTAssertFalse(reset.shouldAdopt(old))
+        let decoded = try JSONDecoder().decode(GameSave.self, from: JSONEncoder().encode(reset))
+        XCTAssertEqual(decoded, reset)
+    }
+
+    func testNewLifeAfterResetStillSyncs() {
+        var egg = GameSave(now: Date(timeIntervalSince1970: 2_000))
+        egg.resetAt = Date(timeIntervalSince1970: 2_000)
+        var next = egg
+        next.hasOnboarded = true
+        next.pet.stage = .baby
+        next.pet.lastUpdate = Date(timeIntervalSince1970: 3_000)
+        XCTAssertTrue(egg.shouldAdopt(next))
+        XCTAssertFalse(next.shouldAdopt(egg))
     }
 
     func testPreferencesDefaultToSync() throws {

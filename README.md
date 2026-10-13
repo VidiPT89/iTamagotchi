@@ -91,9 +91,9 @@ xcodebuild -project iTamagotchi.xcodeproj -scheme iTamagotchi \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro' test
 ```
 
-The suite covers simulation, life cycle, economy, save compatibility, cloud merge rules, localisation and app actions, including stale mini-game callbacks and offline farewells.
+The suite covers simulation, life cycle, economy, save compatibility, cloud merge rules, localisation and app actions, including stale mini-game callbacks, explicit cloud resets, changes between simulation ticks, literal journal names, bounded needs and offline farewells.
 
-The current pet, inventory and lifetime stats sync through iCloud. The journal and family album remain local to each device. Concurrent play on two devices uses save replacement rather than merging individual actions. Physical-device checks are still needed for iCloud delivery, notifications, audio interruptions and haptics.
+The current pet, inventory and lifetime stats sync through iCloud. The journal and family album remain local to each device. Concurrent play on two devices uses save replacement rather than merging individual actions. Explicit resets are recorded so older saves cannot restore erased progress; use the updated app on both devices. Interrupted sequence previews replay on return, and Catch the Stars pauses while the app is inactive. Physical-device checks are still needed for iCloud delivery, notifications, audio interruptions and haptics.
 
 ## 📄 License
 
