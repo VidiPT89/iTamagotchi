@@ -4,11 +4,15 @@ import SwiftData
 
 /// Debug-only launch arguments to open any screen in a known state, e.g.
 /// `-qaStage adult -qaForm astro -qaSheet shop -qaSkipSplash YES`.
+/// `-qaRoom bathroom -qaBathing YES` shows the tub, `-qaFeeding YES -qaShelf fruit` the menu.
 /// `-qaJournal YES` fills the journal with this life and a past one.
 extension AppModel {
 
     static var qaSkipSplash: Bool { UserDefaults.standard.bool(forKey: "qaSkipSplash") }
     static var qaSheet: String? { UserDefaults.standard.string(forKey: "qaSheet") }
+    static var qaRoom: Room? { UserDefaults.standard.string(forKey: "qaRoom").flatMap(Room.init(rawValue:)) }
+    static var qaFeeding: Bool { UserDefaults.standard.bool(forKey: "qaFeeding") }
+    static var qaShelf: FoodGroup? { UserDefaults.standard.string(forKey: "qaShelf").flatMap(FoodGroup.init(rawValue:)) }
 
     func applyQAArguments() {
         let args = UserDefaults.standard
@@ -28,7 +32,7 @@ extension AppModel {
                 case "hungry": pet.needs.hunger = 10
                 case "dirty": pet.poops = 2; pet.needs.hygiene = 15
                 case "angry": pet.isTantrum = true
-                case "asleep": pet.isAsleep = true
+                case "asleep": pet.isAsleep = true; pet.needs.energy = 40
                 case "sad": pet.needs.happiness = 12
                 default: break
                 }
@@ -40,6 +44,7 @@ extension AppModel {
             save.household.hat = args.string(forKey: "qaHat")
             if args.string(forKey: "qaOverlay") == "farewell" { save.pet.farewell = .oldAge }
         }
+        if args.bool(forKey: "qaBathing") { bathing = true }
         if args.bool(forKey: "qaToast") {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
                 guard let self else { return }

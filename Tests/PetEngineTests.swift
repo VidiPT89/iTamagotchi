@@ -74,7 +74,7 @@ final class PetEngineTests: XCTestCase {
         let evening = engine.update()
         XCTAssertTrue(evening.contains(.fellAsleep))
         XCTAssertTrue(engine.state.isAsleep)
-        XCTAssertEqual(engine.perform(.meal), .refused(.asleep))
+        XCTAssertEqual(engine.perform(.feed(.riceBall)), .refused(.asleep))
         XCTAssertEqual(engine.perform(.toggleLights), .done)
         clock.advance(by: 11 * 3600)
         let morning = engine.update()
@@ -122,19 +122,52 @@ final class PetEngineTests: XCTestCase {
     func testMealRefusedWhenFull() {
         var (engine, _) = Fixture.hatchedEngine()
         engine.state.needs.hunger = 97
-        XCTAssertEqual(engine.perform(.meal), .refused(.full))
+        XCTAssertEqual(engine.perform(.feed(.riceBall)), .refused(.full))
         engine.state.needs.hunger = 40
-        XCTAssertEqual(engine.perform(.meal), .done)
+        XCTAssertEqual(engine.perform(.feed(.riceBall)), .done)
         XCTAssertEqual(engine.state.needs.hunger, 70, accuracy: 0.01)
     }
 
     func testTooManySnacksHurt() {
         var (engine, _) = Fixture.hatchedEngine()
         let health = engine.state.needs.health
-        for _ in 0..<4 { _ = engine.perform(.snack) }
+        for _ in 0..<4 { _ = engine.perform(.feed(.cupcake)) }
         XCTAssertTrue(engine.isOverfed)
         XCTAssertLessThan(engine.state.needs.health, health)
         XCTAssertGreaterThan(engine.state.upbringing.weight, 15)
+    }
+
+    func testEveryShelfHasFourFoods() {
+        for group in FoodGroup.allCases {
+            XCTAssertEqual(group.foods.count, 4, "\(group) should offer four foods")
+        }
+    }
+
+    func testFruitIsHealthyAndTreatsAreNot() {
+        var (engine, _) = Fixture.hatchedEngine()
+        engine.state.needs.health = 50
+        engine.state.needs.hunger = 40
+        let other = Food.allCases.first { $0.group == .fruit && $0 != engine.state.favoriteFood }!
+        XCTAssertEqual(engine.perform(.feed(other)), .done)
+        XCTAssertGreaterThan(engine.state.needs.health, 50)
+        XCTAssertEqual(engine.state.recentSnacks, 0, "Fruit never counts as a treat")
+    }
+
+    func testTreatsAreWelcomeEvenWhenFull() {
+        var (engine, _) = Fixture.hatchedEngine()
+        engine.state.needs.hunger = 99
+        XCTAssertEqual(engine.perform(.feed(.apple)), .refused(.full))
+        XCTAssertEqual(engine.perform(.feed(.iceCream)), .done)
+    }
+
+    func testTheFavouriteFoodMakesItHappier() {
+        var (engine, _) = Fixture.hatchedEngine()
+        let favorite = engine.state.favoriteFood
+        XCTAssertEqual(favorite, engine.state.favoriteFood, "The favourite never changes")
+        engine.state.needs.hunger = 30
+        engine.state.needs.happiness = 40
+        XCTAssertEqual(engine.perform(.feed(favorite)), .done)
+        XCTAssertEqual(engine.state.needs.happiness, 40 + favorite.effect.happiness + 6, accuracy: 0.01)
     }
 
     func testCleaningAndBath() {

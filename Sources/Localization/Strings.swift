@@ -13,7 +13,7 @@ enum Strings {
         var table: [String: Pair] = [:]
         let groups: [[String: Pair]] = [
             common, splash, onboarding, home, needs, stages, forms, moods, actions,
-            refusals, toasts, events, overlays, games, shop, album, stats,
+            food, refusals, toasts, events, overlays, games, shop, album, stats,
             achievements, settings, howTo, notifications, widget, a11y,
         ]
         for group in groups {
@@ -64,7 +64,9 @@ enum Strings {
 
     static let home: [String: Pair] = [
         "room.living": ("Sala", "Living room"),
+        "room.kitchen": ("Cozinha", "Kitchen"),
         "room.bedroom": ("Quarto", "Bedroom"),
+        "room.bathroom": ("Casa de banho", "Bathroom"),
         "room.garden": ("Jardim", "Garden"),
         "home.shop": ("Loja", "Shop"),
         "home.album": ("Álbum e Diário", "Album & Journal"),
@@ -80,6 +82,7 @@ enum Strings {
         "status.mistakes": ("Erros de cuidado", "Care mistakes"),
         "status.weightValue": ("%d g", "%d g"),
         "status.unknownForm": ("Ainda por descobrir", "Not revealed yet"),
+        "status.favorite": ("Comida preferida", "Favourite food"),
     ]
 
     static let needs: [String: Pair] = [
@@ -108,8 +111,8 @@ enum Strings {
         "form.luna.trait": ("Raro. Calmo e sereno, sempre dormiu às escuras.",
                             "Rare. Calm and serene, always slept in the dark."),
         "form.pudding": ("Pudim", "Pudding"),
-        "form.pudding.trait": ("Guloso e fofo. Adora snacks, talvez demais.",
-                               "Sweet and squishy. Loves snacks, maybe too much."),
+        "form.pudding.trait": ("Guloso e fofo. Adora guloseimas, talvez demais.",
+                               "Sweet and squishy. Loves treats, maybe too much."),
         "form.sunny": ("Solinho", "Sunny"),
         "form.sunny.trait": ("Alegre e cheio de energia, espalha bom humor.",
                              "Cheerful and full of energy, spreads good vibes."),
@@ -141,8 +144,6 @@ enum Strings {
 
     static let actions: [String: Pair] = [
         "action.feed": ("Comer", "Feed"),
-        "action.meal": ("Refeição", "Meal"),
-        "action.snack": ("Snack", "Snack"),
         "action.play": ("Brincar", "Play"),
         "action.clean": ("Limpar", "Clean"),
         "action.bath": ("Banho", "Bath"),
@@ -152,6 +153,27 @@ enum Strings {
         "action.scold": ("Educar", "Teach"),
         "action.feedHint": ("Arrasta a comida até ao animal ou toca nela",
                             "Drag the food to your pet, or tap it"),
+    ]
+
+    static let food: [String: Pair] = [
+        "foodGroup.meals": ("Refeições", "Meals"),
+        "foodGroup.fruit": ("Fruta", "Fruit"),
+        "foodGroup.treats": ("Guloseimas", "Treats"),
+        "food.riceBall": ("Bolinho de arroz", "Rice ball"),
+        "food.soup": ("Sopa", "Soup"),
+        "food.pasta": ("Esparguete", "Spaghetti"),
+        "food.salad": ("Salada", "Salad"),
+        "food.apple": ("Maçã", "Apple"),
+        "food.banana": ("Banana", "Banana"),
+        "food.strawberry": ("Morango", "Strawberry"),
+        "food.watermelon": ("Melancia", "Watermelon"),
+        "food.cupcake": ("Queque", "Cupcake"),
+        "food.cookie": ("Bolacha", "Cookie"),
+        "food.iceCream": ("Gelado", "Ice cream"),
+        "food.donut": ("Donut", "Doughnut"),
+        "food.groupHint.meals": ("Matam a fome", "Fill the belly"),
+        "food.groupHint.fruit": ("Fazem bem à saúde", "Good for health"),
+        "food.groupHint.treats": ("Alegram, mas com conta", "Cheerful, in moderation"),
     ]
 
     static let refusals: [String: Pair] = [
@@ -165,7 +187,8 @@ enum Strings {
     ]
 
     static let toasts: [String: Pair] = [
-        "toast.overfed": ("Snacks a mais! Está com dor de barriga.", "Too many snacks! It has a tummy ache."),
+        "toast.overfed": ("Guloseimas a mais! Está com dor de barriga.", "Too many treats! It has a tummy ache."),
+        "toast.favorite": ("É a comida preferida de %@!", "That's %@'s favourite food!"),
         "toast.disciplined": ("Parou a birra. Disciplina a subir!", "Tantrum over. Discipline up!"),
         "toast.cured": ("Já se sente melhor!", "It's feeling better!"),
         "toast.achievement": ("Conquista: %@", "Achievement: %@"),

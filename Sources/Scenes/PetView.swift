@@ -13,6 +13,8 @@ struct PetView: View {
     var gaze: CGPoint?
     var walking = false
     var direction: CGFloat = 1
+    /// Off when the pet is not standing on the floor (in bed, in the tub).
+    var shadow = true
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -30,6 +32,7 @@ struct PetView: View {
         let t = date.timeIntervalSinceReferenceDate
         var pose = PetPose()
         pose.time = t
+        pose.shadow = shadow
         if let reaction, reaction.until > date {
             pose.face = reaction.face
         } else {

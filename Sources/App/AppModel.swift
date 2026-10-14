@@ -38,6 +38,9 @@ final class AppModel {
     }
 
     var reaction: Reaction?
+    /// True while the pet is splashing in the tub after a bath.
+    var bathing = false
+    @ObservationIgnored var bathRound = 0
     var toast: Toast?
     var awaySummary: AwaySummary?
     var evolvedTo: LifeStage?
@@ -373,6 +376,7 @@ final class AppModel {
 
     func clearMoments() {
         reaction = nil
+        bathing = false
         toast = nil
         awaySummary = nil
         evolvedTo = nil

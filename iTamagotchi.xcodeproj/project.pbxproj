@@ -12,9 +12,11 @@
 		0545E723E378463D908C7C58 /* Strings+Screens.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BEB6B2C4BA939966FDFB61 /* Strings+Screens.swift */; };
 		05D9ECCAA95D362FDF14CD9E /* iTamagotchiWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 4CA01E3747280E9C81A82B32 /* iTamagotchiWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		07270D4236306EB844499253 /* PetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4351AF7BB45DFD6924B716E /* PetView.swift */; };
+		11B19D2D7F947B732A34249D /* Food.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB644076150E36A506BD687C /* Food.swift */; };
 		1272BBF2735C363A4AAC3D3F /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8D31433BD83B9E7953BA4F /* AppModel.swift */; };
 		190D8732BA3CA41F2174B40C /* Household.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCDDF35919AA8F5057469F4D /* Household.swift */; };
 		1B187E79C1803C9E731C9B18 /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1929FC1A739B7208D88E36C4 /* Components.swift */; };
+		20C13DB6FBEB896D88590418 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = C880127A75B0B922BAAB6B64 /* PrivacyInfo.xcprivacy */; };
 		2A60E7C2AEB41D0232CBA841 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9225CD9953BACCE9E2AA710E /* HomeView.swift */; };
 		35419A6C089033D578559E8B /* Forecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422528B88332A464367808C8 /* Forecast.swift */; };
 		38E611F2E703FE5AFE80C81A /* MomentViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363A2D89164663F1939C0803 /* MomentViews.swift */; };
@@ -28,6 +30,7 @@
 		56E0EE136C8E2EDC553A8BFD /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858DE0FAE950CB896BD09509 /* SplashView.swift */; };
 		56F46C0C29ABBF05134572A7 /* PetRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D771F86FDE757936326920 /* PetRenderer.swift */; };
 		587227CCBB592FFD382136BC /* RoomBackdrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254958EFE4A1B8B4D7BA4488 /* RoomBackdrop.swift */; };
+		59A18618E4149A86BC2CDB6F /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 818D971EF397F49A48E7BE4A /* PrivacyInfo.xcprivacy */; };
 		5A8B7410284125550928465D /* Household.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCDDF35919AA8F5057469F4D /* Household.swift */; };
 		5BBEC5531A329DB84F15FD33 /* SidePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E478EEDAD4E1D1BC2310FCC /* SidePanel.swift */; };
 		5EB9F69F7A48BEA52CD4678D /* TestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C314FA0A13F17F859662B5F /* TestSupport.swift */; };
@@ -59,12 +62,14 @@
 		A92A0ABB47ECCE5ECAD15DFD /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C4B5D580FB324D5EC87C8E /* Palette.swift */; };
 		AE008918CFB7F0B0BA726190 /* PetEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67BB4C9CF7FB6949549E0B6 /* PetEngineTests.swift */; };
 		B0379BC07EFC7E6E4C76FFDC /* SharedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387A697778A403A23F4CBB9B /* SharedStore.swift */; };
+		B218A8C36EC1C0C3756AF269 /* Food.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB644076150E36A506BD687C /* Food.swift */; };
 		BF14234B301FF30DFA301748 /* GamesHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF408F6AAC023041CF3F30B9 /* GamesHubView.swift */; };
 		D3F24951F3089E6D06AF2D8A /* EconomyAndPersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8E5583078D4C8D73B52C01 /* EconomyAndPersistenceTests.swift */; };
 		DD5ABA4C8420741B11EBFFDA /* RoomStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7417D01275C9C5818A180FCC /* RoomStage.swift */; };
 		E3EC03EF3C7FC101A49ED5FC /* SequenceGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92106A8C628DAD548D82C569 /* SequenceGame.swift */; };
 		E458B94456BE7BE0309B124B /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C9B8314130CCDB67B3ED8B /* StatsView.swift */; };
 		EC262642C09853FD31C6FEE8 /* Strings+Help.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADF602F8096225EA8A0A368 /* Strings+Help.swift */; };
+		F0F86EB5267E9A8C6B90FDD3 /* RoomFurniture.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34247A11F5A134412CEBDC3 /* RoomFurniture.swift */; };
 		F9F17C6C27A97046780AC66A /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F51024CB25DCDE749AD2A3 /* RootView.swift */; };
 /* End PBXBuildFile section */
 
@@ -127,6 +132,7 @@
 		7417D01275C9C5818A180FCC /* RoomStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomStage.swift; sourceTree = "<group>"; };
 		748ECA7191D32844E856B1B9 /* EffectsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EffectsScene.swift; sourceTree = "<group>"; };
 		80D771F86FDE757936326920 /* PetRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetRenderer.swift; sourceTree = "<group>"; };
+		818D971EF397F49A48E7BE4A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		858DE0FAE950CB896BD09509 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		89765C797D67B38556E22F5C /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
 		8C314FA0A13F17F859662B5F /* TestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSupport.swift; sourceTree = "<group>"; };
@@ -135,10 +141,13 @@
 		9225CD9953BACCE9E2AA710E /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		A0B879EB1F80CF66007DCA61 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		A2672D527DF43A1202F28C4B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		AB644076150E36A506BD687C /* Food.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Food.swift; sourceTree = "<group>"; };
 		AC8D31433BD83B9E7953BA4F /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		ACA7365A50F1D2E93C8E3297 /* AlbumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumView.swift; sourceTree = "<group>"; };
 		AEC7EEC9A77B463781C3FFAC /* LocalizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationTests.swift; sourceTree = "<group>"; };
 		B4351AF7BB45DFD6924B716E /* PetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetView.swift; sourceTree = "<group>"; };
+		C34247A11F5A134412CEBDC3 /* RoomFurniture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomFurniture.swift; sourceTree = "<group>"; };
+		C880127A75B0B922BAAB6B64 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		CCD2FE098BB8521602291D73 /* iTamagotchiTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = iTamagotchiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE8E5583078D4C8D73B52C01 /* EconomyAndPersistenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EconomyAndPersistenceTests.swift; sourceTree = "<group>"; };
 		D0D7E1284E61B0B52EFAE249 /* RhythmGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RhythmGame.swift; sourceTree = "<group>"; };
@@ -227,6 +236,7 @@
 			isa = PBXGroup;
 			children = (
 				032C600B837049FD962CB8F6 /* Assets.xcassets */,
+				818D971EF397F49A48E7BE4A /* PrivacyInfo.xcprivacy */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -272,6 +282,7 @@
 			children = (
 				9225CD9953BACCE9E2AA710E /* HomeView.swift */,
 				254958EFE4A1B8B4D7BA4488 /* RoomBackdrop.swift */,
+				C34247A11F5A134412CEBDC3 /* RoomFurniture.swift */,
 				7417D01275C9C5818A180FCC /* RoomStage.swift */,
 				6E478EEDAD4E1D1BC2310FCC /* SidePanel.swift */,
 			);
@@ -319,6 +330,7 @@
 			isa = PBXGroup;
 			children = (
 				0E874F0697832B64D8DD4FE1 /* iTamagotchiWidget.swift */,
+				C880127A75B0B922BAAB6B64 /* PrivacyInfo.xcprivacy */,
 			);
 			path = Widget;
 			sourceTree = "<group>";
@@ -368,6 +380,7 @@
 		F491F5CE1F2371CB5768248B /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				AB644076150E36A506BD687C /* Food.swift */,
 				422528B88332A464367808C8 /* Forecast.swift */,
 				DCDDF35919AA8F5057469F4D /* Household.swift */,
 				5080EBE93FB02904E4EA582E /* PetEngine.swift */,
@@ -403,6 +416,7 @@
 			buildConfigurationList = 6CD0743B9AA69737CF45D3E1 /* Build configuration list for PBXNativeTarget "iTamagotchiWidget" */;
 			buildPhases = (
 				64D50EAC1BFA26D7FF6C3CCD /* Sources */,
+				0CDAAA50DCBD9004A8CC4D1D /* Resources */,
 			);
 			buildRules = (
 			);
@@ -480,11 +494,20 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0CDAAA50DCBD9004A8CC4D1D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				20C13DB6FBEB896D88590418 /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7A623D5E4098673E6FF2CE36 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				A1E12B797E6EBD6FF299960D /* Assets.xcassets in Resources */,
+				59A18618E4149A86BC2CDB6F /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -504,6 +527,7 @@
 				4EB8FBAC6FA172ADF7CF4DF9 /* CloudSync.swift in Sources */,
 				1B187E79C1803C9E731C9B18 /* Components.swift in Sources */,
 				637B5F7F7AAEA7955ABC4371 /* EffectsScene.swift in Sources */,
+				B218A8C36EC1C0C3756AF269 /* Food.swift in Sources */,
 				35419A6C089033D578559E8B /* Forecast.swift in Sources */,
 				BF14234B301FF30DFA301748 /* GamesHubView.swift in Sources */,
 				47A8DF134BD503B1B49EA600 /* Haptics.swift in Sources */,
@@ -521,6 +545,7 @@
 				07270D4236306EB844499253 /* PetView.swift in Sources */,
 				80800D28194B7ADAF2CCD079 /* RhythmGame.swift in Sources */,
 				587227CCBB592FFD382136BC /* RoomBackdrop.swift in Sources */,
+				F0F86EB5267E9A8C6B90FDD3 /* RoomFurniture.swift in Sources */,
 				DD5ABA4C8420741B11EBFFDA /* RoomStage.swift in Sources */,
 				F9F17C6C27A97046780AC66A /* RootView.swift in Sources */,
 				E3EC03EF3C7FC101A49ED5FC /* SequenceGame.swift in Sources */,
@@ -541,6 +566,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11B19D2D7F947B732A34249D /* Food.swift in Sources */,
 				69D73EAA8F8AFD2EB05C4C66 /* Forecast.swift in Sources */,
 				5A8B7410284125550928465D /* Household.swift in Sources */,
 				A92A0ABB47ECCE5ECAD15DFD /* Palette.swift in Sources */,

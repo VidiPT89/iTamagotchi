@@ -48,6 +48,23 @@ final class AppModelTests: XCTestCase {
         XCTAssertEqual(model.pet.needs.hygiene, 100)
     }
 
+    func testEachShelfHasItsOwnCount() {
+        model.mutate { $0.pet.needs.hunger = 20 }
+        model.perform(.feed(.soup))
+        model.perform(.feed(.banana))
+        model.perform(.feed(.cookie))
+        XCTAssertEqual(model.stats.meals, 1)
+        XCTAssertEqual(model.stats.fruits, 1)
+        XCTAssertEqual(model.stats.snacks, 1)
+    }
+
+    func testABathPutsThePetInTheTub() {
+        model.perform(.bath)
+        XCTAssertTrue(model.bathing)
+        model.clearMoments()
+        XCTAssertFalse(model.bathing)
+    }
+
     func testAClosedGamePaysNothing() {
         let id = UUID()
         let coins = model.household.coins

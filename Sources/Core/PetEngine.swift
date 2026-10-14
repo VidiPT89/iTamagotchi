@@ -15,7 +15,8 @@ struct SystemClock: Clock {
 // MARK: - Actions
 
 enum CareAction: Equatable {
-    case meal, snack, clean, bath, medicine, toggleLights, scold, caress
+    case feed(Food)
+    case clean, bath, medicine, toggleLights, scold, caress
     case played(won: Bool)
 }
 
@@ -288,19 +289,20 @@ struct PetEngine {
         }
 
         switch action {
-        case .meal:
-            guard state.needs.hunger < 95 else { return .refused(.full) }
-            state.needs[.hunger] += 30
-            state.needs[.health] += 2
-            state.upbringing.weight += 1
-
-        case .snack:
-            state.needs[.happiness] += 12
-            state.needs[.hunger] += 8
-            state.upbringing.weight += 2
-            state.recentSnacks += 1
-            if state.recentSnacks > 3 {
-                state.needs[.health] -= 12
+        case .feed(let food):
+            // Treats are always welcome; real food only when there is room.
+            if !food.isTreat { guard state.needs.hunger < 95 else { return .refused(.full) } }
+            let effect = food.effect
+            state.needs[.hunger] += effect.hunger
+            state.needs[.happiness] += effect.happiness + (food == state.favoriteFood ? 6 : 0)
+            state.needs[.health] += effect.health
+            state.needs[.energy] += effect.energy
+            state.upbringing.weight += effect.weight
+            if food.isTreat {
+                state.recentSnacks += 1
+                if state.recentSnacks > 3 {
+                    state.needs[.health] -= 12
+                }
             }
 
         case .clean:
@@ -344,7 +346,7 @@ struct PetEngine {
         return .done
     }
 
-    /// Whether the snack just eaten was one too many.
+    /// Whether the treat just eaten was one too many.
     var isOverfed: Bool { state.recentSnacks > 3 }
 
     var canPlay: Bool {

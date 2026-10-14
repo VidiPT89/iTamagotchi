@@ -8,6 +8,7 @@ struct HomeView: View {
     @Environment(\.palette) private var palette
 
     @State private var room: Room = .living
+    @State private var roomEdge: Edge = .trailing
     @State private var feeding = false
     @State private var showStatus = false
     @State private var sheet: HomeSheet?
@@ -26,7 +27,7 @@ struct HomeView: View {
                         VStack(spacing: 12) {
                             topBar
                             stage
-                            ActionBar(feeding: $feeding, onPlay: { sheet = .games })
+                            ActionBar(feeding: $feeding, onPlay: { sheet = .games }, goTo: go(to:))
                         }
                         SidePanel()
                             .frame(width: min(360, geo.size.width * 0.34))
@@ -36,12 +37,17 @@ struct HomeView: View {
                         topBar
                         NeedsStrip()
                         stage
-                        ActionBar(feeding: $feeding, onPlay: { sheet = .games })
+                        ActionBar(feeding: $feeding, onPlay: { sheet = .games }, goTo: go(to:))
                     }
                 }
             }
             .padding(.horizontal, 16)
             .padding(.bottom, 8)
+        }
+        .onAppear { if model.pet.isAsleep { room = .bedroom } }
+        // Bedtime is in the bedroom, where the bed is.
+        .onChange(of: model.pet.isAsleep) { _, asleep in
+            if asleep, model.pet.isAlive { go(to: .bedroom) }
         }
         .onChange(of: model.pet.id) { _, _ in closePresentations() }
         .onChange(of: model.pet.isAlive) { _, alive in
@@ -64,6 +70,8 @@ struct HomeView: View {
         #if DEBUG
         .onAppear {
             if let raw = AppModel.qaSheet { sheet = HomeSheet(rawValue: raw) }
+            if let qaRoom = AppModel.qaRoom { room = qaRoom }
+            feeding = AppModel.qaFeeding
         }
         #endif
         .sheet(isPresented: $showStatus) {
@@ -75,6 +83,15 @@ struct HomeView: View {
         }
     }
 
+    /// Walks to another room, pushing from the side it lies on.
+    private func go(to target: Room) {
+        guard target != room,
+              let from = Room.allCases.firstIndex(of: room),
+              let to = Room.allCases.firstIndex(of: target) else { return }
+        roomEdge = to > from ? .trailing : .leading
+        withAnimation(.spring(response: 0.5, dampingFraction: 0.85)) { room = target }
+    }
+
     private func closePresentations() {
         sheet = nil
         showStatus = false
@@ -82,9 +99,12 @@ struct HomeView: View {
     }
 
     private var stage: some View {
-        RoomStage(room: $room, feeding: $feeding, showStatus: $showStatus)
+        RoomStage(room: $room, swipeEdge: $roomEdge, feeding: $feeding, showStatus: $showStatus)
             .overlay(alignment: .topLeading) { roomLabel.padding(14) }
-            .overlay(alignment: .topTrailing) { sideButtons.padding(12) }
+            .overlay(alignment: .topTrailing) {
+                // The menu needs the whole width while it is open.
+                if !feeding { sideButtons.padding(12).transition(.opacity) }
+            }
     }
 
     // MARK: Top bar
@@ -192,6 +212,8 @@ struct NeedsStrip: View {
 struct ActionBar: View {
     @Binding var feeding: Bool
     let onPlay: () -> Void
+    /// Moves the room to where the care happens: kitchen, bathroom…
+    let goTo: (Room) -> Void
     @Environment(AppModel.self) private var model
     @Environment(\.palette) private var palette
 
@@ -199,6 +221,7 @@ struct ActionBar: View {
         let pet = model.pet
         HStack(spacing: 4) {
             action("fork.knife", "action.feed", badge: pet.needs.hunger < 25, active: feeding) {
+                if !feeding, canMove { goTo(.kitchen) }
                 withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) { feeding.toggle() }
             }
             action("gamecontroller.fill", "action.play", badge: pet.needs.happiness < 25) {
@@ -207,7 +230,7 @@ struct ActionBar: View {
                 }
             }
             action("wind", "action.clean", badge: pet.poops > 0) { model.perform(.clean) }
-            action("shower.fill", "action.bath", badge: pet.needs.hygiene < 30) { model.perform(.bath) }
+            action("bathtub.fill", "action.bath", badge: pet.needs.hygiene < 30, active: model.bathing) { bathe() }
             action("pills.fill", "action.medicine", badge: pet.isSick) { model.perform(.medicine) }
             action(pet.lightsOn ? "lightbulb.fill" : "lightbulb.slash.fill",
                    pet.lightsOn ? "action.lightsOff" : "action.lightsOn",
@@ -218,6 +241,21 @@ struct ActionBar: View {
         .background(palette.surface, in: RoundedRectangle(cornerRadius: 26, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 26, style: .continuous).stroke(palette.stroke))
         .shadow(color: .black.opacity(palette.isDark ? 0.35 : 0.06), radius: 14, y: 6)
+    }
+
+    /// Awake and alive, so the pet can walk to another room for its care.
+    private var canMove: Bool {
+        let pet = model.pet
+        return pet.isAlive && pet.stage != .egg && !pet.isAsleep
+    }
+
+    /// Baths happen in the tub: off to the bathroom first, then in.
+    private func bathe() {
+        guard !model.bathing else { return }
+        guard canMove else { model.perform(.bath); return }
+        if feeding { withAnimation { feeding = false } }
+        goTo(.bathroom)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) { model.perform(.bath) }
     }
 
     private func action(_ symbol: String, _ key: String, badge: Bool, active: Bool = false,

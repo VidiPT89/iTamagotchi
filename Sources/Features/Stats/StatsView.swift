@@ -27,6 +27,7 @@ struct StatsView: View {
             ("stats.petsRaised", "\(s.petsRaised)", "oval.portrait.fill"),
             ("stats.longestLife", model.duration(max(s.longestLife, model.pet.age)), "hourglass"),
             ("stats.meals", "\(s.meals)", "fork.knife"),
+            ("stats.fruits", "\(s.fruits)", "carrot.fill"),
             ("stats.snacks", "\(s.snacks)", "birthday.cake.fill"),
             ("stats.baths", "\(s.baths)", "shower.fill"),
             ("stats.cleanings", "\(s.cleanings)", "wind"),

@@ -3,8 +3,11 @@ import Foundation
 // MARK: - Rooms
 
 enum Room: String, Codable, CaseIterable, Identifiable {
-    case living, bedroom, garden
+    case living, kitchen, bedroom, bathroom, garden
     var id: String { rawValue }
+
+    /// Rooms with walls take the wallpaper; the kitchen and bathroom are tiled.
+    var usesWallpaper: Bool { self == .living || self == .bedroom }
 }
 
 // MARK: - Shop
@@ -36,9 +39,13 @@ struct ShopItem: Identifiable, Equatable {
         ShopItem(id: "decor.lamp", category: .decor, price: 50, room: .living, symbol: "lamp.floor.fill"),
         ShopItem(id: "decor.sofa", category: .decor, price: 110, room: .living, symbol: "sofa.fill"),
         ShopItem(id: "decor.painting", category: .decor, price: 80, room: .living, symbol: "photo.artframe"),
+        ShopItem(id: "decor.tv", category: .decor, price: 140, room: .living, symbol: "tv.fill"),
+        ShopItem(id: "decor.cups", category: .decor, price: 40, room: .kitchen, symbol: "cup.and.saucer.fill"),
+        ShopItem(id: "decor.carrot", category: .decor, price: 50, room: .kitchen, symbol: "carrot.fill"),
         ShopItem(id: "decor.books", category: .decor, price: 60, room: .bedroom, symbol: "books.vertical.fill"),
-        ShopItem(id: "decor.bed", category: .decor, price: 140, room: .bedroom, symbol: "bed.double.fill"),
         ShopItem(id: "decor.teddy", category: .decor, price: 70, room: .bedroom, symbol: "teddybear.fill"),
+        ShopItem(id: "decor.duck", category: .decor, price: 40, room: .bathroom, symbol: "bird.fill"),
+        ShopItem(id: "decor.flower", category: .decor, price: 60, room: .bathroom, symbol: "camera.macro"),
         ShopItem(id: "decor.tree", category: .decor, price: 90, room: .garden, symbol: "tree.fill"),
         ShopItem(id: "decor.fish", category: .decor, price: 100, room: .garden, symbol: "fish.fill"),
         ShopItem(id: "decor.tent", category: .decor, price: 160, room: .garden, symbol: "tent.fill"),
@@ -91,6 +98,7 @@ struct LifetimeStats: Codable, Equatable {
     var petsRaised = 0
     var meals = 0
     var snacks = 0
+    var fruits = 0
     var baths = 0
     var cleanings = 0
     var medicines = 0
@@ -105,7 +113,7 @@ struct LifetimeStats: Codable, Equatable {
 
 enum Achievement: String, CaseIterable, Identifiable, Codable {
     case firstHatch, firstSteps, grownUp, goldenYears, rareForm
-    case tidy, gamer, saver, shopper, weekOld, perfectCare, fashion
+    case tidy, gamer, saver, shopper, weekOld, perfectCare, fashion, healthy
 
     var id: String { rawValue }
 
@@ -123,6 +131,7 @@ enum Achievement: String, CaseIterable, Identifiable, Codable {
         case .weekOld: return "calendar"
         case .perfectCare: return "heart.circle.fill"
         case .fashion: return "crown.fill"
+        case .healthy: return "carrot.fill"
         }
     }
 
@@ -142,6 +151,7 @@ enum Achievement: String, CaseIterable, Identifiable, Codable {
             return pet.stage != .egg && NeedKind.allCases.filter { $0 != .discipline }
                 .allSatisfy { pet.needs[$0] >= 90 }
         case .fashion: return household.hat != nil
+        case .healthy: return stats.fruits >= 15
         }
     }
 }
@@ -212,6 +222,7 @@ extension LifetimeStats {
         petsRaised = c.value(.petsRaised, or: petsRaised)
         meals = c.value(.meals, or: meals)
         snacks = c.value(.snacks, or: snacks)
+        fruits = c.value(.fruits, or: fruits)
         baths = c.value(.baths, or: baths)
         cleanings = c.value(.cleanings, or: cleanings)
         medicines = c.value(.medicines, or: medicines)

@@ -43,7 +43,7 @@ final class LifeCycleTests: XCTestCase {
         let events = engine.update()
         XCTAssertTrue(events.contains(.farewell(.neglect)))
         XCTAssertFalse(engine.state.isAlive)
-        XCTAssertEqual(engine.perform(.meal), .refused(.notHatched))
+        XCTAssertEqual(engine.perform(.feed(.riceBall)), .refused(.notHatched))
     }
 
     func testSeniorsEventuallyReturnToTheirPlanet() {

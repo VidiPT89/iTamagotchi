@@ -14,15 +14,20 @@ struct RoomBackdrop: View {
     var body: some View {
         GeometryReader { geo in
             let size = geo.size
-            let floorY = size.height * 0.7
+            let floorY = size.height * RoomLayout.wallLine
             ZStack(alignment: .topLeading) {
                 if room == .garden {
                     SkyView(clock: clock, reduceMotion: reduceMotion)
                     garden(size: size, floorY: floorY)
                 } else {
-                    WallpaperView(id: wallpaper)
-                    window(size: size)
+                    if room.usesWallpaper {
+                        WallpaperView(id: wallpaper)
+                        window(size: size)
+                    } else {
+                        TiledWall(room: room)
+                    }
                     floor(size: size, floorY: floorY)
+                    RoomFurniture(room: room)
                 }
                 decorLayer(size: size, floorY: floorY)
                 if !lightsOn {
@@ -54,13 +59,35 @@ struct RoomBackdrop: View {
 
     private func floor(size: CGSize, floorY: CGFloat) -> some View {
         let wood = room == .bedroom ? [Color(hex: 0xC99466), Color(hex: 0xA8703F)] : [Color(hex: 0xD9A873), Color(hex: 0xB77E48)]
+        let room = room
         return ZStack(alignment: .top) {
-            LinearGradient(colors: wood, startPoint: .top, endPoint: .bottom)
-            // Floorboards.
-            Canvas { ctx, s in
-                for i in 1..<5 {
-                    let y = s.height * CGFloat(i) / 5
-                    ctx.fill(Path(CGRect(x: 0, y: y, width: s.width, height: 1.5)), with: .color(.black.opacity(0.08)))
+            switch room {
+            case .kitchen, .bathroom:
+                // Tiles: a checkerboard in the kitchen, plain squares in the bathroom.
+                Canvas { ctx, s in
+                    let kitchen = room == .kitchen
+                    ctx.fill(Path(CGRect(origin: .zero, size: s)),
+                             with: .color(kitchen ? Color(hex: 0xF6EEDF) : Color(hex: 0xE6EEF3)))
+                    let tile = max(24, s.width / 10)
+                    for row in 0..<Int(s.height / tile) + 1 {
+                        for col in 0..<Int(s.width / tile) + 1 {
+                            let rect = CGRect(x: CGFloat(col) * tile, y: CGFloat(row) * tile, width: tile, height: tile)
+                            if kitchen, (row + col).isMultiple(of: 2) {
+                                ctx.fill(Path(rect), with: .color(Color(hex: 0x5E6B78).opacity(0.75)))
+                            } else if !kitchen {
+                                ctx.stroke(Path(rect), with: .color(Color(hex: 0xB9C7D2)), lineWidth: 1)
+                            }
+                        }
+                    }
+                }
+            default:
+                LinearGradient(colors: wood, startPoint: .top, endPoint: .bottom)
+                // Floorboards.
+                Canvas { ctx, s in
+                    for i in 1..<5 {
+                        let y = s.height * CGFloat(i) / 5
+                        ctx.fill(Path(CGRect(x: 0, y: y, width: s.width, height: 1.5)), with: .color(.black.opacity(0.08)))
+                    }
                 }
             }
             Rectangle().fill(Color.black.opacity(0.12)).frame(height: 6)
@@ -110,9 +137,13 @@ struct RoomBackdrop: View {
         case "decor.lamp": return (0.9, 0, 0.26, true)
         case "decor.sofa": return (0.24, 0, 0.16, true)
         case "decor.painting": return (0.24, 0.22, 0.14, false)
-        case "decor.books": return (0.86, 0, 0.24, true)
-        case "decor.bed": return (0.72, 0, 0.18, true)
-        case "decor.teddy": return (0.1, 0, 0.12, true)
+        case "decor.tv": return (0.7, 0.5, 0.1, false)
+        case "decor.cups": return (0.4, RoomLayout.counterTop - 0.06, 0.07, false)
+        case "decor.carrot": return (0.88, RoomLayout.counterTop - 0.06, 0.07, false)
+        case "decor.books": return (0.12, 0, 0.24, true)
+        case "decor.teddy": return (0.47, RoomLayout.bed.minY - 0.02, 0.09, false)
+        case "decor.duck": return (0.3, RoomLayout.tub.minY - 0.05, 0.07, false)
+        case "decor.flower": return (0.92, 0, 0.12, true)
         case "decor.tree": return (0.14, 0, 0.34, true)
         case "decor.fish": return (0.84, 0.86, 0.1, false)
         case "decor.tent": return (0.82, 0, 0.22, true)
@@ -127,11 +158,51 @@ struct RoomBackdrop: View {
         case "decor.sofa": return AnyShapeStyle(Color(hex: 0xE0603A))
         case "decor.painting": return AnyShapeStyle(LinearGradient(colors: [Color(hex: 0xF99C00), Color(hex: 0x7C4DFF)], startPoint: .topLeading, endPoint: .bottomTrailing))
         case "decor.books": return AnyShapeStyle(LinearGradient(colors: [Color(hex: 0x3F7FE0), Color(hex: 0xD6361C)], startPoint: .leading, endPoint: .trailing))
-        case "decor.bed": return AnyShapeStyle(Color(hex: 0x7089D6))
+        case "decor.tv": return AnyShapeStyle(Color(hex: 0x3B3F46))
+        case "decor.cups": return AnyShapeStyle(Color(hex: 0x3F7FE0))
+        case "decor.carrot": return AnyShapeStyle(Color(hex: 0xF57C00))
+        case "decor.duck": return AnyShapeStyle(Color(hex: 0xFFD54A))
+        case "decor.flower": return AnyShapeStyle(LinearGradient(colors: [Color(hex: 0xFF7EB6), Color(hex: 0x2E7D32)], startPoint: .top, endPoint: .bottom))
         case "decor.teddy": return AnyShapeStyle(Color(hex: 0xB07A4A))
         case "decor.fish": return AnyShapeStyle(Color(hex: 0xFF8A3D))
         case "decor.tent": return AnyShapeStyle(LinearGradient(colors: [Color(hex: 0xFFB24D), Color(hex: 0xDD7400)], startPoint: .top, endPoint: .bottom))
         default: return AnyShapeStyle(Color.gray)
+        }
+    }
+}
+
+// MARK: - Tiled walls
+
+/// The kitchen's splashback and the bathroom's tiles.
+struct TiledWall: View {
+    let room: Room
+
+    var body: some View {
+        Canvas { ctx, size in
+            let bathroom = room == .bathroom
+            let base = bathroom ? [Color(hex: 0xDDF3F6), Color(hex: 0xBFE5EC)] : [Color(hex: 0xFFF4E0), Color(hex: 0xFBE3BD)]
+            ctx.fill(Path(CGRect(origin: .zero, size: size)),
+                     with: .linearGradient(Gradient(colors: base), startPoint: .zero, endPoint: CGPoint(x: 0, y: size.height)))
+            let tile = max(20, size.width / 12)
+            let band: ClosedRange<CGFloat> = bathroom
+                ? 0...(size.height * RoomLayout.wallLine)
+                : (size.height * 0.28)...(size.height * RoomLayout.counterTop)
+            var y = band.lowerBound
+            while y < band.upperBound {
+                var x: CGFloat = 0
+                while x < size.width {
+                    let rect = CGRect(x: x, y: y, width: tile, height: min(tile, band.upperBound - y))
+                    if !bathroom { ctx.fill(Path(rect.insetBy(dx: 1, dy: 1)), with: .color(.white.opacity(0.75))) }
+                    ctx.stroke(Path(rect), with: .color((bathroom ? Color(hex: 0x8CC7D2) : Color(hex: 0xE3CFAE)).opacity(0.7)), lineWidth: 1)
+                    x += tile
+                }
+                y += tile
+            }
+            if bathroom {
+                // A darker band of tiles at waist height.
+                ctx.fill(Path(CGRect(x: 0, y: size.height * 0.44, width: size.width, height: tile * 0.5)),
+                         with: .color(Color(hex: 0x4FA3B5).opacity(0.55)))
+            }
         }
     }
 }

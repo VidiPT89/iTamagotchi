@@ -91,6 +91,9 @@ struct StatusDetails: View {
             row("status.stage", model.t("stage.\(pet.stage.rawValue)"), "leaf.fill")
             row("status.form", pet.form.map { model.t("form.\($0.rawValue)") } ?? model.t("status.unknownForm"), "sparkles")
             row("status.weight", model.t("status.weightValue", Int(pet.upbringing.weight)), "scalemass.fill")
+            if pet.stage != .egg {
+                row("status.favorite", "\(pet.favoriteFood.emoji) \(model.t("food.\(pet.favoriteFood.rawValue)"))", "heart.fill")
+            }
             row("status.mistakes", "\(pet.upbringing.careMistakes)", "exclamationmark.triangle.fill")
             row("need.discipline", "\(Int(pet.needs.discipline))", "star.fill")
             if let form = pet.form {

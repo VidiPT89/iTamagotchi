@@ -10,10 +10,12 @@
 - ✅ Branching evolutions: the adult form depends on how well the pet was cared for (8 possible forms)
 - ✅ Six live needs: hunger, happiness, energy, hygiene, health and discipline
 - ✅ Real-time simulation that keeps running while the app is closed, with an offline catch-up summary
-- ✅ Care actions: meals and snacks, bath, cleaning, medicine, lights off for bedtime and discipline
+- ✅ Care actions: twelve foods across meals, fruit and treats, baths in the tub, cleaning, medicine, bedtime tucked into bed and discipline
+- ✅ Every pet has its own favourite food, marked with a heart once you know it
 - ✅ Four mini-games to play with the pet: Left or Right, Catch the Stars, Rhythm Tap and Sequence
 - ✅ Fully procedural, animated pet: idle breathing, blinking, bouncing, moods, reactions and sleep states
 - ✅ Thought bubble that shows what your pet wants right now
+- ✅ Five furnished rooms to swipe through: living room, kitchen, bedroom, bathroom and garden
 - ✅ Dynamic day and night cycle, weather ambience, and hats, wallpapers and room decorations bought with coins
 - ✅ Local notifications when the pet is hungry, sick, sleepy or needs cleaning
 - ✅ iCloud sync: the same pet on your iPhone and iPad
@@ -80,7 +82,7 @@ Language, appearance, notifications, sound, music and haptics are all adjustable
 | --------------------- | ----------------------------------- |
 | Tap the pet           | Pet it and see its reaction         |
 | Action bar buttons    | Feed, play, clean, bathe, heal, sleep |
-| Drag food to the pet  | Feed by hand                        |
+| Drag food to the pet  | Feed by hand (meals, fruit, treats) |
 | Swipe on the room     | Switch between rooms                |
 | Long press the pet    | Open its status card                |
 
@@ -94,6 +96,10 @@ xcodebuild -project iTamagotchi.xcodeproj -scheme iTamagotchi \
 The suite covers simulation, life cycle, economy, save compatibility, cloud merge rules, localisation and app actions, including stale mini-game callbacks, explicit cloud resets, changes between simulation ticks, literal journal names, bounded needs and offline farewells.
 
 The current pet, inventory and lifetime stats sync through iCloud. The journal and family album remain local to each device. Concurrent play on two devices uses save replacement rather than merging individual actions. Explicit resets are recorded so older saves cannot restore erased progress; use the updated app on both devices. Interrupted sequence previews replay on return, and Catch the Stars pauses while the app is inactive. Physical-device checks are still needed for iCloud delivery, notifications, audio interruptions and haptics.
+
+## 🔒 Privacy
+
+iTamagotchi collects no personal data. See [PRIVACY.md](PRIVACY.md).
 
 ## 📄 License
 

@@ -51,13 +51,18 @@ extension AppModel {
         var engine = makeEngine()
         let wasSick = engine.state.isSick
         let outcome = engine.perform(action)
-        let overfed = action == .snack && engine.isOverfed
+        let overfed: Bool
+        if case .feed(let food) = action { overfed = food.isTreat && engine.isOverfed } else { overfed = false }
         mutate { save in
             save.pet = engine.state
             guard outcome.succeeded else { return }
             switch action {
-            case .meal: save.stats.meals += 1
-            case .snack: save.stats.snacks += 1
+            case .feed(let food):
+                switch food.group {
+                case .meals: save.stats.meals += 1
+                case .fruit: save.stats.fruits += 1
+                case .treats: save.stats.snacks += 1
+                }
             case .bath: save.stats.baths += 1
             case .clean: save.stats.cleanings += 1
             case .medicine: save.stats.medicines += 1
@@ -91,7 +96,7 @@ extension AppModel {
         let floor = CGPoint(x: petAnchor.x, y: petAnchor.y + 40)
         let petID = pet.id
         switch action {
-        case .meal, .snack:
+        case .feed(let food):
             react(.eating, for: 1.8)
             effects.play(.crumbs, at: petAnchor)
             for i in 0..<3 {
@@ -101,11 +106,16 @@ extension AppModel {
                     self.haptics.play(.soft)
                 }
             }
-            if action == .snack {
+            let loved = food == pet.favoriteFood
+            if food.isTreat || loved {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) { [weak self] in
                     guard let self, self.pet.id == petID, self.pet.isAlive else { return }
                     self.effects.play(.hearts, at: self.petAnchor)
+                    if loved { self.react(.love, for: 1.2) }
                 }
+            }
+            if loved {
+                show(Toast(text: t("toast.favorite", pet.name), symbol: "heart.fill"))
             }
         case .clean:
             effects.play(.sparkles, at: floor)
@@ -113,10 +123,25 @@ extension AppModel {
             haptics.play(.tap)
             react(.happy, for: 1)
         case .bath:
-            effects.play(.bubbles, at: petAnchor)
+            // The room puts the pet in the tub; the bubbles follow it there
+            // once the stage has moved its anchor.
+            bathing = true
+            bathRound += 1
+            let round = bathRound
+            for (i, delay) in [0.15, 0.9, 1.7].enumerated() {
+                DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
+                    guard let self, self.pet.id == petID, self.pet.isAlive else { return }
+                    self.effects.play(.bubbles, at: self.petAnchor)
+                    if i > 0 { self.audio.play(.bubble) }
+                }
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.8) { [weak self] in
+                guard let self, self.bathRound == round else { return }
+                withAnimation(.spring(response: 0.45, dampingFraction: 0.8)) { self.bathing = false }
+            }
             audio.play(.bubble)
             haptics.play(.soft)
-            react(.laughing, for: 1.8)
+            react(.laughing, for: 2.6)
         case .medicine:
             effects.play(.sparkles, at: petAnchor)
             audio.play(.medicine)

@@ -32,6 +32,8 @@ final class LocalizationTests: XCTestCase {
         keys += Achievement.allCases.flatMap { ["ach.\($0.rawValue)", "ach.\($0.rawValue).desc"] }
         keys += Forecast.Alert.allCases.flatMap { ["notif.\($0.rawValue)", "notif.\($0.rawValue).body"] }
         keys += Room.allCases.map { "room.\($0.rawValue)" }
+        keys += Food.allCases.map { "food.\($0.rawValue)" }
+        keys += FoodGroup.allCases.flatMap { ["foodGroup.\($0.rawValue)", "food.groupHint.\($0.rawValue)"] }
         keys += AppTheme.allCases.map { "settings.theme.\($0.rawValue)" }
         keys += [FarewellReason.oldAge, .neglect].map { "album.reason.\($0.rawValue)" }
         for key in keys {
