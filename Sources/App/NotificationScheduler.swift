@@ -8,7 +8,7 @@ final class NotificationScheduler {
 
     var localize: (String) -> String = { $0 }
     private let center = UNUserNotificationCenter.current()
-    private static let prefix = "itamagotchi.need."
+    private static let prefix = "ividigotchi.need."
 
     func requestAuthorization() {
         center.requestAuthorization(options: [.alert, .sound, .badge]) { _, _ in }

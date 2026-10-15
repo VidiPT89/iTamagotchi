@@ -1,12 +1,12 @@
 import XCTest
-@testable import iTamagotchi
+@testable import iVidigotchi
 
 /// The app layer on top of the engine: what the player does and what the
 /// screen gets told about it.
 @MainActor
 final class AppModelTests: XCTestCase {
 
-    private let suite = "itamagotchi.tests.model"
+    private let suite = "ividigotchi.tests.model"
     private var defaults: UserDefaults!
     private var clock: ManualClock!
     private var model: AppModel!

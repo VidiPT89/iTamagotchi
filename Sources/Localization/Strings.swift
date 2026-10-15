@@ -50,7 +50,7 @@ enum Strings {
     ]
 
     static let onboarding: [String: Pair] = [
-        "onboarding.welcome": ("Bem-vindo ao iTamagotchi", "Welcome to iTamagotchi"),
+        "onboarding.welcome": ("Bem-vindo ao iVidigotchi", "Welcome to iVidigotchi"),
         "onboarding.chooseLanguage": ("Escolhe o idioma", "Choose your language"),
         "onboarding.eggTitle": ("Um ovo misterioso", "A mysterious egg"),
         "onboarding.newEggTitle": ("Chegou um novo ovo", "A new egg has arrived"),

@@ -2,7 +2,7 @@ import SwiftData
 import SwiftUI
 
 @main
-struct iTamagotchiApp: App {
+struct iVidigotchiApp: App {
     @State private var model = AppModel()
     private let container = MemoryStore.makeContainer()
 

@@ -1,5 +1,5 @@
 import XCTest
-@testable import iTamagotchi
+@testable import iVidigotchi
 
 final class LocalizationTests: XCTestCase {
 

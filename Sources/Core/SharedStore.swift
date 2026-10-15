@@ -47,7 +47,7 @@ struct Preferences: Codable, Equatable {
 /// exactly what the app wrote: the pet, and the language to describe it in.
 struct SharedStore {
 
-    static let appGroup = "group.dev.ividi.itamagotchi"
+    static let appGroup = "group.dev.ividi.ividigotchi"
     private static let saveKey = "game.save.v1"
     private static let unreadableKey = "game.save.unreadable"
     private static let preferencesKey = "preferences.v1"

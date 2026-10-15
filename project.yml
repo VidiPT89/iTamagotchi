@@ -1,4 +1,4 @@
-name: iTamagotchi
+name: iVidigotchi
 options:
   bundleIdPrefix: dev.ividi
   deploymentTarget:
@@ -17,26 +17,26 @@ settings:
       ENABLE_TESTABILITY: YES
 
 targets:
-  iTamagotchi:
+  iVidigotchi:
     type: application
     platform: iOS
     sources:
       - path: Sources
       - path: Resources
     dependencies:
-      - target: iTamagotchiWidget
+      - target: iVidigotchiWidget
     entitlements:
-      path: Config/iTamagotchi.entitlements
+      path: Config/iVidigotchi.entitlements
       properties:
         com.apple.security.application-groups:
-          - group.dev.ividi.itamagotchi
+          - group.dev.ividi.ividigotchi
         com.apple.developer.ubiquity-kvstore-identifier: $(TeamIdentifierPrefix)$(CFBundleIdentifier)
     info:
       path: Config/Info-iOS.plist
       properties:
         UILaunchScreen:
           UIColorName: LaunchBackground
-        CFBundleDisplayName: iTamagotchi
+        CFBundleDisplayName: iVidigotchi
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         UISupportedInterfaceOrientations:
@@ -53,14 +53,14 @@ targets:
         ITSAppUsesNonExemptEncryption: false
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: dev.ividi.itamagotchi
-        PRODUCT_NAME: iTamagotchi
+        PRODUCT_BUNDLE_IDENTIFIER: dev.ividi.ividigotchi
+        PRODUCT_NAME: iVidigotchi
         TARGETED_DEVICE_FAMILY: "1,2"
         SUPPORTS_MACCATALYST: false
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
 
-  iTamagotchiWidget:
+  iVidigotchiWidget:
     type: app-extension
     platform: iOS
     sources:
@@ -71,48 +71,48 @@ targets:
       - path: Sources/Scenes/PetRenderer.swift
       - path: Sources/Scenes/PetRenderer+Face.swift
     entitlements:
-      path: Config/iTamagotchiWidget.entitlements
+      path: Config/iVidigotchiWidget.entitlements
       properties:
         com.apple.security.application-groups:
-          - group.dev.ividi.itamagotchi
+          - group.dev.ividi.ividigotchi
     info:
       path: Config/Info-Widget.plist
       properties:
-        CFBundleDisplayName: iTamagotchi
+        CFBundleDisplayName: iVidigotchi
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         NSExtension:
           NSExtensionPointIdentifier: com.apple.widgetkit-extension
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: dev.ividi.itamagotchi.widget
-        PRODUCT_NAME: iTamagotchiWidget
+        PRODUCT_BUNDLE_IDENTIFIER: dev.ividi.ividigotchi.widget
+        PRODUCT_NAME: iVidigotchiWidget
         TARGETED_DEVICE_FAMILY: "1,2"
         SKIP_INSTALL: YES
 
-  iTamagotchiTests:
+  iVidigotchiTests:
     type: bundle.unit-test
     platform: iOS
     sources:
       - path: Tests
     dependencies:
-      - target: iTamagotchi
+      - target: iVidigotchi
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: dev.ividi.itamagotchi.tests
+        PRODUCT_BUNDLE_IDENTIFIER: dev.ividi.ividigotchi.tests
         GENERATE_INFOPLIST_FILE: true
-        TEST_HOST: $(BUILT_PRODUCTS_DIR)/iTamagotchi.app/iTamagotchi
+        TEST_HOST: $(BUILT_PRODUCTS_DIR)/iVidigotchi.app/iVidigotchi
         BUNDLE_LOADER: $(TEST_HOST)
 
 schemes:
-  iTamagotchi:
+  iVidigotchi:
     build:
       targets:
-        iTamagotchi: all
-        iTamagotchiTests: [test]
+        iVidigotchi: all
+        iVidigotchiTests: [test]
     run:
       config: Debug
     test:
       config: Debug
       targets:
-        - iTamagotchiTests
+        - iVidigotchiTests

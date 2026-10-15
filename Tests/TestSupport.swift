@@ -1,5 +1,5 @@
 import Foundation
-@testable import iTamagotchi
+@testable import iVidigotchi
 
 /// A clock the tests move forward by hand.
 final class ManualClock: Clock {

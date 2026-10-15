@@ -101,7 +101,7 @@ struct SplashView: View {
     private var wordmark: some View {
         HStack(spacing: 0) {
             Text("i").foregroundStyle(.white)
-            Text("Tamagotchi")
+            Text("Vidigotchi")
                 .foregroundStyle(LinearGradient(colors: [Color(hex: 0xFCBB00), Color(hex: 0xF99C00), Color(hex: 0xDD7400)],
                                                 startPoint: .leading, endPoint: .trailing))
         }

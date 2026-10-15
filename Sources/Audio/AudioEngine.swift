@@ -42,7 +42,7 @@ final class AudioEngine {
 /// The audio graph itself. Every member is touched only on `queue`.
 private final class AudioCore: @unchecked Sendable {
 
-    private let queue = DispatchQueue(label: "dev.ividi.itamagotchi.audio", qos: .userInitiated)
+    private let queue = DispatchQueue(label: "dev.ividi.ividigotchi.audio", qos: .userInitiated)
     private var engine: AVAudioEngine?
     private var voices: [AVAudioPlayerNode] = []
     private var nextVoice = 0

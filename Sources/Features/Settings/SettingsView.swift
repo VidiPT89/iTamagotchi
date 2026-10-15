@@ -177,7 +177,7 @@ struct AboutView: View {
                     .accessibilityHidden(true)
                     HStack(spacing: 0) {
                         Text("i").foregroundStyle(palette.text)
-                        Text("Tamagotchi").foregroundStyle(palette.warmGradient)
+                        Text("Vidigotchi").foregroundStyle(palette.warmGradient)
                     }
                     .font(.rounded(38, .heavy))
                     Text(model.t("about.version", AppInfo.version))
