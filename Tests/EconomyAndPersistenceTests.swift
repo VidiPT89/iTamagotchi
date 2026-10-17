@@ -1,10 +1,10 @@
 import XCTest
-@testable import iVidigotchi
+@testable import iVidigotchy
 
 final class EconomyAndPersistenceTests: XCTestCase {
 
     private var defaults: UserDefaults!
-    private let suite = "ividigotchi.tests"
+    private let suite = "ividigotchy.tests"
 
     override func setUp() {
         super.setUp()
@@ -163,7 +163,7 @@ final class SaveCompatibilityTests: XCTestCase {
     }
 
     func testUnreadableSaveIsKeptAside() {
-        let suite = "ividigotchi.tests.unreadable"
+        let suite = "ividigotchy.tests.unreadable"
         let defaults = UserDefaults(suiteName: suite)!
         defaults.removePersistentDomain(forName: suite)
         defer { defaults.removePersistentDomain(forName: suite) }

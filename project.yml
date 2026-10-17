@@ -1,4 +1,4 @@
-name: iVidigotchi
+name: iVidigotchy
 options:
   bundleIdPrefix: dev.ividi
   deploymentTarget:
@@ -11,22 +11,22 @@ settings:
     DEVELOPMENT_TEAM: S769436W24
     CODE_SIGN_STYLE: Automatic
     MARKETING_VERSION: "1.0.0"
-    CURRENT_PROJECT_VERSION: "2"
+    CURRENT_PROJECT_VERSION: "3"
   configs:
     Debug:
       ENABLE_TESTABILITY: YES
 
 targets:
-  iVidigotchi:
+  iVidigotchy:
     type: application
     platform: iOS
     sources:
       - path: Sources
       - path: Resources
     dependencies:
-      - target: iVidigotchiWidget
+      - target: iVidigotchyWidget
     entitlements:
-      path: Config/iVidigotchi.entitlements
+      path: Config/iVidigotchy.entitlements
       properties:
         com.apple.security.application-groups:
           - group.dev.ividi.ividigotchi
@@ -36,7 +36,7 @@ targets:
       properties:
         UILaunchScreen:
           UIColorName: LaunchBackground
-        CFBundleDisplayName: iVidigotchi
+        CFBundleDisplayName: iVidigotchy
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         UISupportedInterfaceOrientations:
@@ -54,13 +54,13 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: dev.ividi.ividigotchi
-        PRODUCT_NAME: iVidigotchi
+        PRODUCT_NAME: iVidigotchy
         TARGETED_DEVICE_FAMILY: "1,2"
         SUPPORTS_MACCATALYST: false
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
 
-  iVidigotchiWidget:
+  iVidigotchyWidget:
     type: app-extension
     platform: iOS
     sources:
@@ -71,14 +71,14 @@ targets:
       - path: Sources/Scenes/PetRenderer.swift
       - path: Sources/Scenes/PetRenderer+Face.swift
     entitlements:
-      path: Config/iVidigotchiWidget.entitlements
+      path: Config/iVidigotchyWidget.entitlements
       properties:
         com.apple.security.application-groups:
           - group.dev.ividi.ividigotchi
     info:
       path: Config/Info-Widget.plist
       properties:
-        CFBundleDisplayName: iVidigotchi
+        CFBundleDisplayName: iVidigotchy
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         NSExtension:
@@ -86,33 +86,33 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: dev.ividi.ividigotchi.widget
-        PRODUCT_NAME: iVidigotchiWidget
+        PRODUCT_NAME: iVidigotchyWidget
         TARGETED_DEVICE_FAMILY: "1,2"
         SKIP_INSTALL: YES
 
-  iVidigotchiTests:
+  iVidigotchyTests:
     type: bundle.unit-test
     platform: iOS
     sources:
       - path: Tests
     dependencies:
-      - target: iVidigotchi
+      - target: iVidigotchy
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: dev.ividi.ividigotchi.tests
+        PRODUCT_BUNDLE_IDENTIFIER: dev.ividi.ividigotchy.tests
         GENERATE_INFOPLIST_FILE: true
-        TEST_HOST: $(BUILT_PRODUCTS_DIR)/iVidigotchi.app/iVidigotchi
+        TEST_HOST: $(BUILT_PRODUCTS_DIR)/iVidigotchy.app/iVidigotchy
         BUNDLE_LOADER: $(TEST_HOST)
 
 schemes:
-  iVidigotchi:
+  iVidigotchy:
     build:
       targets:
-        iVidigotchi: all
-        iVidigotchiTests: [test]
+        iVidigotchy: all
+        iVidigotchyTests: [test]
     run:
       config: Debug
     test:
       config: Debug
       targets:
-        - iVidigotchiTests
+        - iVidigotchyTests

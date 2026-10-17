@@ -15,10 +15,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C26FFEF2CBC746901D3BB37B"
-               BuildableName = "iVidigotchi.app"
-               BlueprintName = "iVidigotchi"
-               ReferencedContainer = "container:iVidigotchi.xcodeproj">
+               BlueprintIdentifier = "92EAA35B84090A630E9EE2B5"
+               BuildableName = "iVidigotchy.app"
+               BlueprintName = "iVidigotchy"
+               ReferencedContainer = "container:iVidigotchy.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,10 +29,10 @@
             buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "871542CB321D219CF33DCE7C"
-               BuildableName = "iVidigotchiTests.xctest"
-               BlueprintName = "iVidigotchiTests"
-               ReferencedContainer = "container:iVidigotchi.xcodeproj">
+               BlueprintIdentifier = "C0099DB3228AE6E38ADB6777"
+               BuildableName = "iVidigotchyTests.xctest"
+               BlueprintName = "iVidigotchyTests"
+               ReferencedContainer = "container:iVidigotchy.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -46,10 +46,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C26FFEF2CBC746901D3BB37B"
-            BuildableName = "iVidigotchi.app"
-            BlueprintName = "iVidigotchi"
-            ReferencedContainer = "container:iVidigotchi.xcodeproj">
+            BlueprintIdentifier = "92EAA35B84090A630E9EE2B5"
+            BuildableName = "iVidigotchy.app"
+            BlueprintName = "iVidigotchy"
+            ReferencedContainer = "container:iVidigotchy.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <Testables>
@@ -58,10 +58,10 @@
             parallelizable = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "871542CB321D219CF33DCE7C"
-               BuildableName = "iVidigotchiTests.xctest"
-               BlueprintName = "iVidigotchiTests"
-               ReferencedContainer = "container:iVidigotchi.xcodeproj">
+               BlueprintIdentifier = "C0099DB3228AE6E38ADB6777"
+               BuildableName = "iVidigotchyTests.xctest"
+               BlueprintName = "iVidigotchyTests"
+               ReferencedContainer = "container:iVidigotchy.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -82,10 +82,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C26FFEF2CBC746901D3BB37B"
-            BuildableName = "iVidigotchi.app"
-            BlueprintName = "iVidigotchi"
-            ReferencedContainer = "container:iVidigotchi.xcodeproj">
+            BlueprintIdentifier = "92EAA35B84090A630E9EE2B5"
+            BuildableName = "iVidigotchy.app"
+            BlueprintName = "iVidigotchy"
+            ReferencedContainer = "container:iVidigotchy.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>
@@ -101,10 +101,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C26FFEF2CBC746901D3BB37B"
-            BuildableName = "iVidigotchi.app"
-            BlueprintName = "iVidigotchi"
-            ReferencedContainer = "container:iVidigotchi.xcodeproj">
+            BlueprintIdentifier = "92EAA35B84090A630E9EE2B5"
+            BuildableName = "iVidigotchy.app"
+            BlueprintName = "iVidigotchy"
+            ReferencedContainer = "container:iVidigotchy.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

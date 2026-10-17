@@ -2,7 +2,7 @@ import SwiftUI
 import WidgetKit
 
 @main
-struct iVidigotchiWidgetBundle: WidgetBundle {
+struct iVidigotchyWidgetBundle: WidgetBundle {
     var body: some Widget {
         PetWidget()
     }

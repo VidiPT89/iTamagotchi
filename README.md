@@ -1,8 +1,8 @@
-# 🥚 iVidigotchi
+# 🥚 iVidigotchy
 
 > The classic virtual pet, natively reimagined for iOS and iPadOS with SwiftUI and SpriteKit.
 
-[![Report Bug](https://img.shields.io/badge/Report-Bug-red)](https://github.com/VidiPT89/iVidigotchi/issues) [![Request Feature](https://img.shields.io/badge/Request-Feature-blue)](https://github.com/VidiPT89/iVidigotchi/issues)
+[![Report Bug](https://img.shields.io/badge/Report-Bug-red)](https://github.com/VidiPT89/iVidigotchy/issues) [![Request Feature](https://img.shields.io/badge/Request-Feature-blue)](https://github.com/VidiPT89/iVidigotchy/issues)
 
 ## ✨ Features
 
@@ -57,9 +57,9 @@
 ### Installation
 
 ```bash
-git clone https://github.com/VidiPT89/iVidigotchi.git
-cd iVidigotchi
-open iVidigotchi.xcodeproj
+git clone https://github.com/VidiPT89/iVidigotchy.git
+cd iVidigotchy
+open iVidigotchy.xcodeproj
 ```
 
 Build and run (`⌘R`) on the simulator or a connected device.
@@ -89,7 +89,7 @@ Language, appearance, notifications, sound, music and haptics are all adjustable
 ## 🧪 Testing
 
 ```bash
-xcodebuild -project iVidigotchi.xcodeproj -scheme iVidigotchi \
+xcodebuild -project iVidigotchy.xcodeproj -scheme iVidigotchy \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro' test
 ```
 
@@ -99,7 +99,7 @@ The current pet, inventory and lifetime stats sync through iCloud. The journal a
 
 ## 🔒 Privacy
 
-iVidigotchi collects no personal data. See [PRIVACY.md](PRIVACY.md).
+iVidigotchy collects no personal data. See [PRIVACY.md](PRIVACY.md).
 
 ## 📄 License
 
@@ -114,7 +114,7 @@ Distributed under the MIT License. See [LICENSE](LICENSE) for details.
 
 ## 🤝 Contributing
 
-Contributions, issues and feature requests are welcome. Feel free to check the [issues page](https://github.com/VidiPT89/iVidigotchi/issues).
+Contributions, issues and feature requests are welcome. Feel free to check the [issues page](https://github.com/VidiPT89/iVidigotchy/issues).
 
 ---
 
